@@ -1,0 +1,7 @@
+<?php
+defined('GF_BASE_PATH') OR exit('No direct script access allowed');
+if (!defined('GF_MAINTENANCE_BANNER_DISABLED')) {
+?>
+<!Doctype html><html><body><div id='maintenanceAlert' style="position: fixed;z-index: 200;left: 0;top: 0;width: 100%;height: 100%;overflow: auto;background-color: rgb(0,0,0);background-color: rgba(0,0,0,0.4);vertical-align:central;padding-top:100px;"><div class="centered" style="order: 1px solid #888;border-radius: 5px;width: 100%;max-width:80%;position: fixed;top: 50%;right:50%;left:50%;transform: translate(-50%, -50%)"><div class="animate" style="background-color: #fefefe;border: 1px solid #888;border-radius: 5px;width: 100%; /* Could be more or less, depending on screen size */box-shadow: 2px 1px 5px rgba(0,0,0, 0.30), 0px 6px 5px rgba(0,0,0, 0.20);"><span data-target="login, register" title="Close Modal" style="position: absolute;right: 12px;color: rgb(255, 255, 255);font-size: 40px;font-weight: bold;width: 22px;height: 44px;"onclick="var elm = this.parentElement.parentElement.parentElement; elm.parentElement.removeChild(elm)">&times;</span><div style="background-color: red;color: white;font-size: 15pt;font-weight: bold;text-align: center;padding: 10px;"><h1>MAAF</h1><h2>WEBSITE SEDANG DALAM PERBAIKAN</h2><h4>Website sedang dalam proses maintenance untuk dilakukan bug fix atau upgrade. Mohon menunggu dan tidak menggunkan websete.</h4></div></div></div></div></body></html>
+<?php 
+}

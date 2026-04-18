@@ -1,0 +1,305 @@
+<?php
+	$nama=$data["NAMA"];
+	$npm=$data["NPM"];
+	$prodi=$data["PROGRAMSTUDI"];
+	$sks=$data["SKS"];
+	$ipk= $data["IPK"];
+	$kelamin=$data["JENISKELAMIN"];
+	$agama=$data["AGAMA"];
+	$nohp=$data["NOTELEPON"];
+	$kaos=$data["UKURANBAJU"];
+	$ketrampilan=$data["KETRAMPILAN"];
+	$organisasi=$data["ORGANISASI"];
+	$namaWali=$data["NAMAAYAH"];
+	$noWali=$data["NOHPORTU"];
+	$agama=$data["AGAMA"];
+
+	$semester="Ganjil";
+	$tahunSemester="2017/2018";
+	$ketuaPLT="Tasviri Efkar";
+
+	$nipKetuaPLT="195810041987031001";
+	$ketuaProdi=$data['KETUAPRODI'];
+	$nipKetuaPRODI=$data['NIPKETUAPRODI'];
+	$baseid = $data['BASEID'];
+	$year = date("Y");
+?>
+<!doctype html>
+<html>
+<head>
+<title>Form Pendaftaran</title>
+<style type="text/css">
+	body {
+	font-family: times;
+	display: inline-block;
+	font-weight: normal;
+	}
+	h1 {
+		font-size: 12pt;
+		font-weight: normal;
+		margin: 0pt;
+		padding: 0pt;
+	}
+	h2 {
+		font-size: 12pt;
+		font-weight: bold;
+		margin: 0pt;
+		padding: 0pt;
+	}
+	h3 {
+		font-size: 11pt;
+		font-weight: bold;
+		margin:0px;
+		padding:0px;
+	}
+	h4 {
+		font-size: 10pt;
+		font-weight: normal;
+		margin:0pt;
+		padding:0pt;
+	}
+	a, p {
+		font-size: 12pt;
+	}
+	.logo-left {
+		float:left;
+		width: 60pt;
+		height: 60pt;
+		display:inline-block;
+	}
+	.logo-right {
+		float:right;
+		width: 60pt;
+		height: 60pt;
+		display:inline-block;
+	}
+	.pass-foto {
+		text-align: center;
+		float:right;
+		width: 100px;
+		height: 125px;
+		border-color: black;
+		border-style: dotted;
+		border-width: 2px;
+		display:inline-block;
+	}
+	.kepala {
+		font-size:12pt;
+		text-align: center;
+		display:inline-block;
+	}
+	.judul {
+		text-align: center;
+		padding-top: 15pt;
+		margin-bottom: 15pt;
+		border-top-color: black;
+		border-top-style: double;
+		border-top-width: thick;
+	 }
+	.isi {
+		display:inline-block;
+		font-size:12pt;
+		padding-left:1cm;
+		padding-right:1cm;
+	}
+	.isi .biodata{
+		float:left;
+	}
+	.isi .col-1{
+		float:left;
+		width: 130pt;
+	}
+	.isi .col-2{
+		float:left;
+		width: 15pt;
+	}
+	.isi .col-3{
+		float:left;
+		width: 240pt;
+	}
+
+	.isi table {
+		text-align:left;
+		font-size:12pt;
+		}
+	.isi:after, .biodata:after, .text:before, .text:after, .text, .sign:after {
+		content:'';
+		clear:both;
+		display:block;
+		width: 100%;
+	}
+	.isi .sign-left {
+		float:left;
+		width:40%;
+	
+	}
+	.isi .sign-right {
+		float:right;
+		width:30%;
+	
+	}
+	.isi .sign-left, .isi .sign-right {
+		margin-bottom: 35pt;
+	}
+	.isi .sign-left p, .isi .sign-right p {
+		margin-bottom: 65pt;
+	}
+	.isi .lines {
+		width:100%;
+		text-align:center;		
+	}
+</style>
+</head>
+<body>
+    <div class="logo-left">
+        <img src="asset/images/logo.png" width="120px">
+    </div>
+    	<div class="logo-right">
+        <img src="asset/images/iso.gif" width="120px">
+    </div>
+	<div class="kepala">
+    	<h1>KEMENTERIAN PENDIDIDIKAN DAN KEBUDAYAAN<br>UNIVERSITAS LAMPUNG<br>FAKULTAS KEGURUAN DAN ILMU PENDIDIKAN</h1>
+		<h2>PRAKTIK LAPANGAN TERPADU</h2>
+	</div>
+	<div class="kepala">
+		<h4>Jl. Prof. Dr. Sumantri Brojonegoro No.1  Bandar Lampung Telp (0721) 704624 Fax (0721) 704624</h4>
+	</div>
+	<div class="judul">
+		<h2>PENDAFTARAN PLP 1 DAN PLP 2 FKIP UNIVERSITAS LAMPUNG<br>
+		SEMESTER GANJIL <?PHP echo($year."/".($year+1));?>
+		</h2>
+	</div>
+	<div class="isi">
+		<div class="pass-foto">
+			<?php if(isset($npm)){echo '<img src="uploads/foto-profile/'.$baseid.'/'.$npm.'.jpg" width="100px" height="125px">';}else{echo '<br><br><a> Pass Foto </a><br><a> 3 cm x 4 cm</a>';} ?>
+	   	</div>
+    	<div class="biodata">
+	    <a>Dengan ini saya:</a>
+    		<div class="row">
+	            <div class="col-1">
+	                <a>Nama</a>
+	            </div>
+	            <div class="col-3">
+	                <a>:  <?php if(isset($nama)){echo $nama;}else{$n=1; while($n<=65){echo ".";$n++;}} ?></a>
+	            </div>
+	        </div>
+    		<div class="row">
+            	<div class="col-1">
+	                <a>NPM</a>
+	            </div>
+	            <div class="col-3">
+	                <a>:  <?php if(isset($npm)){echo $npm;}else{$n=1; while($n<=65){echo ".";$n++;}} ?></a>
+	            </div>
+	        </div>
+    		<div class="row">
+	            <div class="col-1">
+	                <a>Program Studi</a>
+	            </div>
+	            <div class="col-3">
+	                <a>:  <?php if(isset($prodi)){echo $prodi;}else{$n=1; while($n<=65){echo ".";$n++;}} ?></a>
+	            </div>
+	        </div>
+    		<div class="row">
+	            <div class="col-1">
+	                <a>Jumlah SKS</a>
+	            </div>
+	            <div class="col-3">
+	                <a>:  <?php if(isset($sks)){echo $sks;}else{$n=1; while($n<=65){echo ".";$n++;}} ?></a>
+	            </div>
+	        </div>
+    		<div class="row">
+	            <div class="col-1">
+	                <a>IPK</a>
+	            </div>
+	            <div class="col-3">
+	                <a>:  <?php if(isset($ipk)){echo $ipk;}else{$n=1; while($n<=65){echo ".";$n++;}} ?></a>
+	            </div>
+	        </div>
+    		<div class="row">
+	            <div class="col-1">
+	                <a>Jenis Kelamin</a>
+	            </div>
+	            <div class="col-3">
+	                <a>:  <?php if(isset($kelamin)){echo $kelamin;}else{$n=1; while($n<=65){echo ".";$n++;}} ?></a>
+	            </div>
+	        </div>
+    		<div class="row">
+	            <div class="col-1">
+                	<a>Agama</a>
+	            </div>
+	            <div class="col-3">
+                <a>:  <?php if(isset($agama)){echo $agama;}else{$n=1; while($n<=65){echo ".";$n++;}} ?></a>
+                </div>
+            </div> 
+		  <div class="row">
+	            <div class="col-1">
+	                <a>Nomor HP</a>
+	            </div>
+	           	<div class="col-3">
+	                <a>:  <?php if(isset($nohp)){echo $nohp;}else{$n=1; while($n<=65){echo ".";$n++;}} ?></a>
+	            </div>
+	        </div>
+    		<div class="row">
+	            <div class="col-1">
+                	<a>Ukuran Kaos</a>
+	            </div>
+	           	<div class="col-3">
+                	<a>:  <?php if(isset($kaos)){echo $kaos;}else{$n=1; while($n<=65){echo ".";$n++;}} ?></a>
+	            </div>
+	        </div>
+    		<div class="row">
+	            <div class="col-1">
+                <a>Keterampilan Khusus</a>
+	            </div>
+	            <div class="col-3">
+                <a>:  <?php if(isset($ketrampilan)){echo $ketrampilan;}else{$n=1; while($n<=65){echo ".";$n++;}} ?></a>
+	            </div>
+	        </div>
+    		<div class="row">
+	            <div class="col-1">
+                <a>Organisasi Yang Diikuti</a>
+	            </div>
+	            <div class="col-3">
+                <a>:  <?php if(isset($organisasi)){echo $organisasi;}else{$n=1; while($n<=65){echo ".";$n++;}} ?></a>
+	            </div>
+	        </div>
+    		<div class="row">
+	            <div class="col-1">
+                <a>Nama (ayah/ibu/wali)</a>
+	            </div>
+	            <div class="col-3">
+                <a>:  <?php if(isset($namaWali)){echo $namaWali;}else{$n=1; while($n<=65){echo ".";$n++;}} ?></a>
+	            </div>
+	        </div>
+    		<div class="row">
+	            <div class="col-1">
+                <a>No HP (ayah/ibu/wali)</a>
+	            </div>
+	            <div class="col-3">
+                <a>:  <?php if(isset($noWali)){echo $noWali;}else{$n=1; while($n<=65){echo ".";$n++;}} ?></a>
+	            </div>
+	        </div>
+         </div>
+        <div class="text">
+     		<p>Mendaftar sebagai peserta Praktik Profesi Kependidikan (PPK), Semester <?php if(isset($semester)){echo $semester;}else{$n=1; while($n<=20){echo ".";$n++;}} ?>  tahun akademik <?php if(isset($tahunSemester)){echo $tahunSemester;}else{$n=1; while($n<=20){echo ".";$n++;}} ?> Demikianlah permohonan saya, data di atas saya buat dengan sebenarnya.</p>
+     	</div>
+		<div class="sign">
+            <div class="sign-left">
+                <p><b>Orang Tua / Wali</b></p><a><?php if(isset($namaWali)){echo $namaWali;}else{$n=1; while($n<=35){echo ".";$n++;}} ?></a><br><a></a>
+            </div>
+            <div class="sign-right">
+                <p><b>Pendaftar</b></p><a><?php if(isset($nama)){echo $nama;}else{$n=1; while($n<=35){echo ".";$n++;}} ?></a><br><a>NPM. <?php if(isset($npm)){echo $npm;} ?></a>
+            </div>
+		</div>
+		<div class="lines"><h3>Mengetahui/Menyetujui</h3></div>
+		<div class="sign">
+            <div class="sign-left">
+                <p><b>Ketua PLT</b></p><a><?php if(isset($ketuaPLT)){echo $ketuaPLT;}else{$n=1; while($n<=35){echo ".";$n++;}} ?></a><br><a>NIP. <?php if(isset($nipKetuaPLT)){echo $nipKetuaPLT;} ?></a>
+            </div>
+            <div class="sign-right">
+                <p><b>Ketua Program Studi</b></p><a><?php if(isset($ketuaProdi)){echo $ketuaProdi;}else{$n=1; while($n<=35){echo ".";$n++;}} ?></a><br><a>NIP. <?php if(isset($nipKetuaPRODI)){echo $nipKetuaPRODI;} ?></a>
+            </div>
+		</div>
+	</div>
+</body>
+</html>
