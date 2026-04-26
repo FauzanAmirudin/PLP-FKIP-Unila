@@ -1,0 +1,206 @@
+@use "sass:color";
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
+@charset "UTF-8";
+$color: white !default;
+$color-base:rgb(143, 26, 186) !default;
+$color-background: white !default;
+$color-shade: rgb(219, 190, 255) !default;
+
+// Custom Modular Styles
+@import 'home.scss';
+@import 'about.scss';
+@import 'informasi.scss';
+@import 'gallery.scss';
+@import 'contact.scss';
+@import 'detailinformasi.scss';
+@import 'pendaftaran.scss';
+@import 'laporan.scss';
+@import 'validatepeserta.scss';
+@import 'footer.scss';
+/* Container of all content */
+html {
+     height: 100%;
+     -webkit-tap-highlight-color: transparent;
+     margin: 0px;
+     padding: 0px;
+     box-sizing: border-box;
+}
+
+*,
+*:before,
+*:after {
+     box-sizing: inherit;
+}
+
+body {
+     min-height: 100%;
+     position: relative;
+     margin: 0px;
+     padding: 55px 0 0 0; // Kompensasi navbar fixed
+}
+
+body {
+     line-height: 1.6384616;
+     color: #333;
+     background-color: #f2f4f9;
+     font-family: "Open Sans", sans-serif;
+     font-size: 12pt;
+     font-style: normal;
+     src: local("Open Sans Light"), local("OpenSans-Light"),
+          url(http://fonts.gstatic.com/s/opensans/v13/DXI1ORHCpsQm3Vp6mXoaTa-j2U0lmluP9RWlSytm3ho.woff2) format("woff2");
+     unicode-range: U+0460-052F, U+20B4, U+2DE0-2DFF, U+A640-A69F;
+     width: 100%;
+     overflow: auto;
+}
+
+/* Container for Navigation Menu */
+nav {
+     display: inline-block;
+     vertical-align: middle;
+     min-height: 55px;
+     width: 100%;
+     text-align: center;
+     top: 0;
+     left: 0;
+     color: #FFFFFF;
+     background: #B33791; // Warna senada dengan header baru & footer
+     position: fixed;
+     z-index: 199;
+     transition: top 0.3s ease-in-out;
+}
+
+nav #logo {
+     /* Company Logo text */
+     background-color: #9904F0;
+     float: left;
+     margin-top: 5px;
+     margin-left: 15px;
+     color: hsla(0, 0%, 100%, 1.00);
+}
+
+nav #logo h1:first-child {
+     margin: 0px;
+     text-transform: uppercase;
+     letter-spacing: 5px;
+     font-size: 25px;
+     text-decoration: underline;
+}
+
+nav #logo h1 {
+     margin: 0px;
+     text-transform: uppercase;
+     letter-spacing: -0.7px;
+     padding: 0px;
+     font-size: small;
+}
+
+nav .menu {
+     float: right;
+     padding-right: 12%;
+     text-align: center;
+}
+
+nav .button {
+     font: small-caption;
+     font-weight: 600;
+     font-size: 16px;
+     width: 90px;
+     display: inline-block;
+     cursor: default;
+     color: #FFFFFF;
+     background-color: hsla(278, 97%, 48%, 1.00);
+     padding: 1em;
+     text-decoration: none;
+     border: none;
+}
+
+nav .button:hover {
+     background-color: hsla(278, 96%, 62%, 1.00);
+}
+
+header {
+     background-color: #8806d4;
+     clear: both;
+     float: none;
+     color: rgba(255, 255, 255, 1);
+     margin-top: 0px;
+     padding-top: 65px;
+     width: 100%;
+}
+
+content #mainContent {
+     width: 100%;
+     float: Right;
+     margin-top: 0px;
+}
+
+content {
+     /* Container for the blog post */
+     display: block;
+     margin-top: 0px; 
+     padding-top: 0px;
+     width: 100%;
+     padding-left: 0;
+     padding-right: 0;
+     float: none;
+}
+
+
+
+footer {
+     /* Footer region */
+     width: 96%;
+     padding-left: 2%;
+     padding-right: 2%;
+}
+
+/* Container for footer*/
+footer {
+     bottom: 0px;
+     clear: both;
+     width: 100%;
+     background-color: #8806D4;
+     padding-bottom: 40px;
+     position: relative;
+     left: 0;
+     right: 0;
+     bottom: 0;
+}
+
+footer a:link {
+     color: white;
+     ;
+     background-color: transparent;
+     text-decoration: none;
+}
+
+footer a:visited {
+     color: white;
+     ;
+     background-color: transparent;
+     text-decoration: none;
+}
+
+footer #footerbar {
+     /* Footer bar at the bottom of the page */
+     float: none;
+     height: 5px;
+     background-color: #8806D4;
+}
+
+footer .opn {
+     font-weight: bold;
+     border-bottom: 2px solid #ffffff;
+     padding: 10px;
+     font-size: 12pt;
+     text-transform: uppercase;
+}
+
+footer .cls {
+     padding: 10px;
+}
+
+footer section {
+     color: #ffffff;
+     font-size: 14px;
+}

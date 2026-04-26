@@ -33,13 +33,8 @@ class frontpage extends gf_controller
 		$this->data['input']['npm'] 	 = isset($npm)   ? $npm   : last_input('npm');
 		$this->data['input']['pass'] 	 = isset($npass1)? $npass1: "";
 		$this->data['input']['npass'] 	 = isset($npass2)? $npass2: "";
-		if (is_login()) {
-			redirect('user/dashboard');
-		} else {
-			$this->load->view("header", $this->data);
-			$this->load->view("navigation", $this->data);
-			$this->load->view("page/frontpage", $this->data);
-			$this->load->view("footer", $this->data);
-		}
+		$this->load->view("navigation", $this->data);
+		$this->load->view("page/frontpage", $this->data);
+		$this->load->view("footer", $this->data);
 	}
 }

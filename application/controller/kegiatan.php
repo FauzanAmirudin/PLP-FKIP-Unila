@@ -27,7 +27,6 @@ class kegiatan extends gf_controller
 		}
 		$this->data['notification'] = implode("<br/>", get_notification());
 		$this->data['jadwals'] = $this->jadwal->list();
-		$this->load->view("header", $this->data);
 		$this->load->view("navigation", $this->data);
 		$this->load->view("sidebar", $this->data);
 		$this->load->view("page/jadwal", $this->data);

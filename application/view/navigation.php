@@ -4,119 +4,258 @@ defined('GF_BASE_PATH') or exit('No direct script access allowed');
  *	
  */
 ?>
-<nav>
-	<div id="logo">
-		<h1 href="?page=home" title="Kembali Ke halaman awal">plt FKIP</h1>
-		<h1 href="?page=home" title="Kembali Ke halaman awal">Universitas Lampung</h1>
-	</div>
-	<?php
-	if (!is_login()) {
-	?>
-		<div id="modal" class="modal">
-			<div class="modal-centered">
-				<div class="content animate">
-					<div class="container">
-						<div class="title">
-							<span class="action-right">
-								<a class="btn btn-tiny btn-danger btn-close" id="close_modal" data-target="login, register" title="Close Modal"></a>
-							</span>
+<nav id="navbar">
+	<!-- ===================== MODAL LOGIN & REGISTER (logika tidak diubah) ===================== -->
+	<?php if (!is_login()) { ?>
+	<div id="modal" class="modal">
+		<div class="modal-centered">
+			<div class="content animate">
+
+				<!-- ======= FORM LOGIN ======= -->
+				<form id="login" action="?page=user/login" method="post" class="login-card field hiden">
+
+					<!-- Close Button -->
+					<button type="button" class="login-close-btn" id="close_modal" data-target="login, register" title="Tutup">&#10005;</button>
+
+					<!-- Header -->
+					<div class="login-header">
+						<div class="login-logo">
+							<img src="assets/images/logo.png" alt="Logo" />
 						</div>
-						<form id="login" action="<?php echo set_url('user/login'); ?>" method="post" class="form field hiden">
-							<div class="imgcontainer">
-								<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Capa_1" x="0px" y="0px" width="150px" height="100px" viewBox="0 0 311.541 311.541" style="enable-background:new 0 0 311.541 311.541;" xml:space="preserve">
-									<g>
-										<g>
-											<path d="M155.771,26.331C69.74,26.331,0,96.071,0,182.102c0,37.488,13.25,71.883,35.314,98.761 c3.404-27.256,30.627-50.308,68.8-61.225c13.946,12.994,31.96,20.878,51.656,20.878c19.233,0,36.894-7.487,50.698-19.936 c38.503,11.871,65.141,36.27,66.017,64.63c24.284-27.472,39.056-63.555,39.056-103.108 C311.541,96.071,241.801,26.331,155.771,26.331z M155.771,222.069c-9.944,0-19.314-2.732-27.634-7.464 c-20.05-11.409-33.855-34.756-33.855-61.711c0-38.143,27.583-69.176,61.489-69.176c33.909,0,61.489,31.033,61.489,69.176	c0,27.369-14.237,51.004-34.786,62.215C174.379,219.523,165.346,222.069,155.771,222.069z" fill="#933EC5" />
-								</svg>
-							</div>
-							<div class="form-group">
-								<label><b>NPM:</b></label>
-								<input type="text" name="username" placeholder="Masukan NPM / NIP" class="box" required <?= input_value($input, 'username'); ?> />
-							</div>
-							<div class="form-group">
-								<label><b>Password:</b></label>
-								<input type="password" name="password" placeholder="Masukan Password" class="box" required <?= input_value($input, 'password'); ?> />
-							</div>
-							<div class="form-group">
-								<label><b>Captcha:</b></label>
-								<img src="<?php echo set_url('captcha'); ?>" id="captcha_login" class="captcha" /><br>
-								<!-- CHANGE TEXT LINK -->
-								<a href="#" onclick="resetCaptcha('captcha_login')">Tak Terbaca? Ganti.</a>
-							</div>
-							<div class="form-group">
-								<input type="text" name="captcha" autocomplete="off" required />
-							</div>
-							<div class="form-group action-right">
-								<button type="submit" value="login" name="action" class="btn btn-medium btn-ok">Login</button>
-							</div>
-						</form>
-						<form id="register" action="<?php echo set_url('user/registration'); ?>" method="post" class="field form hiden">
-							<div class="center">
-								<h1>DAFTAR</h1>
-							</div>
-							<div class="form-group">
-								<label><b>Nama:</b></label>
-								<input type="text" name="nama" placeholder="Nama Lengkap" class="box" required <?= input_value($input, 'name'); ?> />
-							</div>
-							<div class="form-group">
-								<label><b>NPM:</b></label>
-								<input type="text" name="npm" placeholder="NPM" class="box" required <?= input_value($input, 'npm'); ?> />
-							</div>
-							<div class="form-group row">
-								<div class="input-group col-md-6">
-									<label><b>Password:</b></label>
-									<input type="Password" name="pass" placeholder="Password" class="box" required <?= input_value($input, 'pass'); ?> />
-								</div>
-								<div class="input-group col-md-6">
-									<label><b>Re-password:</b></label>
-									<input type="Password" name="npass" placeholder="Ulangi Password" class="box" required <?= input_value($input, 'npass'); ?> />
-								</div>
-							</div>
-							<div class="form-group row">
-								<div class="input-group col-md-6">
-									<img src="<?php echo set_url('captcha'); ?>" id="captcha_register" class="captcha" />
-									<!-- CHANGE TEXT LINK --><br>
-									<a href="#" onclick="resetCaptcha('captcha_register')">Tak Terbaca? Ganti.</a>
-								</div>
-								<div class="input-group col-md-6">
-									<label><b>Captcha:</b></label>
-									<input type="text" name="captcha" autocomplete="off" />
-								</div>
-							</div>
-							<div class="form-group action-right" style="text-align:right;">
-								<button type="submit" value="register" name="action" class="btn btn-medium btn-ok">Daftar</button>
-							</div>
-						</form>
+						<h2 class="login-title">Masuk Akun</h2>
+						<p class="login-subtitle">Sistem PLP FKIP Universitas Lampung</p>
 					</div>
-				</div>
+
+					<!-- NPM -->
+					<div class="login-input-group">
+						<div class="login-input-wrapper">
+							<svg class="login-input-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+							<input type="text" name="username" class="login-input" placeholder="NPM / NIP" required <?php if (isset($_SESSION['tmp_user']) && $_SESSION['tmp_user'] != null) { echo ('value="' . $_SESSION['tmp_user'] . '"'); } ?> />
+						</div>
+					</div>
+
+					<!-- Password -->
+					<div class="login-input-group">
+						<div class="login-input-wrapper">
+							<svg class="login-input-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+							<input type="password" name="password" class="login-input" placeholder="Password" required />
+						</div>
+					</div>
+
+					<!-- Captcha -->
+					<div class="login-input-group">
+						<div class="login-captcha-row">
+							<img src="?page=captcha" id="captcha_login" class="login-captcha-img" />
+							<a href="javascript:void(0)" onclick="resetCaptcha('captcha_login')" class="login-captcha-refresh">&#8635; Ganti</a>
+						</div>
+						<div class="login-input-wrapper">
+							<svg class="login-input-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+							<input type="text" name="captcha" class="login-input" placeholder="Masukkan kode captcha" autocomplete="off" required />
+						</div>
+					</div>
+
+					<!-- Submit -->
+					<button type="submit" value="login" name="action" class="login-submit-btn">
+						<span class="login-btn-glow"></span>
+						Masuk
+					</button>
+
+					<!-- Footer ke Register -->
+					<p class="login-footer-text">
+						Belum punya akun?
+						<a class="login-switch-link" onclick="switchModal('login','register')" title="Daftar akun baru">Daftar di sini</a>
+					</p>
+
+				</form>
+
+				<!-- ======= FORM REGISTER ======= -->
+				<form id="register" action="?page=user/registration" method="post" class="login-card field form hiden">
+
+					<!-- Close Button -->
+					<button type="button" class="login-close-btn" id="close_modal_reg" data-target="login, register" title="Tutup">&#10005;</button>
+
+					<!-- Header -->
+					<div class="login-header">
+						<div class="login-logo">
+							<img src="assets/images/logo.png" alt="Logo" />
+						</div>
+						<h2 class="login-title">Buat Akun</h2>
+						<p class="login-subtitle">Daftar sebagai peserta PLP FKIP Unila</p>
+					</div>
+
+					<!-- Nama -->
+					<div class="login-input-group">
+						<div class="login-input-wrapper">
+							<svg class="login-input-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+							<input type="text" name="nama" class="login-input" placeholder="Nama Lengkap" required <?php if (isset($_SESSION['tmp_nama']) && $_SESSION['tmp_nama'] != null) { echo ('value="' . $_SESSION['tmp_nama'] . '"'); } ?> />
+						</div>
+					</div>
+
+					<!-- NPM -->
+					<div class="login-input-group">
+						<div class="login-input-wrapper">
+							<svg class="login-input-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+							<input type="text" name="npm" class="login-input" placeholder="NPM" required <?php if (isset($_SESSION['tmp_npm']) && $_SESSION['tmp_nama'] != null) { echo ('value="' . $_SESSION['tmp_npm'] . '"'); } ?> />
+						</div>
+					</div>
+
+					<!-- Password -->
+					<div class="login-input-group login-row">
+						<div class="login-input-wrapper">
+							<svg class="login-input-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+							<input type="password" name="pass" class="login-input" placeholder="Password" required />
+						</div>
+						<div class="login-input-wrapper">
+							<svg class="login-input-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+							<input type="password" name="npass" class="login-input" placeholder="Ulangi Password" required />
+						</div>
+					</div>
+
+					<!-- Captcha -->
+					<div class="login-input-group">
+						<div class="login-captcha-row">
+							<img src="?page=captcha" id="captcha_register" class="login-captcha-img" />
+							<a href="javascript:void(0)" onclick="resetCaptcha('captcha_register')" class="login-captcha-refresh">&#8635; Ganti</a>
+						</div>
+						<div class="login-input-wrapper">
+							<svg class="login-input-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+							<input type="text" name="captcha" class="login-input" placeholder="Masukkan kode captcha" autocomplete="off" />
+						</div>
+					</div>
+
+					<!-- Submit -->
+					<button type="submit" value="register" name="action" class="login-submit-btn">
+						<span class="login-btn-glow"></span>
+						Buat Akun
+					</button>
+
+					<!-- Footer ke Login -->
+					<p class="login-footer-text">
+						Sudah punya akun?
+						<a class="login-switch-link" onclick="switchModal('register','login')" title="Masuk">Masuk di sini</a>
+					</p>
+
+				</form>
+
 			</div>
 		</div>
+	</div>
+	<?php } ?>
+
+
+	<!-- ===================== NAVBAR INNER ===================== -->
+	<div class="nav-inner">
+
+		<!-- KIRI: Logo + Nama -->
+		<div class="nav-brand">
+			<a href="<?= GF_CONFIG['base_url'] ?>/" class="nav-brand-link">
+				<img src="assets/images/logo.png" alt="Logo PLP FKIP Unila" class="nav-logo-img" />
+				<span class="nav-brand-text">PLP FKIP UNILA</span>
+			</a>
 		</div>
-	<?php
-	} ?>
-	<div class="mobileMenu"> <?php
-								if (is_login()) { ?>
-			<!-- This search box is displayed only in mobile and tablet laouts and not in desktop layouts -->
-			<button id="mnMobileON" onclick="document.getElementById('sidebar-wraper').style.height='100%';
-				document.getElementById('mnMobileOFF').style.display='block';
-				document.getElementById('mnMobileON').style.display='none'" style="width:auto; float:Right;" class="button">MENU</button>
-			<button id="mnMobileOFF" onclick="document.getElementById('sidebar-wraper').style.height='0px';
-				document.getElementById('mnMobileOFF').style.display='none';
-				document.getElementById('mnMobileON').style.display='block'" style="width:auto; float:Right; display:none;" class="button">CLOSE</button><?php
-																																						} else { ?>
-			<a onclick="openModal('login', 300)" title="Login" class="button">LOGIN</a>
-			<a onclick="openModal('register', 400)" title="register" class="button">DAFTAR</a> <?php
-																																						} ?>
+
+		<!-- TENGAH: Menu Desktop -->
+		<div class="nav-menu-center">
+			<a href="?page=frontpage" class="nav-link <?php echo (!isset($_GET['page']) || $_GET['page'] == 'frontpage') ? 'nav-link-active' : ''; ?>">HOME</a>
+			<a href="?page=about" class="nav-link <?php echo (isset($page) && $page == 'about') ? 'nav-link-active' : ''; ?>">ABOUT</a>
+			<a href="?page=informasi" class="nav-link <?php echo (isset($page) && in_array($page, ['informasi', 'detailinformasi'])) ? 'nav-link-active' : ''; ?>">INFORMASI</a>
+			<a href="?page=gallery" class="nav-link <?php echo (isset($page) && $page == 'gallery') ? 'nav-link-active' : ''; ?>">GALLERY</a>
+			<a href="?page=contact" class="nav-link <?php echo (isset($page) && $page == 'contact') ? 'nav-link-active' : ''; ?>">CONTACT</a>
+		</div>
+
+		<!-- KANAN: Tombol Login / User -->
+		<div class="nav-actions">
+			<?php if (!is_login()) { ?>
+				<a onclick="openModal('login', 460)" title="Login" class="nav-btn-login">LOGIN &nbsp;&#8594;</a>
+			<?php } else { ?>
+				<a href="?page=user/dashboard" class="nav-btn-login">HALAMAN ANDA &nbsp;&#8594;</a>
+			<?php } ?>
+		</div>
+
+		<!-- Mobile Toggle -->
+		<div class="nav-mobile-toggle">
+			<button id="navMobileMenuON" onclick="openMobileMenu()" class="nav-mobile-btn">&#9776; MENU</button>
+			<button id="navMobileMenuOFF" onclick="closeMobileMenu()" style="display:none;" class="nav-mobile-btn">&#10005; CLOSE</button>
+		</div>
+
+	</div><!-- /nav-inner -->
+
+	<!-- ===================== MOBILE NAV OVERLAY ===================== -->
+	<div id="mobile-menu-overlay" class="mobile-menu-overlay">
+		<div class="mobile-menu-content">
+			<a href="?page=frontpage" class="mobile-link <?php echo (!isset($_GET['page']) || $_GET['page'] == 'frontpage') ? 'active' : ''; ?>">HOME</a>
+			<a href="?page=about" class="mobile-link <?php echo (isset($page) && $page == 'about') ? 'active' : ''; ?>">ABOUT</a>
+			<a href="?page=informasi" class="mobile-link <?php echo (isset($page) && in_array($page, ['informasi', 'detailinformasi'])) ? 'active' : ''; ?>">INFORMASI</a>
+			<a href="?page=gallery" class="mobile-link <?php echo (isset($page) && $page == 'gallery') ? 'active' : ''; ?>">GALLERY</a>
+			<a href="?page=contact" class="mobile-link <?php echo (isset($page) && $page == 'contact') ? 'active' : ''; ?>">CONTACT</a>
+			
+			<div class="mobile-menu-divider"></div>
+
+			<?php if (!is_login()) { ?>
+				<a onclick="closeMobileMenu(); openModal('login', 460)" class="mobile-btn login-btn">LOGIN</a>
+				<a onclick="closeMobileMenu(); openModal('register', 460)" class="mobile-btn register-btn">DAFTAR AKUN</a>
+			<?php } else { ?>
+				<a href="?page=user/dashboard" class="mobile-btn login-btn">HALAMAN ANDA &rarr;</a>
+			<?php } ?>
+		</div>
 	</div>
-	<div class="menu desktop">
-		<a href="<?php echo set_url(); ?>" title="Kembali Ke halaman awal" class="button desktop">Home</a>
-		<a href="<?php echo set_url('gallery'); ?>" title="Galley documentasi dari kegiatan PPK FKIP Unila" class="button desktop">Gallery</a><?php
-																																				if (!is_login()) { ?>
-			<a onclick="openModal('login', 300)" title="Login" class="button desktop">Login</a>
-			<a onclick="openModal('register', 400)" title="Login" class="button desktop">Daftar</a><?php
-																																				}
-																																				if (is_login()) { ?>
-			<a href="<?php echo set_url('loby'); ?>" title="Halaman User" class="button desktop">User</a> <?php
-																																				} ?>
-	</div>
+
 </nav>
+
+<script>
+function resetCaptcha(imgId) {
+    document.getElementById(imgId).src = "?page=captcha&t=" + new Date().getTime();
+}
+
+let isMobileMenuOpen = false;
+
+function openMobileMenu() {
+    isMobileMenuOpen = true;
+    document.getElementById('navMobileMenuON').style.display = 'none';
+    document.getElementById('navMobileMenuOFF').style.display = 'block';
+    
+    let overlay = document.getElementById('mobile-menu-overlay');
+    if (overlay) {
+        overlay.classList.add('active');
+    }
+    document.body.style.overflow = 'hidden';
+}
+
+function closeMobileMenu() {
+    isMobileMenuOpen = false;
+    document.getElementById('navMobileMenuON').style.display = 'block';
+    document.getElementById('navMobileMenuOFF').style.display = 'none';
+    
+    let overlay = document.getElementById('mobile-menu-overlay');
+    if (overlay) {
+        overlay.classList.remove('active');
+    }
+    document.body.style.overflow = 'auto';
+}
+
+// Auto-hide Navbar on Scroll
+let lastScrollTop = 0;
+const navbar = document.querySelector('nav');
+
+window.addEventListener('scroll', function() {
+    let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+    
+    if (isMobileMenuOpen) return;
+    
+    // Jangan sembunyikan jika berada di paling atas
+    if (scrollTop <= 55) {
+        navbar.style.top = '0';
+        return;
+    }
+    
+    if (scrollTop > lastScrollTop) {
+        // Scroll ke bawah -> Sembunyikan navbar
+        navbar.style.top = '-80px'; 
+    } else {
+        // Scroll ke atas -> Tampilkan navbar
+        navbar.style.top = '0';
+    }
+    
+    lastScrollTop = scrollTop;
+});
+</script>

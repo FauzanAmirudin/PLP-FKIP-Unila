@@ -1,0 +1,40 @@
+.table-view {
+     overflow-x: scroll;
+}
+
+.table-view table {
+     min-width: 1000px;
+     border-collapse: collapse;
+     width: 100%;
+}
+
+.table-view table,
+.table-view td,
+.table-view th {
+     border: 1px solid #c85b51;
+}
+
+.table-view table .thead td {
+     margin-top: 55px;
+     background-color: #c85b51;
+     color: #FFFFFF;
+}
+
+.table-view table .thead td {
+     padding-top: 10px;
+     padding-bottom: 10px;
+     text-align: center;
+}
+
+.table-view table .trow td {
+     padding-right: 8px;
+     padding-left: 8px;
+}
+
+.table-view table tr:nth-child(even) {
+     background-color: mistyrose;
+}
+
+.table-view table tr:nth-child(odd) {
+     background-color: #ffffff;
+}

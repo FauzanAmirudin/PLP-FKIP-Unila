@@ -3,141 +3,87 @@ defined('GF_BASE_PATH') or exit('No direct script access allowed');
 /**
  *	
  */
-require_login();
+
 require_level('Mahasiswa');
 ?>
-<content>
-  <section id="mainContent">
-    <style>
-      @media print {
+<div class="placement-container">
+  
+  <div class="placement-card placement-info-card">
+    <h1 class="card-title">Informasi Lokasi Peserta</h1>
+    
+    <div class="info-grid">
+      <?php
+      $dataMahasiswaAccess = clone $this->database('default', 'dbconfig', TRUE);
+      $dataMahasiswaAccess->join('datapenempatan', 'datamahasiswa.NPM = datapenempatan.NPMPESERTA');
+      $dataMahasiswaAccess->join('dosen', 'datapenempatan.NIPDPL = dosen.NIPDOSEN');
+      $dataMahasiswa = $dataMahasiswaAccess->reset()->where(["NPM" => session_get('USERID')])->result_row_array('datamahasiswa');
+      
+      $lokasiDesa = isset($dataMahasiswa["LOKASIDESA"]) ? $dataMahasiswa["LOKASIDESA"] : "";
+      
+      $fieldsMapping = [
+        "Nama" => isset($dataMahasiswa["NAMA"]) ? $dataMahasiswa["NAMA"] : "-",
+        "NPM" => isset($dataMahasiswa["NPM"]) ? $dataMahasiswa["NPM"] : "-",
+        "Program Studi" => isset($dataMahasiswa["PROGRAMSTUDI"]) ? $dataMahasiswa["PROGRAMSTUDI"] : "-",
+        "Kabupaten" => isset($dataMahasiswa["LOKASIKABUPATEN"]) ? $dataMahasiswa["LOKASIKABUPATEN"] : "Belum ditempatkan",
+        "Kecamatan" => isset($dataMahasiswa["LOKASIKECAMATAN"]) ? $dataMahasiswa["LOKASIKECAMATAN"] : "Belum ditempatkan",
+        "Desa" => $lokasiDesa !== "" ? $lokasiDesa : "Belum ditempatkan",
+        "Sekolah" => isset($dataMahasiswa["LOKASISEKOLAH"]) ? $dataMahasiswa["LOKASISEKOLAH"] : "Belum ditempatkan",
+        "Dosen Pembimbing" => isset($dataMahasiswa["NAMADOSEN"]) ? $dataMahasiswa["NAMADOSEN"] : "Belum ditentukan",
+        "Contact DPL" => isset($dataMahasiswa["HANDPHPONEDOSEN"]) ? $dataMahasiswa["HANDPHPONEDOSEN"] : "Belum ditentukan"
+      ];
 
-        @page {
-          margin: 20mm;
-          size: A4 portrait;
-        }
+      foreach ($fieldsMapping as $label => $val) { ?>
+         <div class="info-group">
+            <span class="info-label"><?= $label ?></span>
+            <span class="info-value"><?= htmlspecialchars($val) ?></span>
+         </div>
+      <?php } ?>
+    </div>
+  </div>
 
-        body {
-          width: 240mm;
-          height: 297mm;
-        }
-
-        content .content .header {
-          font-size: 14pt;
-          margin-top: 5mm;
-          page-break-after: avoid;
-        }
-
-        content .content .field {
-          page-break-after: avoid;
-        }
-      }
-
-      .penempatan td {
-        border: thin solid grey;
-        margin: 0;
-        padding: 0;
-      }
-
-      b {
-        font-weight: bold;
-      }
-
-      .label {
-        width: 150px;
-        display: inline-block;
-      }
-
-      .text {
-        display: inline-block;
-      }
-    </style>
-    <div class="content">
-      <div class="header">
-        <a>PENEMPATAN</a>
-      </div>
-      <div class="field">
-        <h1>Informasi Lokasi Peserta
-          <span class="field-action action-right"></span>
-        </h1>
-        <div class="penempatan">
-          <?php
-          echo '
-            <div class="label">Nama</div>
-            <div class="text">: ' . (empty($placement["NAMA"]) ? "Tidak ada" : $placement["NAMA"]) . '</div><br>
-
-            <div class="label">NPM</div>
-            <div class="text">: ' . (empty($placement["NPM"]) ? "Tidak ada" : $placement["NPM"]) . '</div><br>
-
-            <div class="label">Program Studi</div>
-            <div class="text">: ' . (empty($placement["PROGRAMSTUDI"]) ? "Tidak ada" : $placement["PROGRAMSTUDI"]) . '</div><br>
-
-            <div class="label">Kabupaten</div>
-            <div class="text">: ' . (empty($placement["LOKASIKABUPATEN"]) ? "Tidak ada" : $placement["LOKASIKABUPATEN"]) . '</div><br>
-
-            <div class="label">Kecamatan</div>
-            <div class="text">: ' . (empty($placement["LOKASIKECAMATAN"]) ? "Tidak ada" : $placement["LOKASIKECAMATAN"]) . '</div><br>
-
-            <div class="label">Desa</div>
-            <div class="text">: ' . (empty($placement["LOKASIDESA"]) ? "Tidak ada" : $placement["LOKASIDESA"]) . '</div><br>
-
-            <div class="label">Sekolah</div>
-            <div class="text">: ' . (empty($placement["LOKASISEKOLAH"]) ? "Tidak ada" : $placement["LOKASISEKOLAH"]) . '</div><br>
-
-            <div class="label">Dosen Pembimbing</div>
-            <div class="text">: ' . (empty($placement["NAMADOSEN"]) ? "Tidak ada" : $placement["NAMADOSEN"]) . '</div><br>
-
-            <div class="label">Contact DPL</div>
-            <div class="text">: ' . (empty($placement["HANDPHPONEDOSEN"]) ? "Tidak ada" : $placement["HANDPHPONEDOSEN"]) . '</div><br>
-          ';
-          ?>
-        </div>
-      </div>
-
-      <div class="field">
-        <h1>Anggota Kelompok
-          <span class="field-action action-right"></span>
-        </h1>
-        <div class="penempatan">
+  <div class="placement-card placement-team-card">
+    <h1 class="card-title">Anggota Kelompok</h1>
+    
+    <?php
+    $dataMahasiswaTeam = (!empty($lokasiDesa)) ? $dataMahasiswaAccess->reset()->where("`LOKASIDESA` = '" . $lokasiDesa . "'")->order('`LOKASISEKOLAH` ASC, `NPM` ASC')->result_array('datamahasiswa') : FALSE;
+    
+    if ($dataMahasiswaTeam != FALSE && !empty($dataMahasiswaTeam)) {
+    ?>
+      <div class="table-responsive">
+        <table class="modern-table">
+          <thead>
+            <tr>
+              <th style="width: 50px;">No</th>
+              <th style="width: 250px;">Nama</th>
+              <th style="width: 120px;">NPM</th>
+              <th style="width: 180px;">Program Studi</th>
+              <th style="width: 300px;">Lokasi Sekolah</th>
+              <th style="width: 150px;">No Handphone</th>
+            </tr>
+          </thead>
+          <tbody>
           <?php
           $n = 1;
-          if (!empty($group)) {
-          ?>
-            <div class="table-view">
-              <table>
-                <tr class="thead">
-                  <td width="25px"><b>No</b></td>
-                  <td width="300px"><b>Nama</b></td>
-                  <td width="100px"><b>NPM</b></td>
-                  <td width="200px"><b>Program Studi</b></td>
-                  <td width="250px"><b>Lokasi Sekolah</b></td>
-                  <td width="15px"><b>No Handphone</b></td>
-                </tr>
-                <?php
-                foreach ($group as $key => $row) {
-                  echo '
-                  <tr class="trow row-even">
-                    <td>' . $n . '</td>
-                    <td>' . $row["NAMA"] . '</td>
-                    <td>' . $row["NPM"] . '</td>
-                    <td>' . $row["PROGRAMSTUDI"] . '</td>
-                    <td>' . $row["LOKASISEKOLAH"] . '</td>
-                    <td>' . $row["NOTELEPON"] . '</td>
-                  </tr>';
-                  $n++;
-                } ?>
-              </table>
-            </div>
-          <?php
-          } else {
-            echo 'Anggota kelompok tidak tersedia.';
-          }
-          ?>
-        </div>
+          foreach ($dataMahasiswaTeam as $key => $r) { ?>
+              <tr>
+                <td><?= $n ?></td>
+                <td><?= htmlspecialchars($r["NAMA"]) ?></td>
+                <td><?= htmlspecialchars($r["NPM"]) ?></td>
+                <td><?= htmlspecialchars($r["PROGRAMSTUDI"]) ?></td>
+                <td><?= htmlspecialchars($r["LOKASISEKOLAH"]) ?></td>
+                <td><?= htmlspecialchars($r["NOTELEPON"]) ?></td>
+              </tr>
+          <?php $n++; } ?>
+          </tbody>
+        </table>
       </div>
-    </div>
-  </section>
-</content>
-
+    <?php
+    } else {
+        echo '<div style="text-align:center; padding: 20px; color:#888;">Anggota kelompok tidak tersedia.</div>';
+    }
+    ?>
+  </div>
+</div>
 <?php /*
 <button style="position: absolute; top: 0px; left: 0; z-index: 200; background: rgba(1, 1, 1, 0.44); color: white; padding: 3px; padding-left: 8px; padding-right: 8px; font-size: 12pt; font-style: normal; font-weight: lighter; cursor: pointer; border: none;" onclick="document.getElementById('upload-foto').style.display='block'" >edit</button>'
 

@@ -1,0 +1,282 @@
+$primary-color: #a805a8;
+$secondary-color: #fbeffe;
+$text-dark: #333333;
+$text-light: #777777;
+
+.profile-container {
+    background: transparent;
+    padding: 0;
+    font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    max-width: 1200px;
+    margin: 0 auto;
+
+    // The single unified card layout spanning two columns
+    .profile-layout-wrapper {
+        display: grid;
+        grid-template-columns: 320px 1fr;
+        gap: 30px;
+        background: #ffffff;
+        border-radius: 12px;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+        padding: 30px;
+        align-items: start;
+
+        @media (max-width: 900px) {
+            grid-template-columns: 1fr;
+            gap: 20px;
+        }
+    }
+}
+
+// 1. Profile Left Pane (Photo)
+.profile-left-pane {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: #fdfdfd;
+    padding: 30px 20px;
+    border-radius: 10px;
+    border: 1px solid #f0f0f0;
+
+    .avatar-interactive {
+        position: relative;
+        width: 160px;
+        height: 160px;
+        border-radius: 50%;
+        border: 4px solid #ffffff;
+        cursor: pointer;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        overflow: hidden;
+        background: #f0f0f0;
+        transition: transform 0.2s ease;
+        margin-bottom: 20px;
+
+        &:hover {
+            transform: scale(1.02);
+            &::after {
+                content: 'Ubah Foto';
+                position: absolute;
+                bottom: 0;
+                left: 0;
+                width: 100%;
+                background: rgba(0,0,0,0.6);
+                color: white;
+                text-align: center;
+                font-size: 13px;
+                padding: 10px 0;
+            }
+        }
+
+        img, .fallback-avatar {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .fallback-avatar {
+            background: #e2e2e2;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #888;
+        }
+    }
+
+    .profile-name {
+        h2 {
+            margin: 0;
+            font-size: 20px;
+            color: $text-dark;
+            text-align: center;
+        }
+        p {
+            margin: 5px 0 0 0;
+            color: $text-light;
+            text-align: center;
+            font-size: 14px;
+        }
+    }
+
+    .upload-panel-collapse {
+        display: none;
+        width: 100%;
+        margin-top: 20px;
+        padding-top: 20px;
+        border-top: 1px solid #eee;
+        
+        &.active {
+            display: block;
+            animation: fadeInDown 0.3s ease;
+        }
+
+        .upload-form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+
+            input[type=file] {
+                width: 100%;
+                padding: 8px;
+                background: white;
+                border: 1px dashed #ccc;
+                border-radius: 5px;
+                font-size: 12px;
+            }
+
+            .help-block {
+                text-align: center;
+                font-size: 11px;
+                color: #888;
+                a { color: red; }
+            }
+
+            .action-buttons {
+                display: flex;
+                gap: 10px;
+                .btnOk {
+                    flex: 1;
+                    padding: 8px;
+                    border-radius: 6px;
+                    border: none;
+                    background: $primary-color;
+                    color: white;
+                    cursor: pointer;
+                    font-size: 13px;
+                }
+                .btnCancel {
+                    flex: 1;
+                    padding: 8px;
+                    border-radius: 6px;
+                    border: none;
+                    background: #f1f3f5;
+                    color: #333;
+                    cursor: pointer;
+                    font-size: 13px;
+                }
+            }
+        }
+    }
+}
+
+// 2. Profile Right Pane (Biodata Form)
+.profile-right-pane {
+    .card-title {
+        font-size: 20px;
+        color: $text-dark;
+        font-weight: 600;
+        margin-top: 0;
+        margin-bottom: 25px;
+        padding-bottom: 15px;
+        border-bottom: 1px solid #f0f0f0;
+    }
+
+    .form-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+        gap: 20px;
+
+        .form-group-modern {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+
+            &.full-width {
+                grid-column: 1 / -1;
+            }
+
+            label {
+                font-size: 13px;
+                color: $text-light;
+                font-weight: 500;
+                
+                .required {
+                    color: red;
+                    margin-left: 2px;
+                }
+            }
+
+            .bioFormInput, input[type=password], input[type=text], select {
+                width: 100%;
+                padding: 10px 15px;
+                border: 1px solid #e1e1e1;
+                border-radius: 6px;
+                font-size: 14px;
+                color: #333;
+                background: #fdfdfd;
+                transition: all 0.2s ease;
+
+                &:focus {
+                    border-color: $primary-color;
+                    box-shadow: 0 0 0 3px rgba(168, 5, 168, 0.1);
+                    outline: none;
+                    background: #fff;
+                }
+
+                &:disabled {
+                    background: #f0f0f0;
+                    color: #888;
+                }
+            }
+
+            .alamat-grid {
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+                gap: 15px;
+            }
+        }
+    }
+
+    .form-actions {
+        margin-top: 30px;
+        display: flex;
+        justify-content: flex-end;
+        gap: 15px;
+        border-top: 1px solid #f0f0f0;
+        padding-top: 25px;
+
+        button {
+            padding: 12px 25px;
+            border-radius: 6px;
+            border: none;
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+
+            &.btn-edit {
+                background: $secondary-color;
+                color: $primary-color;
+                border: 1px solid $primary-color;
+                
+                &:hover {
+                    background: $primary-color;
+                    color: white;
+                }
+            }
+
+            &.btn-update {
+                background: $primary-color;
+                color: white;
+                
+                &:hover {
+                    background: darken($primary-color, 10%);
+                }
+            }
+
+            &.btn-cancel {
+                background: #f1f3f5;
+                color: #495057;
+
+                &:hover {
+                    background: #e2e6ea;
+                }
+            }
+        }
+    }
+}
+
+@keyframes fadeInDown {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+}

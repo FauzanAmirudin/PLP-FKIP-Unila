@@ -1,0 +1,174 @@
+// =============================================
+// FOOTER STYLES (footer.php)
+// Design Reference: design/home.jpg
+$font-family: 'Poppins', sans-serif;
+$color-forth: #FEC5F6;
+$color-primary: #B33791;
+
+.site-footer {
+    width: 100%;
+    background-color: $color-primary; // Sama dengan navbar
+    color: #ffffff;
+    font-family: $font-family;
+    padding: 80px 5% 40px;
+    scroll-snap-align: start;
+    scroll-snap-stop: always;
+    
+    .footer-grid {
+        display: grid;
+        grid-template-columns: 2fr 1.5fr 2fr;
+        gap: 40px;
+        max-width: 1200px;
+        margin: 0 auto 60px;
+        
+        .footer-col {
+            
+            // Kolom 1
+            .footer-brand {
+                display: flex;
+                align-items: center;
+                gap: 12px;
+                margin-bottom: 24px;
+                
+                img {
+                    height: 40px;
+                    width: 40px;
+                    object-fit: contain;
+                }
+                
+                span {
+                    font-size: 1.1rem;
+                    font-weight: 700;
+                    letter-spacing: 0.5px;
+                }
+            }
+            
+            .footer-address {
+                font-size: 0.85rem;
+                line-height: 1.8;
+                color: rgba(255,255,255,0.8);
+                margin-bottom: 24px;
+                max-width: 260px;
+            }
+            
+            .footer-socials {
+                display: flex;
+                gap: 12px;
+                
+                .social-icon {
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    width: 36px;
+                    height: 36px;
+                    border-radius: 50%;
+                    background-color: #ffffff;
+                    color: #72307e;
+                    text-decoration: none;
+                    transition: transform 0.2s ease, background 0.2s ease;
+                    
+                    &:hover {
+                        transform: translateY(-3px);
+                        background-color: $color-forth;
+                    }
+                    
+                    svg {
+                        width: 16px;
+                        height: 16px;
+                        fill: currentColor;
+                    }
+                }
+            }
+            
+            // Kolom 2 & 3
+            .footer-heading {
+                font-size: 0.95rem;
+                font-weight: 700;
+                text-transform: uppercase;
+                letter-spacing: 1px;
+                margin: 0 0 24px;
+            }
+            
+            .footer-links {
+                list-style: none;
+                padding: 0;
+                margin: 0;
+                
+                li {
+                    margin-bottom: 12px;
+                    
+                    a {
+                        color: rgba(255,255,255,0.8);
+                        text-decoration: none;
+                        font-size: 0.85rem;
+                        transition: color 0.2s ease;
+                        
+                        &:hover {
+                            color: #ffffff;
+                            text-decoration: underline;
+                        }
+                    }
+                }
+            }
+            
+            // Kolom 4
+            .footer-text {
+                font-size: 0.85rem;
+                line-height: 1.6;
+                color: rgba(255,255,255,0.8);
+            }
+        }
+    }
+    
+    .footer-bottom {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding-top: 30px;
+        border-top: 1px solid rgba(255,255,255,0.2);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-size: 0.75rem;
+        color: rgba(255,255,255,0.6);
+        
+        .footer-policies {
+            display: flex;
+            gap: 20px;
+            
+            a {
+                color: rgba(255,255,255,0.6);
+                text-decoration: none;
+                
+                &:hover {
+                    color: #ffffff;
+                }
+            }
+        }
+    }
+}
+
+// Responsive
+@media screen and (max-width: 900px) {
+    .site-footer {
+        .footer-grid {
+            grid-template-columns: 1fr 1fr;
+        }
+    }
+}
+
+@media screen and (max-width: 600px) {
+    .site-footer {
+        padding: 60px 20px 30px;
+        
+        .footer-grid {
+            grid-template-columns: 1fr;
+            gap: 40px;
+        }
+        
+        .footer-bottom {
+            flex-direction: column;
+            gap: 16px;
+            text-align: center;
+        }
+    }
+}

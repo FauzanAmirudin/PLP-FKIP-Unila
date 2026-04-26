@@ -1,0 +1,421 @@
+// =============================================
+// ABOUT PAGE STYLES (about.php)
+// Design Reference: design/about.jpg
+// Aesthetic: Refined Institutional
+// =============================================
+
+// Variables based on deskripsi.md
+$color-primary: #B33791;
+$color-secondary: #C562AF;
+$color-third: #DB8DD0;
+$color-forth: #FEC5F6;
+
+$font-family: 'Poppins', sans-serif;
+$color-hero-bg: #555555; // Dark grey from design
+$color-text-dark: #1e293b;
+$color-text-mutted: #64748b;
+$color-bg-light: #F9FAFB;
+
+// Common Section Styles
+.about-hero-section, .about-desc-section, .about-visimisi-section, .about-org-section {
+    font-family: $font-family;
+    overflow: hidden;
+}
+
+// =============================================
+// 1. HERO SECTION
+// =============================================
+.about-hero-section {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    min-height: 45vh; // sedikit ditinggikan agar gambar lebih lega
+    background-color: $color-primary; // fallback
+    background-image: linear-gradient(rgba(179, 55, 145, 0.6), rgba(0, 0, 0, 0.85)), url('../images/FKIP.jpeg');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed; // parallax effect
+    background-repeat: no-repeat;
+    text-align: center;
+    z-index: 1;
+    padding-top: 55px;
+
+    .bg-text {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        font-size: 15vw;
+        font-weight: 800;
+        color: transparent;
+        -webkit-text-stroke: 2px rgba(255, 255, 255, 0.1);
+        white-space: nowrap;
+        z-index: -1;
+        letter-spacing: 5px;
+    }
+
+    .hero-content {
+        z-index: 2;
+        color: #ffffff;
+        
+        .hero-title {
+            font-size: 3.5rem;
+            font-weight: 800;
+            margin: 0;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .hero-subtitle {
+            font-size: 0.95rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-top: 15px;
+        }
+    }
+}
+
+// =============================================
+// 2. DESKRIPSI SECTION
+// =============================================
+.about-desc-section {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    justify-content: center;
+    padding: 80px 8%;
+    background-color: #ffffff;
+    gap: 60px;
+
+    .desc-content {
+        flex: 1 1 400px;
+        max-width: 600px;
+
+        .badge {
+            display: inline-block;
+            background-color: $color-primary;
+            color: #ffffff;
+            font-size: 0.8rem;
+            font-weight: 700;
+            padding: 6px 14px;
+            border-radius: 4px;
+            margin-bottom: 24px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .title {
+            font-size: 2.2rem;
+            font-weight: 800;
+            color: $color-text-dark;
+            margin: 0 0 20px;
+        }
+
+        p {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: $color-text-mutted;
+            margin-bottom: 15px;
+        }
+    }
+
+    .desc-visual {
+        flex: 1 1 400px;
+        min-height: 400px;
+        max-width: 500px;
+
+        .image-placeholder {
+            width: 100%;
+            height: 100%;
+            min-height: 400px;
+            background-color: #e2e8f0; // placeholder grey
+            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+        }
+    }
+}
+
+// =============================================
+// COMMON BADGE HEADER FOR SECTION 3 & 4
+// =============================================
+.section-header {
+    text-align: center;
+    margin-bottom: 50px;
+    
+    .badge {
+        display: inline-block;
+        background-color: $color-primary;
+        color: #ffffff;
+        font-size: 0.8rem;
+        font-weight: 700;
+        padding: 6px 14px;
+        border-radius: 4px;
+        margin-bottom: 15px;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
+
+    .title {
+        font-size: 2.2rem;
+        font-weight: 800;
+        color: $color-text-dark;
+        margin: 0 0 15px;
+        text-transform: uppercase;
+    }
+
+    .dots-separator {
+        display: flex;
+        justify-content: center;
+        gap: 6px;
+        
+        span {
+            width: 6px;
+            height: 6px;
+            background-color: $color-primary;
+            transform: rotate(45deg);
+        }
+    }
+}
+
+// =============================================
+// 3. VISI MISI SECTION
+// =============================================
+.about-visimisi-section {
+    padding: 80px 8%;
+    background-color: #fafbfd;
+    
+    .cards-container {
+        display: flex;
+        justify-content: center;
+        gap: 40px;
+        flex-wrap: wrap;
+
+        .vm-card {
+            flex: 1 1 400px;
+            background-color: #ffffff;
+            border: 1px solid #e2e8f0;
+            padding: 40px;
+            position: relative;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.02);
+
+            .card-title {
+                font-size: 1.5rem;
+                font-weight: 800;
+                color: $color-text-dark;
+                margin: 0;
+            }
+
+            .card-subtitle {
+                font-size: 0.95rem;
+                color: $color-text-mutted;
+                margin: 5px 0 25px;
+            }
+
+            .card-desc {
+                font-size: 1.05rem;
+                line-height: 1.7;
+                color: #555;
+            }
+
+            // Decorative folded corner
+            .corner-acc {
+                position: absolute;
+                bottom: -1px;
+                right: -1px;
+                width: 0;
+                height: 0;
+                border-bottom: 60px solid #f9f0f6;
+                border-left: 60px solid transparent;
+            }
+            
+            &::before {
+                // Outer subtle border
+                content: '';
+                position: absolute;
+                top: -15px;
+                left: -15px;
+                right: 15px;
+                bottom: 15px;
+                border: 1px solid rgba(179, 55, 145, 0.1);
+                z-index: -1;
+            }
+        }
+    }
+}
+
+// =============================================
+// 4. STRUKTUR ORGANISASI SECTION
+// =============================================
+.about-org-section {
+    padding: 80px 8%;
+    background-color: #ffffff;
+
+    .org-container {
+        display: flex;
+        justify-content: center;
+        overflow-x: auto;
+        padding-bottom: 20px;
+    }
+
+    // CSS Tree styling
+    .org-tree {
+        ul {
+            padding-top: 20px; 
+            position: relative;
+            transition: all 0.5s;
+            -webkit-transition: all 0.5s;
+            -moz-transition: all 0.5s;
+            display: flex;
+            justify-content: center;
+            list-style: none;
+            padding-left: 0;
+        }
+
+        li {
+            float: left; 
+            text-align: center;
+            list-style-type: none;
+            position: relative;
+            padding: 20px 5px 0 5px;
+            
+            transition: all 0.5s;
+            -webkit-transition: all 0.5s;
+            -moz-transition: all 0.5s;
+            flex: 1;
+
+            // Connectors
+            &::before, &::after{
+                content: '';
+                position: absolute; 
+                top: 0; 
+                right: 50%;
+                border-top: 2px solid #cbd5e1;
+                width: 50%; 
+                height: 20px;
+            }
+
+            &::after{
+                right: auto; 
+                left: 50%;
+                border-left: 2px solid #cbd5e1;
+            }
+
+            &:only-child::after, &:only-child::before {
+                display: none;
+            }
+
+            &:only-child{ 
+                padding-top: 0;
+            }
+
+            &:first-child::before, &:last-child::after {
+                border: 0 none;
+            }
+
+            &:last-child::before {
+                border-right: 2px solid #cbd5e1;
+                border-radius: 0 5px 0 0;
+            }
+
+            &:first-child::after {
+                border-radius: 5px 0 0 0;
+            }
+        }
+
+        ul ul::before {
+            content: '';
+            position: absolute; 
+            top: 0; 
+            left: 50%;
+            border-left: 2px solid #cbd5e1;
+            width: 0; 
+            height: 20px;
+        }
+
+        .org-node {
+            display: inline-block;
+            text-align: center;
+            margin: 0 auto;
+            border-radius: 6px;
+            transition: all 0.3s;
+            position: relative;
+            z-index: 2;
+
+            .avatar {
+                width: 75px;
+                height: 75px;
+                margin: 0 auto 10px;
+                border-radius: 50%;
+                background-color: #fff;
+                padding: 4px;
+                box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+                
+                img {
+                    width: 100%;
+                    height: 100%;
+                    border-radius: 50%;
+                    object-fit: cover;
+                }
+            }
+
+            .info {
+                background-color: #E55B7E;
+                color: #fff;
+                padding: 10px 15px;
+                border-radius: 4px;
+                font-weight: 700;
+                font-size: 0.85rem;
+                min-width: 140px;
+                box-shadow: 0 6px 12px rgba(229, 91, 126, 0.2);
+
+                span {
+                    font-size: 0.7rem;
+                    font-weight: 400;
+                    opacity: 0.9;
+                }
+            }
+
+            &.manager-node .info {
+                background-color: #E88354;
+                box-shadow: 0 6px 12px rgba(232, 131, 84, 0.2);
+            }
+
+            &.staff-node .info {
+                background-color: #47BDB6;
+                box-shadow: 0 6px 12px rgba(71, 189, 182, 0.2);
+            }
+
+            &.worker-node {
+                background-color: #3b82f6;
+                color: #fff;
+                padding: 8px 15px;
+                font-size: 0.75rem;
+                font-weight: 700;
+                border-radius: 4px;
+                margin-top: -10px;
+                display: inline-block;
+                box-shadow: 0 4px 10px rgba(59, 130, 246, 0.2);
+                letter-spacing: 0.5px;
+            }
+        }
+    }
+}
+
+// Media Queries 
+@media screen and (max-width: 768px) {
+    .about-hero-section {
+        .hero-content .hero-title {
+            font-size: 2.5rem;
+        }
+        .bg-text {
+            font-size: 24vw;
+        }
+    }
+    
+    .about-org-section .org-container {
+        justify-content: flex-start;
+    }
+}

@@ -42,5 +42,6 @@ class captcha extends gf_controller
          */
         // Image generation
         $this->captcha->CreateImage();
+        exit;
     }
 }

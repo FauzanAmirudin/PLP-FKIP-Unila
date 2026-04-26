@@ -3,37 +3,32 @@ defined('GF_BASE_PATH') or exit('No direct script access allowed');
 /**
  *	
  */
-require_login();
+
 require_level('Admin, Operator');
 ?>
-<content>
-  <section id="mainContent">
-    <div class="content">
-      <div class="header">
-        <a>PASSQORD USER</a>
-      </div>
-      <?php if (isset($notification) && $notification != null) {
-        echo '<div class="note-Field"><h2 class="alert">' . $notification . '</h2></div>';
-      } ?>
-      <div class="field">
-        <h1>Resset Password
-          <span class="field-action action-right"> </span>
-        </h1>
-        <div>
-          <form class="form" method="post" action="<?php set_url('user/password_reset') ?>">
-            <div class="form-group row">
-              <label for="statusPendaftaran" class="inline-label">NPM/NIP<span class="required">*</span></label>
-              <div class="dot">:</div>
-              <div class="col-md-4">
-                <input name="NPM" value="" placeholder="Masukan User" type="text" required="required" />
-              </div>
-            </div>
-            <div class="form-group action-right">
-              <button type="submit" class="btn btn-medium btn-ok">Reset Password</button>
-            </div>
-          </form>
+<style>
+</style>
+<div class="settings-container">
+    <?php if (isset($response) && $response != null) {
+        echo '<div class="notif notif-primary-strong" style="margin-bottom: 20px;">' . $response . '</div>';
+    } ?>
+
+    <div class="settings-card">
+        <div class="card-header">
+            <h1 class="card-title">Reset Password User</h1>
+            <p class="card-subtitle">Gunakan fitur ini untuk mereset kata sandi mahasiswa/user ke pengaturan default sistem.</p>
         </div>
-      </div>
+
+        <form class="form" method="post" action="index.php?page=resetpassword&action=resetpassword" id="form2">
+            <div class="settings-form-group">
+                <label for="NPM">NPM / NIP User <span class="required">*</span></label>
+                <input name="NPM" id="NPM" placeholder="Masukan NPM atau NIP yang akan di-reset" type="text" required="required" autofocus />
+                <span class="input-hint">Password akan diatur ulang menjadi "majuteruspltfkip" secara otomatis.</span>
+            </div>
+
+            <div class="form-actions" style="margin-top: 30px; border-top: 1px solid #f0f0f0; padding-top: 25px;">
+                <button type="submit" name="action" value="resetpassword" class="btn-save">Reset Password Sekarang</button>
+            </div>
+        </form>
     </div>
-  </section>
-</content>
+</div>

@@ -1,0 +1,134 @@
+/* button */
+.btn {
+  text-decoration: none;
+  display: inline-block;
+  margin-left: 6px;
+  margin-right: 6px;
+  font-weight: bold;
+  text-align: center;
+  vertical-align: middle;
+  touch-action: manipulation;
+  cursor: pointer;
+  border: 1px solid transparent;
+  white-space: nowrap;
+  padding: 4px 8px;
+  line-height: 1.42857;
+  border-radius: 4px;
+  user-select: none;
+  outline: 0 !important;
+  transition: border-color ease-in-out 0.15s, box-shadow 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.btn:first-of-type {
+  margin-left: 0px;
+}
+
+.btn:last-of-type {
+  margin-right: 0px;
+}
+
+.btn:hover {
+  transition: all 0.3s;
+  box-shadow: 0 2px 3px rgba(0, 0, 0, 0.3), 0 2px 4px rgba(0, 0, 0, 0.28);
+}
+
+.btn-medium {
+  min-width: 90px;
+  border-radius: 3px;
+  padding-top: 8px;
+  padding-bottom: 7px;
+}
+
+.btn-small {
+  font-size: small;
+  min-width: 50px;
+  border-radius: 3px;
+  padding-top: 2px;
+  padding-bottom: 2px;
+  border: 2px solid;
+}
+
+.btn-tiny {
+  font-size: small;
+  min-width: 18px;
+  border-radius: 3px;
+  padding-top: 2px;
+  padding-bottom: 2px;
+  padding-left: 3px;
+  padding-right: 3px;
+  margin: 1px;
+  border: 1px solid;
+}
+
+.btn-ok {
+  color: #ffffff;
+  background-color: #a805a8;
+  border-color: #8a048a;
+}
+
+.btn-download {
+  color: #ffffff;
+  background-color: #247bf2;
+  border-color: #5161f6;
+}
+
+.btn-cancel {
+  color: #ffffff;
+  background-color: #f25f17;
+  border-color: #df4402;
+}
+
+.btn-alert {
+  color: #ffffff;
+  background-color: #e01313;
+  border-color: #901d3a;
+}
+
+.btn-danger {
+  color: #ffffff;
+  background-color: #e01313;
+  border-color: #901d3a;
+}
+
+.btn-view {
+  color: #ffffff;
+  background-color: #00dc21;
+  border-color: #00ba21;
+}
+
+.btn-disable {
+  color: #ffffff;
+  background-color: #cccccc;
+  border-color: #b5b5b5;
+}
+
+.btn-minimize {
+}
+
+.btn-minimize:before {
+  content: "\0332";
+}
+
+.btn-fullsize:before {
+  content: "⛶";
+}
+
+.btn-normalize:before {
+  content: "\2926";
+}
+
+.btn-maximize:before {
+  content: "\26f6";
+}
+
+.btn-help:before {
+  content: "\003F";
+}
+
+.btn-edit:before {
+  content: " \270E ";
+}
+
+.btn-close:before {
+  content: "\1F5D9";
+}

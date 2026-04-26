@@ -1,0 +1,20 @@
+.laporan {
+     &-set {
+          position: relative;
+          float: left;
+          height: 3.45rem;
+
+          .laporan-download {}
+
+          .laporan-response {
+               position: absolute;
+          }
+
+     }
+
+     &-collected {}
+}
+
+#dataPendaftar {
+     min-width: 1300px;
+}

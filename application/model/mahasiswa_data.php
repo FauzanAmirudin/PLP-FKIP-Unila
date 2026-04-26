@@ -70,7 +70,7 @@ class mahasiswa_data extends gf_model
 					session_save("COMPLETE_DATA", TRUE);
 					$result = TRUE;
 				} else {
-					var_dump($value);
+					// var_dump($value);
 					session_save("COMPLETE_DATA", FALSE);
 					$result = FALSE;
 					break;

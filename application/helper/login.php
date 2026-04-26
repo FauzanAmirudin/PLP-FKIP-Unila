@@ -28,11 +28,11 @@ if (!function_exists("require_login")) {
 if (!function_exists("is_level")) {
 	function is_level($levels)
 	{
-		$levels = explode(", ", $levels);
+		$levels = explode(",", $levels);
 		$levels = array_map(function ($level) {
 			return strtolower(trim($level));
 		}, $levels);
-		if (!empty(session_get('LEVEL')) && in_array(strtolower(session_get('LEVEL')), $levels)) {
+		if (!empty(session_get('LEVEL')) && in_array(strtolower(trim(session_get('LEVEL'))), $levels)) {
 			return TRUE;
 		} else {
 			return FALSE;

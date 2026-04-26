@@ -3,432 +3,385 @@ defined('GF_BASE_PATH') or exit('No direct script access allowed');
 /**
  *	
  */
-require_login();
+
 ?>
-<content>
-	<section id="mainContent">
-		<script type="text/javascript">
-			function displayQuestElement(answer) {
-				let pendidikan_bahasa_dan_seni = document.getElementById('pendidikan_bahasa_dan_seni');
-				let pendidikan_ips = document.getElementById('pendidikan_ips');
-				let pendidikan_mipa = document.getElementById('pendidikan_mipa');
-				let ilmu_pendidikan = document.getElementById('ilmu_pendidikan');
-				let prodyDummy = document.getElementById('prodyDummy');
+<!doctype html>
+<html>
+<script type="text/javascript">
+	function displayQuestElement(answer) {
+		document.getElementById(answer).style.display = "block";
+		document.getElementById(answer).required = true;
+		document.getElementById('prodyDummy').required = false;
+		if (answer == "Ilmu Pendidikan") {
+			document.getElementById('Pendidikan Bahasa dan Seni').style.display = "none";
+			document.getElementById('Pendidikan IPS').style.display = "none";
+			document.getElementById('Pendidikan MIPA').style.display = "none";
+			document.getElementById('prodyDummy').style.display = "none";
+			document.getElementById('Pendidikan Bahasa dan Seni').value = "";
+			document.getElementById('Pendidikan IPS').value = "";
+			document.getElementById('Pendidikan MIPA').value = "";
+			document.getElementById('prodyDummy').value = "";
+			document.getElementById('Pendidikan Bahasa dan Seni').required = false;
+			document.getElementById('Pendidikan IPS').required = false;
+			document.getElementById('Pendidikan MIPA').required = false;
+			document.getElementById('prodyDummy').required = false;
+		}
+		if (answer == "Pendidikan Bahasa dan Seni") {
+			document.getElementById('Ilmu Pendidikan').style.display = "none";
+			document.getElementById('Pendidikan IPS').style.display = "none";
+			document.getElementById('Pendidikan MIPA').style.display = "none";
+			document.getElementById('prodyDummy').style.display = "none";
+			document.getElementById('Ilmu Pendidikan').value = "";
+			document.getElementById('Pendidikan IPS').value = "";
+			document.getElementById('Pendidikan MIPA').value = "";
+			document.getElementById('prodyDummy').value = "";
+			document.getElementById('Ilmu Pendidikan').required = false;
+			document.getElementById('Pendidikan IPS').required = false;
+			document.getElementById('Pendidikan MIPA').required = false;
+			document.getElementById('prodyDummy').required = false;
+		}
+		if (answer == "Pendidikan IPS") {
+			document.getElementById('Pendidikan Bahasa dan Seni').style.display = "none";
+			document.getElementById('Ilmu Pendidikan').style.display = "none";
+			document.getElementById('Pendidikan MIPA').style.display = "none";
+			document.getElementById('prodyDummy').style.display = "none";
+			document.getElementById('Pendidikan Bahasa dan Seni').value = "";
+			document.getElementById('Ilmu Pendidikan').value = "";
+			document.getElementById('Pendidikan MIPA').value = "";
+			document.getElementById('prodyDummy').value = "";
+			document.getElementById('Ilmu Pendidikan').required = false;
+			document.getElementById('Pendidikan Bahasa dan Seni').required = false;
+			document.getElementById('Pendidikan MIPA').required = false;
+			document.getElementById('prodyDummy').required = false;
+		}
+		if (answer == "Pendidikan MIPA") {
+			document.getElementById('Pendidikan Bahasa dan Seni').style.display = "none";
+			document.getElementById('Pendidikan IPS').style.display = "none";
+			document.getElementById('Ilmu Pendidikan').style.display = "none";
+			document.getElementById('prodyDummy').style.display = "none";
+			document.getElementById('Pendidikan Bahasa dan Seni').value = "";
+			document.getElementById('Pendidikan IPS').value = "";
+			document.getElementById('Ilmu Pendidikan').value = "";
+			document.getElementById('prodyDummy').value = "";
+			document.getElementById('Ilmu Pendidikan').required = false;
+			document.getElementById('Pendidikan Bahasa dan Seni').required = false;
+			document.getElementById('Pendidikan IPS').required = false;
+			document.getElementById('prodyDummy').required = false;
+		} else {}
+	}
+</script>
 
-				pendidikan_bahasa_dan_seni.display =
-					pendidikan_ips.style.display =
-					pendidikan_mipa.style.display =
-					prodyDummy.style.display =
-					ilmu_pendidikan.style.display = "none";
+<?php
+$set = 0;
+$dbAccess = clone $this->database('default', 'dbconfig', TRUE);
+$dataID = empty($_GET['NPM']) ? session_get('USERID') : strip_tags($_GET['NPM']);
+$r = $dbAccess->reset()->where("`NPM` = '$dataID'")->result_row_array('datamahasiswa');
+?>
+<style>
+	@media print {
 
-				pendidikan_bahasa_dan_seni.value =
-					pendidikan_ips.value =
-					pendidikan_mipa.value =
-					prodyDummy.value =
-					ilmu_pendidikan.value = "";
+		@page {
+			margin: 20mm;
+			size: A4 portrait;
+		}
 
-				pendidikan_bahasa_dan_seni.required =
-					pendidikan_ips.required =
-					pendidikan_mipa.required =
-					prodyDummy.required =
-					ilmu_pendidikan.required = false;
+		body {
+			width: 240mm;
+			height: 297mm;
+		}
 
-				prodyDummy.required = false;
+		content .content .header {
+			font-size: 14pt;
+			margin-top: 5mm;
+			page-break-after: avoid;
+		}
 
-				let id = answer.toLowerCase().replace(/\s+/g, '_');
-				document.getElementById(id).style.display = "block";
-				document.getElementById(id).required = true;
-			}
-		</script>
-		<?php $set = 0; ?>
-		<style>
-			@media print {
+		content .content .field {
+			page-break-after: avoid;
+		}
 
-				@page {
-					margin: 20mm;
-					size: A4 portrait;
-				}
+		.form .form-group {
+			padding: 1mm !important;
+		}
 
-				body {
-					width: 240mm;
-					height: 297mm;
-				}
+		.form .dot {
+			margin-top: 1mm !important;
+			top: 0mm !important;
+		}
 
-				content .content .header {
-					font-size: 14pt;
-					margin-top: 5mm;
-					page-break-after: avoid;
-				}
+		.form .form-group label {
+			margin-top: 1mm !important;
+			top: 0mm !important;
+		}
 
-				content .content .field {
-					page-break-after: avoid;
-				}
+		#form1 {
+			text-align: center;
+		}
 
-				.form .form-group {
-					padding: 1mm !important;
-				}
+		#form1 button {
+			display: none !important;
+		}
+	}
+</style>
+<div class="profile-container">
+	<?php if (isset($response) && $response != null) {
+		echo '<div class="notif notif-primary-strong">' . $response . '</div>';
+	} ?>
 
-				.form .dot {
-					margin-top: 1mm !important;
-					top: 0mm !important;
-				}
-
-				.form .form-group label {
-					margin-top: 1mm !important;
-					top: 0mm !important;
-				}
-
-				#form1 {
-					text-align: center;
-				}
-
-				#form1 button {
-					display: none !important;
-				}
-			}
-		</style>
-		<div class="content">
-			<div class="header">
-				<a>BIODATA</a>
-			</div><?php if (isset($notification) && !empty($notification)) {
-						echo '
-			<div class="note-Field"><h2 class="alert">' . $notification . '</h2></div>';
-					} ?>
-			<div class="field">
-				<h1>Foto
-					<span class="field-action action-right"></span>
-				</h1>
-				<?php
-				if (form_imput_value($biodata, 'FTPROFIL') != "") { ?>
-					<div id="form1" class="bingkai-foto" style="position: relative;">
-						<img src="<?php echo set_url(form_imput_value($biodata, 'FTPROFIL') . "?=" . form_imput_value($biodata, 'TIMEUPDATE')); ?>" width="149px" height="200" class="pasfoto">
-						<button style="position: absolute; top: 0px; left: 0; z-index: 10; background: rgba(1, 1, 1, 0.44); color: white; padding: 3px; padding-left: 8px; padding-right: 8px; font-size: 12pt; font-style: normal; font-weight: lighter; cursor: pointer; border: none;" onclick="document.getElementById('uploaderFoto').style.display='block'" class="btn-edit"> Edit </button>
-						<div id="uploaderFoto" class="modal">
-							<div class="modal-centered" style="width: 480px;">
-								<div class="content animate">
-									<div class="title">
-										<h1>Upload
-											<span class="action-right">
-												<a onclick="document.getElementById('uploaderFoto').style.display='none'" class="btn btn-tiny btn-danger btn-close" title="Close Modal" style="float: right;"></a>
-											</span>
-										</h1>
-									</div>
-									<div class="field">
-										<form class="form" action="<?php echo set_url("mahasiswa/simpan_foto/" . $user['ID']); ?>" method="post" enctype="multipart/form-data">
-											<div class="form-group">
-												<label class="top-label">Pilih file:</label>
-												<input type="file" name="file"><br />
-												<a class="help-block"><a style="color:#ff0000;">*</a> hanya file image .jpg dengan ukuran maximum 100 Kb.</a>
-											</div>
-											<div class="form-group action-right">
-												<button type="submit" class="btn btn-medium btn-ok">Upload</button>
-												<button type="reset" class="btn btn-medium btn-cancel">Reset</button>
-											</div>
-										</form>
-									</div>
-								</div>
-							</div>
+	<div class="profile-layout-wrapper">
+		<div class="profile-left-pane">
+			<div class="avatar-interactive" onclick="toggleUploadPanel()">
+				<?php if ($r['FTPROFIL'] != "") { ?>
+					<img src="<?= $r['FTPROFIL'] ?>" alt="Profile Photo">
+				<?php } else { ?>
+					<div class="fallback-avatar">Upload Foto</div>
+				<?php } ?>
+			</div>
+			<div class="profile-name">
+				<h2><?= $r["NAMA"] ?></h2>
+				<p>NPM: <?php echo $r["NPM"]; ?></p>
+			</div>
+			
+			<div id="uploadPanel" class="upload-panel-collapse">
+				<form action="?page=biodata&action=uploadfoto<?= "&NPM=" . $dataID ?>" method="post" enctype="multipart/form-data">
+					<div class="upload-form-group">
+						<input type="file" name="file" accept="image/jpeg">
+						<div class="action-buttons">
+							<button type="submit" name="action" value="uploadFoto" class="btnOk">Upload</button>
+							<button type="reset" class="btnCancel" onclick="toggleUploadPanel()">Batal</button>
 						</div>
+						<div class="help-block"><a>*</a> hanya file image .jpg dengan ukuran maximum 100 Kb.</div>
 					</div>
-				<?php
-				} else { ?>
-					<form action="<?php echo set_url("mahasiswa/simpan_foto/" . $user['ID']); ?>" method="post" enctype="multipart/form-data" class="form">
-						<div class="form-group">
-							<label>Pilih file:</label>
-							<input type="file" name="file"><br />
-							<a class="help-block"><a style="color:#ff0000;">*</a> hanya file image .jpg dengan ukuran maximum 100 Kb.</a>
-						</div>
-						<div class="form-group" style="text-align: right;">
-							<button type="submit" class="btnOk">Upload</button>
-							<button type="reset" class="btnCancel">Reset</button>
-						</div>
-					</form>
-				<?php
-				} ?>
+				</form>
 			</div>
-			<div class="field">
-				<h1>Biodata
-					<span class="field-action action-right"> </span>
-				</h1>
-				<h4>Penulisan data Biodata gunakan <span style="color:red">Huruf kapital</span> sebagai <span style="color:red">huruf pertama</span>.</h4>
-				<div class="form">
-					<form id="formBiodata" method="post" action="<?php echo set_url("mahasiswa/simpan_biodata/" . $user['ID']); ?>">
-						<div class="form-group row">
-							<label for="name" class="inline-label">Name<span class="required">*</span></label>
-							<div class="dot">:</div>
-							<div class="col-md-4">
-								<span>
-									<input class="bioFormInput" id="nama" name="nama" <?= input_value($biodata, 'NAMA'); ?> placeholder="Masukan Nama" type="text" required="required" autofocus>
-								</span>
-							</div>
-						</div> <!-- nama -->
-						<div class="form-group row">
-							<label for="npm" class="inline-label">NPM<span class="required">*</span></label>
-							<div class="dot">:</div>
-							<div class="col-md-2">
-								<input <?= empty($biodata["NPM"]) ? 'class="bioFormInput"' : "disabled"; ?> id="npm" name="npm" <?= input_value($biodata, 'NPM'); ?> placeholder="Masukan NPM" type="text" required="required" />
-							</div>
-						</div> <!-- npm -->
-						<div class="form-group row">
-							<label for="subject" class="inline-label">Jurusan<span class="required">*</span></label>
-							<div class="dot">:</div>
-							<div class="col-md-3">
-								<select class="bioFormInput" id="jurusan" name="jurusan" required onChange="displayQuestElement(this.value)">
-									<option value="" hidden>Pilih Jurusan</option>
-									<option value="Ilmu Pendidikan">Ilmu Pendidikan</option>
-									<option value="Pendidikan Bahasa dan Seni">Pendidikan Bahasa dan Seni</option>
-									<option value="Pendidikan IPS">Pendidikan IPS</option>
-									<option value="Pendidikan MIPA">Pendidikan MIPA</option>
-								</select>
-							</div>
-						</div> <!-- jurusan -->
-						<div class="form-group row">
-							<label for="programStudy" class="inline-label">Program Study<span class="required">*</span></label>
-							<div class="dot">:</div>
-							<div class="col-md-4">
-								<select class="bioFormInput" id="prodyDummy" name="programStudy" onChange="displayQuestElement(this.value)" type="hidden">
-									<option value="">Pilih Program studi</option>
-									<option value="">Pilih jurusan terlebih dahulu</option>
-								</select>
-								<select class="bioFormInput" id="ilmu_pendidikan" name="programStudy1" onChange="displayQuestElement(this.value)" style="display:none">
-									<option value="">Pilih Program studi</option>
-									<option value="Bimbingan Konseling">Bimbingan Konseling</option>
-									<option value="Penjaskes">Penjaskes</option>
-									<option value="PG-PAUD">PG-PAUD</option>
-									<option value="PGSD">PGSD</option>
-								</select>
-								<select class="bioFormInput" id="pendidikan_bahasa_dan_seni" name="programStudy2" onChange="displayQuestElement(this.value)" style="display:none">
-									<option value="">Pilih Program studi</option>
-									<option value="Pendidikan Bahasa dan Sastra Indonesia">Pendidikan Bahasa dan Sastra Indonesia</option>
-									<option value="Pendidikan Bahasa Ingris">Pendidikan Bahasa Ingris</option>
-									<option value="Pendidikan Bahasa Prancis">Pendidikan Bahasa Prancis</option>
-									<option value="Pendidikan Tari, Drama dan Musik">Pendidikan Seni Tari</option>
-									<option value="Pendidikan Seni Musik">Pendidikan Seni Musik</option>
-								</select>
-								<select class="bioFormInput" id="pendidikan_ips" name="programStudy3" onChange="displayQuestElement(this.value)" style="display:none">
-									<option value="">Pilih Program studi</option>
-									<option value="Pendidikan Ekonomi">Pendidikan Ekonomi</option>
-									<option value="Pendidikan Geografi">Pendidikan Geografi</option>
-									<option value="Pendidikan PKN">Pendidikan PKN</option>
-									<option value="Pendidikan Sejarah">Pendidikan Sejarah</option>
-								</select>
-								<select class="bioFormInput" id="pendidikan_mipa" name="programStudy4" onChange="displayQuestElement(this.value)" style="display:none">
-									<option value="">Pilih Program studi</option>
-									<option value="Pendidikan Biologi">Pendidikan Biologi</option>
-									<option value="Pendidikan Fisika">Pendidikan Fisika</option>
-									<option value="Pendidikan Kimia">Pendidikan Kimia</option>
-									<option value="Pendidikan Matematika">Pendidikan Matematika</option>
-									<option value="Pendidikan Teknologi Informasi">Pendidikan Teknologi Informasi</option>
-								</select>
-							</div>
-						</div> <!-- Program Studi -->
-						<div class="form-group row">
-							<label for="name" class="inline-label">SKS<span class="required">*</span></label>
-							<div class="dot">:</div>
-							<div class="col-md-1">
-								<span>
-									<input class="bioFormInput" id="sks" name="sks" <?= input_value($biodata, 'SKS'); ?> placeholder="Masukan Jumlah SKS" type="text" required="required" />
-								</span>
-							</div>
-						</div> <!-- SKS -->
-						<div class="form-group row">
-							<label for="name" class="inline-label">IPK<span class="required">*</span></label>
-							<div class="dot">:</div>
-							<div class="col-md-1">
-								<span>
-									<input class="bioFormInput" id="ipk" name="ipk" <?= input_value($biodata, 'IPK'); ?> placeholder="Masukan Nilai IPK" type="text" required="required" />
-								</span>
-							</div>
-						</div> <!-- IPK -->
-						<div class="form-group row">
-							<label for="jenisKelamin" class="inline-label">Jenis Kelamin<span class="required">*</span></label>
-							<div class="dot">:</div>
-							<div class="col-md-1">
-								<select class="bioFormInput" id="jenisKelamin" name="jenisKelamin" required>
-									<option value="" selected hidden disabled>Pilih Jenis Kelamin</option>
-									<option value="Laki-Laki">Laki-Laki</option>
-									<option value="Perempuan">Perempuan</option>
-								</select>
-							</div>
-						</div> <!-- Jenis Kelamin -->
-						<div class="form-group row">
-							<label for="Agama" class="inline-label">Agama<span class="required">*</span></label>
-							<div class="dot">:</div>
-							<div class="col-md-1">
-								<select class="bioFormInput" id="Agama" name="agama" required>
-									<option value="" hidden disabled>Pilih Agama</option>
-									<option value="Islam">Islam</option>
-									<option value="Kristen">Kristen</option>
-									<option value="Katolik">Katolik</option>
-									<option value="Hindu">Hindu</option>
-									<option value="Budha">Budha</option>
-									<option value="Konghuchu">Konghuchu</option>
-								</select>
-							</div>
-						</div> <!-- Agama -->
-						<div class="form-group row">
-							<label for="npHp" class="inline-label">No Handphone<span class="required">*</span></label>
-							<div class="dot">:</div>
-							<div class="col-md-3">
-								<span>
-									<input class="bioFormInput" id="noHp" name="noHp" <?= input_value($biodata, 'NOTELEPON'); ?> placeholder="Masukan Nonmor Handphone" type="text" required="required" />
-								</span>
-							</div>
-						</div> <!-- Nomor Hamphone -->
-						<div class="form-group row">
-							<label for="ukuranBaju" class="inline-label">Ukuran Baju<span class="required">*</span></label>
-							<div class="dot">:</div>
-							<div class="col-md-1">
-								<select class="bioFormInput" id="ukuranBaju" name="ukuranBaju" required>
-									<option value="" selected hidden disabled>Pilih Ukuran</option>
-									<option value="S">Small (S)</option>
-									<option value="M">Medium (M)</option>
-									<option value="L">Large (L)</option>
-									<option value="XL">Extra Large (XL)</option>
-									<option value="XXL">Extra Extra Large (XXL)</option>
-								</select>
-							</div>
-						</div> <!-- Ukuran Baju -->
-						<div class="form-group row">
-							<label for="ketrampilan" class="inline-label">Ketrampilan<span class="required">*</span></label>
-							<div class="dot">:</div>
-							<div class="col-md-6">
-								<span>
-									<input class="bioFormInput" id="ketrampilan" name="ketrampilan" <?= input_value($biodata, 'KETRAMPILAN'); ?> placeholder="Masukan Ketrampilan Khusus Yang Dimiliki" type="text" required="required" />
-								</span>
-							</div>
-						</div> <!-- Keterampilan -->
-						<div class="form-group row">
-							<label for="organisasi" class="inline-label">Organisasi<span class="required">*</span></label>
-							<div class="dot">:</div>
-							<div class="col-md-6">
-								<span>
-									<input class="bioFormInput" id="organisasi" name="organisasi" <?= input_value($biodata, 'ORGANISASI'); ?> placeholder="Masukan Nama Organisasi Yang Diikuti" type="text" required="required" />
-								</span>
-							</div>
-						</div> <!-- Organisasi -->
-						<div class="form-group row">
-							<label for="alamatTinggal" class="inline-label">Alamat Tinggal<span class="required">*</span></label>
-							<div class="dot">:</div>
-							<div class="col-md-8">
-								<span>
-									<input class="bioFormInput" id="alamatTinggal" name="alamatTinggal" <?= input_value($biodata, 'ALAMATTINGGAL'); ?> placeholder="Masukan Alamat Tempat Anda Tinggal" type="text" required="required" />
-								</span>
-							</div>
-						</div> <!-- alamatTinggal,  -->
-						<div class="form-group row">
-							<label for="Nama" class="inline-label">Name Orang Tua<span class="required">*</span></label>
-							<div class="dot">:</div>
-							<div class="col-md-4">
-								<span>
-									<input class="bioFormInput" id="namaAyah" name="namaAyah" <?= input_value($biodata, 'NAMAAYAH'); ?> placeholder="Masukan Nama Ayah" type="text" required="required" />
-									<input class="bioFormInput" id="namaIbu" name="namaIbu" <?= input_value($biodata, 'NAMAIBU'); ?> placeholder="Masukan Nama Ibu" type="text" required="required" />
-								</span>
-							</div>
-						</div> <!-- Nama Orang Tua -->
-						<div class="form-group row">
-							<label for="noHpOrangTUA" class="inline-label">No. Hp. Orangtua<span class="required">*</span></label>
-							<div class="dot">:</div>
-							<div class="col-md-3">
-								<span>
-									<input class="bioFormInput" id="noHpOrangTUA" name="noHpOrangTUA" <?= input_value($biodata, 'NOHPORTU'); ?> placeholder="Masukan No. HP. Orangtua" type="text" required="required" />
-								</span>
-							</div>
-						</div> <!-- Nomor Hamphone Orang Tua -->
-						<div class="form-group row">
-							<label for="nameGenting" class="inline-label">Name Kontak Darurat<span class="required">*</span></label>
-							<div class="dot">:</div>
-							<div class="col-md-4">
-								<span>
-									<input class="bioFormInput" id="nameGenting" name="nameGenting" <?= input_value($biodata, 'NAMAGENTING'); ?> placeholder="Masukan Nama Kontak Darurat" type="text" required="required" />
-								</span>
-							</div>
-						</div> <!-- Nama Kontak Darurat -->
-						<div class="form-group row">
-							<label for="noHpGenting" class="inline-label">No. Hp. Kontak Darurat<span class="required">*</span></label>
-							<div class="dot">:</div>
-							<div class="col-md-3">
-								<span>
-									<input class="bioFormInput" id="noHpGenting" name="noHpGenting" <?= input_value($biodata, 'NAMAGENTING'); ?> placeholder="Masukan No. HP. Darurat" type="text" required="required" />
-								</span>
-							</div>
-						</div> <!-- Nomor Hamphone Kontak Darurat -->
-						<div class="form-group row">
-							<label for="alamatAsal" class="inline-label">Alamat Rumah<span class="required">*</span></label>
-							<div class="dot">:</div>
-							<div class="col-md-8">
-								<div class="col-md-A">
-									<input class="bioFormInput" id="alamatAsal" name="alamatAsal" <?= input_value($biodata, 'ALAMATASAL'); ?> placeholder="Masukan Nama Jalan, No, RT/RW, atau Dusun" type="text" required="required" />
-								</div>
-								<div class="col-sm-B">
-									<input class="bioFormInput" id="kecamatan" name="kecamatan" <?= input_value($biodata, 'KECAMATAN'); ?> placeholder="Masukan Kecamatan" type="text" required="required" />
-								</div>
-								<div class="col-sm-C">
-									<input class="bioFormInput" id="kabupaten" name="kabupaten" <?= input_value($biodata, 'KABUPATEN'); ?> placeholder="Masukan Kabupaten" type="text" required="required" />
-								</div>
-								<div class="col-sm-D">
-									<input class="bioFormInput" id="propinsi" name="propinsi" <?= input_value($biodata, 'PROPINSI'); ?> placeholder="Masukan Propinsi" type="text" required="required" />
-								</div>
-							</div>
-						</div> <!-- alamatAsal, kecamatan, 	kabupaten,	propinsi,	password',  -->
-					</form>
-					<div class="form-group action-right">
-						<button class="btn btn-medium btn-ok" type="submit" id="btnUpdate" style="display:none;">Update</button>
-						<button class=" btn btn-medium btn-ok btn-edit" id="btnEdit">Edit</button>
-						<button class="btn btn-medium btn-cancel" id="btnCancel" style="display:none;">Cancel</button>
-					</div> <!-- edit console -->
-				</div>
-				<script>
-					var save_btn = document.getElementById("btnUpdate");
-					var edit_btn = document.getElementById("btnEdit");
-					var cancel_btn = document.getElementById("btnCancel");
-
-					save_btn.addEventListener("click", function(e) {
-						e.preventDefault();
-						let form = document.getElementById("formBiodata");
-						form.submit();
-					});
-					edit_btn.addEventListener("click", function(e) {
-						setBioFormInput(true);
-						save_btn.style.display = "inline";
-						edit_btn.style.display = "none";
-						cancel_btn.style.display = "inline";
-					});
-					cancel_btn.addEventListener("click", function(e) {
-						setBioFormInput(false);
-						save_btn.style.display = "none";
-						edit_btn.style.display = "inline";
-						cancel_btn.style.display = "none";
-					});
-
-					function setBioFormInput(set) {
-						let bioFormInput = document.getElementsByClassName("bioFormInput");
-						for (let input = 0; input < bioFormInput.length; input++) {
-							const element = bioFormInput[input];
-							element.disabled = !set;
-						}
-					}
-					setBioFormInput(false);
-				</script>
-			</div>
-			<?php
-			if ($set != 1) { ?>
-				<script>
-					(function() {
-						document.getElementById("jurusan").value = "<?php echo form_imput_value($biodata, "JURUSAN"); ?>";
-						document.getElementById("<?php echo strtolower(str_replace(" ", "_", form_imput_value($biodata, "JURUSAN"))); ?>").value = "<?php echo form_imput_value($biodata, "PROGRAMSTUDI"); ?>";
-						if ("<?php echo strtolower(str_replace(" ", "_", form_imput_value($biodata, "JURUSAN"))); ?>" != "") {
-							document.getElementById("prodyDummy").style.display = "none";
-							document.getElementById("<?php echo strtolower(str_replace(" ", "_", form_imput_value($biodata, "JURUSAN"))); ?>").style.display = "block";
-						}
-						document.getElementById("jenisKelamin").value = "<?php echo form_imput_value($biodata, "JENISKELAMIN"); ?>";
-						document.getElementById("Agama").value = "<?php echo form_imput_value($biodata, "AGAMA"); ?>";
-						document.getElementById("ukuranBaju").value = "<?php echo form_imput_value($biodata, "UKURANBAJU"); ?>";
-					})();
-				</script>
-			<?php
-				$set = 1;
-			} ?>
 		</div>
-	</section>
-</content>
+
+		<div class="profile-right-pane">
+			<h3 class="card-title">Data Biodata Personal</h3>
+			<form id="form2" method="post" action="?page=biodata<?= "&NPM=" . $dataID ?>">
+				<div class="form-grid">
+				<div class="form-group-modern">
+					<label for="nama">Nama<span class="required">*</span></label>
+					<input class="bioFormInput" id="nama" name="nama" value="<?= $r["NAMA"] ?>" placeholder="Masukan Nama" type="text" required="required" autofocus>
+				</div>
+				
+				<div class="form-group-modern">
+					<label for="npm">NPM<span class="required">*</span></label>
+					<input disabled id="npm" name="npm" value="<?php echo $r["NPM"]; ?>" placeholder="Masukan NPM" type="text" required="required" />
+				</div>
+
+				<div class="form-group-modern">
+					<label for="jurusan">Jurusan<span class="required">*</span></label>
+					<select class="bioFormInput" id="jurusan" name="jurusan" required onChange="displayQuestElement(this.value)">
+						<option value="" hidden>Pilih Jurusan</option>
+						<option value="Ilmu Pendidikan">Ilmu Pendidikan</option>
+						<option value="Pendidikan Bahasa dan Seni">Pendidikan Bahasa dan Seni</option>
+						<option value="Pendidikan IPS">Pendidikan IPS</option>
+						<option value="Pendidikan MIPA">Pendidikan MIPA</option>
+					</select>
+				</div>
+
+				<div class="form-group-modern">
+					<label for="programStudy">Program Study<span class="required">*</span></label>
+					<select class="bioFormInput" id="prodyDummy" name="programStudy" onChange="displayQuestElement(this.value)" type="hidden">
+						<option value="">Pilih Program studi</option>
+						<option value="">Pilih jurusan terlebih dahulu</option>
+					</select>
+					<select class="bioFormInput" id="Ilmu Pendidikan" name="programStudy1" onChange="displayQuestElement(this.value)" style="display:none">
+						<option value="">Pilih Program studi</option>
+						<option value="Bimbingan Konseling">Bimbingan Konseling</option>
+						<option value="Penjaskes">Penjaskes</option>
+						<option value="PG-PAUD">PG-PAUD</option>
+						<option value="PGSD">PGSD</option>
+					</select>
+					<select class="bioFormInput" id="Pendidikan Bahasa dan Seni" name="programStudy2" onChange="displayQuestElement(this.value)" style="display:none">
+						<option value="">Pilih Program studi</option>
+						<option value="Pendidikan Bahasa dan Sastra Indonesia">Pendidikan Bahasa dan Sastra Indonesia</option>
+						<option value="Pendidikan Bahasa Ingris">Pendidikan Bahasa Ingris</option>
+						<option value="Pendidikan Bahasa Prancis">Pendidikan Bahasa Prancis</option>
+						<option value="Pendidikan Tari, Drama dan Musik">Pendidikan Tari, Drama dan Musik</option>
+					</select>
+					<select class="bioFormInput" id="Pendidikan IPS" name="programStudy3" onChange="displayQuestElement(this.value)" style="display:none">
+						<option value="">Pilih Program studi</option>
+						<option value="Pendidikan Ekonomi">Pendidikan Ekonomi</option>
+						<option value="Pendidikan Geografi">Pendidikan Geografi</option>
+						<option value="Pendidikan PKN">Pendidikan PKN</option>
+						<option value="Pendidikan Sejarah">Pendidikan Sejarah</option>
+					</select>
+					<select class="bioFormInput" id="Pendidikan MIPA" name="programStudy4" onChange="displayQuestElement(this.value)" style="display:none">
+						<option value="">Pilih Program studi</option>
+						<option value="Pendidikan Biologi">Pendidikan Biologi</option>
+						<option value="Pendidikan Fisika">Pendidikan Fisika</option>
+						<option value="Pendidikan Kimia">Pendidikan Kimia</option>
+						<option value="Pendidikan Matematika">Pendidikan Matematika</option>
+						<option value="Pendidikan Teknologi Informasi">Pendidikan Teknologi Informasi</option>
+					</select>
+				</div>
+
+				<div class="form-group-modern">
+					<label for="sks">SKS<span class="required">*</span></label>
+					<input class="bioFormInput" id="sks" name="sks" value="<?php echo $r["SKS"]; ?>" placeholder="Masukan Jumlah SKS" type="text" required="required" />
+				</div>
+
+				<div class="form-group-modern">
+					<label for="ipk">IPK<span class="required">*</span></label>
+					<input class="bioFormInput" id="ipk" name="ipk" value="<?php echo $r["IPK"]; ?>" placeholder="Masukan Nilai IPK" type="text" required="required" />
+				</div>
+
+				<div class="form-group-modern">
+					<label for="jenisKelamin">Jenis Kelamin<span class="required">*</span></label>
+					<select class="bioFormInput" id="jenisKelamin" name="jenisKelamin" required>
+						<option value="" selected hidden disabled>Pilih Jenis Kelamin</option>
+						<option value="Laki-Laki">Laki-Laki</option>
+						<option value="Perempuan">Perempuan</option>
+					</select>
+				</div>
+
+				<div class="form-group-modern">
+					<label for="Agama">Agama<span class="required">*</span></label>
+					<select class="bioFormInput" id="Agama" name="agama" required>
+						<option value="" hidden disabled>Pilih Agama</option>
+						<option value="Islam">Islam</option>
+						<option value="Kristen">Kristen</option>
+						<option value="Katolik">Katolik</option>
+						<option value="Hindu">Hindu</option>
+						<option value="Budha">Budha</option>
+						<option value="Konghuchu">Konghuchu</option>
+					</select>
+				</div>
+
+				<div class="form-group-modern">
+					<label for="noHp">No Handphone<span class="required">*</span></label>
+					<input class="bioFormInput" id="noHp" name="noHp" value="<?php echo $r["NOTELEPON"]; ?>" placeholder="Masukan Nonmor Handphone" type="text" required="required" />
+				</div>
+
+				<div class="form-group-modern">
+					<label for="ukuranBaju">Ukuran Baju<span class="required">*</span></label>
+					<select class="bioFormInput" id="ukuranBaju" name="ukuranBaju" required>
+						<option value="" selected hidden disabled>Pilih Ukuran</option>
+						<option value="S">Small (S)</option>
+						<option value="M">Medium (M)</option>
+						<option value="L">Large (L)</option>
+						<option value="XL">Extra Large (XL)</option>
+						<option value="XXL">Extra Extra Large (XXL)</option>
+					</select>
+				</div>
+
+				<div class="form-group-modern full-width">
+					<label for="ketrampilan">Ketrampilan<span class="required">*</span></label>
+					<input class="bioFormInput" id="ketrampilan" name="ketrampilan" value="<?php echo $r["KETRAMPILAN"]; ?>" placeholder="Masukan Ketrampilan Khusus Yang Dimiliki" type="text" required="required" />
+				</div>
+
+				<div class="form-group-modern full-width">
+					<label for="organisasi">Organisasi<span class="required">*</span></label>
+					<input class="bioFormInput" id="organisasi" name="organisasi" value="<?php echo $r["ORGANISASI"]; ?>" placeholder="Masukan Nama Organisasi Yang Diikuti" type="text" required="required" />
+				</div>
+
+				<div class="form-group-modern full-width">
+					<label for="alamatTinggal">Alamat Tinggal<span class="required">*</span></label>
+					<input class="bioFormInput" id="alamatTinggal" name="alamatTinggal" value="<?php echo $r["ALAMATTINGGAL"]; ?>" placeholder="Masukan Alamat Tempat Anda Tinggal" type="text" required="required" />
+				</div>
+
+				<div class="form-group-modern full-width">
+					<label>Nama Orang Tua<span class="required">*</span></label>
+					<div class="alamat-grid">
+						<input class="bioFormInput" id="namaAyah" name="namaAyah" value="<?php echo $r["NAMAAYAH"]; ?>" placeholder="Masukan Nama Ayah" type="text" required="required" />
+						<input class="bioFormInput" id="namaIbu" name="namaIbu" value="<?php echo $r["NAMAIBU"]; ?>" placeholder="Masukan Nama Ibu" type="text" required="required" />
+					</div>
+				</div>
+
+				<div class="form-group-modern">
+					<label for="noHpOrangTUA">No. Hp. Orangtua<span class="required">*</span></label>
+					<input class="bioFormInput" id="noHpOrangTUA" name="noHpOrangTUA" value="<?php echo $r["NOHPORTU"]; ?>" placeholder="Masukan No. HP. Orangtua" type="text" required="required" />
+				</div>
+
+				<div class="form-group-modern">
+					<label for="nameGenting">Nama Kontak Darurat<span class="required">*</span></label>
+					<input class="bioFormInput" id="nameGenting" name="nameGenting" value="<?php echo $r["NAMAGENTING"]; ?>" placeholder="Masukan Nama Kontak Darurat" type="text" required="required" />
+				</div>
+
+				<div class="form-group-modern">
+					<label for="noHpGenting">No. Hp. Kontak Darurat<span class="required">*</span></label>
+					<input class="bioFormInput" id="noHpGenting" name="noHpGenting" value="<?php echo $r["NOHPGENTING"]; ?>" placeholder="Masukan No. HP. Darurat" type="text" required="required" />
+				</div>
+
+				<div class="form-group-modern full-width">
+					<label>Alamat Rumah<span class="required">*</span></label>
+					<div class="alamat-grid">
+						<input class="bioFormInput" style="grid-column: 1 / -1;" id="alamatAsal" name="alamatAsal" value="<?php echo $r["ALAMATASAL"]; ?>" placeholder="Masukan Nama Jalan, No, RT/RW, atau Dusun" type="text" required="required" />
+						<input class="bioFormInput" id="kecamatan" name="kecamatan" value="<?php echo $r["KECAMATAN"]; ?>" placeholder="Masukan Kecamatan" type="text" required="required" />
+						<input class="bioFormInput" id="kabupaten" name="kabupaten" value="<?php echo $r["KABUPATEN"]; ?>" placeholder="Masukan Kabupaten" type="text" required="required" />
+						<input class="bioFormInput" id="propinsi" name="propinsi" value="<?php echo $r["PROPINSI"]; ?>" placeholder="Masukan Propinsi" type="text" required="required" />
+					</div>
+				</div>
+
+				<div id="passwordField" class="form-group-modern full-width" style="display:none;">
+					<label for="password">Password verifikasi edit<span class="required">*</span></label>
+					<input id="password" name="password" value="" placeholder="Masukan Password Akun Anda" type="password" required="required" />
+				</div>
+			</div>
+
+			<div class="form-actions">
+				<button type="button" class="btn-edit" id="btnEdit" onclick="editData()">Edit Data</button>
+				<button type="button" class="btn-cancel" id="btnCancel" onclick="cancelEdit()" style="display:none;">Batalkan</button>
+				<button type="submit" name="action" value="updatedata" class="btn-update" id="btnUpdate" style="display:none;">Perbarui Profil</button>
+			</div>
+		</form>
+	</div>
+
+	<script>
+		function toggleUploadPanel() {
+			const panel = document.getElementById('uploadPanel');
+			panel.classList.toggle('active');
+		}
+
+		function setBioFormInput(set) {
+			let bioFormInput = document.getElementsByClassName("bioFormInput");
+			for (let input = 0; input < bioFormInput.length; input++) {
+				const element = bioFormInput[input];
+				element.disabled = !set;
+			}
+		}
+		setBioFormInput(false);
+
+		function editData() {
+			setBioFormInput(true);
+			document.getElementById('btnUpdate').style.display = "inline-block";
+			document.getElementById('btnEdit').style.display = "none";
+			document.getElementById('btnCancel').style.display = "inline-block";
+			document.getElementById('passwordField').style.display = "flex";
+		}
+
+		function cancelEdit() {
+			setBioFormInput(false);
+			document.getElementById('btnUpdate').style.display = "none";
+			document.getElementById('btnEdit').style.display = "inline-block";
+			document.getElementById('btnCancel').style.display = "none";
+			document.getElementById('passwordField').style.display = "none";
+		}
+	</script>
+	</div>
+
+	<?php
+	if ($set != 1) { ?>
+		<script>
+			(function() {
+				document.getElementById("jurusan").value = "<?php echo $r["JURUSAN"]; ?>"
+				document.getElementById("<?php echo $r["JURUSAN"]; ?>").value = "<?php echo $r["PROGRAMSTUDI"]; ?>"
+				if ("<?php echo $r["JURUSAN"]; ?>" != "") {
+					document.getElementById("prodyDummy").style.display = "none";
+					document.getElementById("<?php echo $r["JURUSAN"]; ?>").style.display = "block";
+				}
+				document.getElementById("jenisKelamin").value = "<?php echo $r["JENISKELAMIN"]; ?>"
+				document.getElementById("Agama").value = "<?php echo $r["AGAMA"]; ?>"
+				document.getElementById("ukuranBaju").value = "<?php echo $r["UKURANBAJU"]; ?>"
+			})();
+		</script><?php $set = 1;
+			}
+				?>
+</div>
+<script>
+
+</script>
+
+</html>

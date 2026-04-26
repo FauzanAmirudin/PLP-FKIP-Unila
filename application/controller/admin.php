@@ -27,7 +27,7 @@ class admin extends gf_controller
     public function monitor()
     {
         require_login();
-        require_level("Admin, Monitor, Oprator");
+        require_level("Admin, Monitor, Operator");
         $this->data['user'] = session_get();
         $this->data['enableregister'] = get_dbconfig('OPENREGISTER');
         $this->data['curentyear'] = get_dbconfig('CURENTYEAR');
@@ -41,7 +41,6 @@ class admin extends gf_controller
             $this->data['registration_process'] = $this->registrasi->data($this->data['user']["ID"]);
         }
         $this->data['notification'] = implode("<br/>", get_notification());
-        $this->load->view("header", $this->data);
         $this->load->view("navigation", $this->data);
         $this->load->view("sidebar", $this->data);
         $this->load->view("page/monitor", $this->data);
@@ -75,7 +74,6 @@ class admin extends gf_controller
         }
         $this->data['config'] = get_dbconfig();
         $this->alert = implode("\n", get_notification());
-        $this->load->view("header", $this->data);
         $this->load->view("navigation", $this->data);
         $this->load->view("sidebar", $this->data);
         $this->load->view("page/siteimpersonate", $this->data);

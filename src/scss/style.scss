@@ -1,0 +1,473 @@
+.background-primare {
+     background-color: #8102ca;
+     color: #ffffff;
+}
+
+.notif {
+     background-color: #ffffff;
+     border-color: #e91e63e0;
+     color: #E91E63;
+     font-weight: 400;
+     padding: 0.85rem 1.5rem;
+     border-radius: 4px;
+     position: relative;
+     margin-bottom: 1rem;
+     border: 1px solid #E91E63;
+}
+
+.notif-primary-strong {
+     background-color: #ac12ff;
+     border-color: #8257cf;
+     color: #ffffff;
+     border: 1px solid #9C27B0;
+}
+
+.text-center {
+     text-align: center;
+}
+
+
+
+.hiden {
+     display: none;
+}
+
+
+
+.purple {
+     color: #FFFFFF;
+     background-color: #a805a8;
+     border-color: #8a048a;
+}
+
+.btnOk,
+.btnCancel,
+.btnSubmit,
+.btnCircle {
+     text-align: center;
+     font-size: medium;
+     font-weight: bold;
+     cursor: pointer;
+     text-decoration: none;
+     -o-transition: border-color ease-in-out 0.15s, box-shadow 0.4s cubic-bezier(.4, 0, .2, 1);
+     -webkit-transition: border-color ease-in-out 0.15s, box-shadow 0.4 cubic-bezier(.4, 0, .2, 1);
+     transition: border-color ease-in-out 0.15s, box-shadow 0.4s cubic-bezier(.4, 0, .2, 1);
+}
+
+.btnOk:hover,
+.btnCancel:hover,
+.btnSubmit:hover,
+.btnCircle:hover {
+     box-shadow: 0 3px 6px rgba(0, 0, 0, .32), 0 3px 6px rgba(0, 0, 0, .28);
+}
+
+.btnOk,
+.btnCancel,
+.btnSubmit {
+     font-weight: bold;
+     min-width: 90px;
+     border-radius: 3px;
+     padding-top: 8px;
+     padding-bottom: 7px;
+     margin-top: 5px;
+}
+
+.btnOk {
+     color: #FFFFFF;
+     background-color: #a805a8;
+     border: 2px solid #8a048a;
+}
+
+.btnOk:hover {
+     background-color: #8a048a;
+     border-color: #6f036f;
+}
+
+.btnSubmit {
+     color: #FFFFFF;
+     background-color: #a805a8;
+     border: 2px solid #8a048a;
+}
+
+.btnSubmit:hover {
+     background-color: #8a048a;
+     border-color: #6f036f;
+}
+
+.btnCancel {
+     color: #FFFFFF;
+     background-color: #f25f17;
+     border: 2px solid #df4402;
+}
+
+.btnCancel:hover {
+     background-color: #cf5316;
+     border: 2px solid #bf410b;
+}
+
+.btnCircle {
+     min-width: 18px;
+     float: right;
+     color: #b18cd2;
+     border: 1px solid #d7abff;
+     padding: 0px 3px 0px 3px;
+}
+
+.btnCircle:hover {
+     background-color: #d1d6db;
+     border: 1px solid #b18cd2;
+}
+
+.note-Field {
+     cursor: default;
+     text-decoration: none;
+     -o-transition: all ease-in-out 2s;
+     -webkit-transition: all ease-in-out 2s;
+     transition: all ease-in-out 2s;
+     -o-transition: border-color ease-in-out 0.15s, box-shadow 0.4s cubic-bezier(.4, 0, .2, 1);
+     -webkit-transition: border-color ease-in-out 0.15s, box-shadow 0.4 cubic-bezier(.4, 0, .2, 1);
+     transition: border-color ease-in-out 0.15s, box-shadow 0.4s cubic-bezier(.4, 0, .2, 1);
+}
+
+.note-Field {
+     background-color: rgb(243, 252, 254);
+     border-radius: 3px;
+     margin: 0 0 20px;
+     padding: 5px 5px 15px 15px;
+     border-left: 5px solid #bd0fc1;
+     box-shadow: 0 1px 3px rgba(0, 0, 0, .1), 0 1px 2px rgba(0, 0, 0, .18);
+}
+
+.note-Field h1 {
+     font-weight: bold;
+     font-size: large;
+     color: rgb(137, 13, 173);
+     text-shadow: 0 1px 3px rgba(0, 0, 0, .1), 0 1px 2px rgba(0, 0, 0, .18);
+}
+
+.note-Field h2 {
+     font-weight: normal;
+     font-size: medium;
+}
+
+
+
+
+
+
+
+
+
+
+
+.modal .col-md-12,
+.modal .col-md-8,
+.modal .col-md-4 {
+     padding-top: 5px;
+     padding-right: 20px;
+     padding-left: 20px;
+     padding-bottom: 5px;
+}
+
+.modal .col-md-12:last-child::after,
+.modal .col-md-8:last-child::after,
+.modal .col-md-4:last-child::after {
+     content: '';
+     visibility: hidden;
+     display: inline-block;
+     width: 100%;
+     padding-bottom: 5px;
+}
+
+.modal .col-md-12,
+.modal .col-md-8,
+.modal .col-md-4 {
+     padding-top: 5px;
+     padding-right: 20px;
+     padding-left: 20px;
+     padding-bottom: 5px;
+}
+
+/* Add Zoom Animation */
+.animate {
+     -webkit-animation: animatezoom 0.5s;
+     animation: animatezoom 0.5s
+}
+
+@-webkit-keyframes animatezoom {
+     from {
+          -webkit-transform: scale(0)
+     }
+
+     to {
+          -webkit-transform: scale(1)
+     }
+}
+
+@keyframes animatezoom {
+     from {
+          transform: scale(0)
+     }
+
+     to {
+          transform: scale(1)
+     }
+}
+
+form .col-sm-1,
+form .col-sm-2,
+form .col-sm-3 {
+     position: relative;
+     min-height: 1px;
+     padding-left: 15px;
+     padding-right: 15px;
+     width: 65%;
+     display: inline-block;
+}
+
+/* Change styles for span and cancel button on extra small screens */
+@media screen and (max-width: 300px) {}
+
+@media screen and (max-width:700px) {}
+
+
+/* Container for header */
+header {
+     background-color: #8806D4;
+     clear: both;
+     float: none;
+     color: rgba(255, 255, 255, 1.00);
+     padding-top: 170px;
+     width: 100%;
+}
+
+.Sidebar {
+     box-shadow: 0 2px 3px 2px rgba(0, 0, 0, .03);
+     margin-left: 15px;
+}
+
+
+
+.SidebarAvatar {
+     font-size: small;
+     font-weight: 400;
+     padding: 12px;
+     background-color: #FFFFFF;
+     padding-left: 15px;
+     padding-right: 15px;
+     padding-bottom: 10px;
+     border-bottom: 1px solid rgba(220, 220, 220, 1.00);
+}
+
+.SidebarAvatar div {
+     padding-bottom: 5px;
+     border-bottom: medium solid #D304F0;
+     margin-bottom: 8px;
+}
+
+.SidebarMenu {
+     overflow-x: hidden;
+     background-color: #E7DEEC;
+}
+
+.SidebarMenu div a {
+     display: block;
+     cursor: pointer;
+     position: relative;
+     text-decoration: none;
+     background-color: #FFFFFF;
+     color: #835d99;
+     padding: 12px 15px 10px 10px;
+}
+
+.SidebarMenu div a:hover {
+     padding: 12px 15px 10px 10px;
+     background-color: #fbeffe;
+     border-left: 3px solid rgba(136, 6, 212, 1.00);
+     color: #A000FF;
+     -webkit-animation-name: menuBT;
+     /* Safari 4.0 - 8.0 */
+     -webkit-animation-duration: 0.5s;
+     /* Safari 4.0 - 8.0 */
+     animation-name: menuBT;
+     animation-duration: 0.5s;
+     left: 5px;
+}
+
+/* Safari 4.0 - 8.0 */
+@-webkit-keyframes menuBT {
+     0% {
+          background-color: #FFFFFF;
+          color: #835d99;
+          left: 0px;
+     }
+
+     100% {
+          background-color: #B762E9;
+          color: #A000FF;
+          left: 5px;
+     }
+}
+
+/* Standard syntax */
+@keyframes menuBT {
+     0% {
+          background-color: #FFFFFF;
+          color: #835d99;
+          left: 0px;
+     }
+
+     100% {
+          background-color: #fbeffe;
+          color: #A000FF;
+          left: 5px;
+     }
+}
+
+.SidebarMenu div a:after {
+     content: '\00bb';
+     position: absolute;
+     opacity: 0;
+     right: -5px;
+     transition: 0.5s;
+}
+
+.SidebarMenu div:hover a:after {
+     opacity: 1;
+     right: 15px;
+}
+
+
+
+/* headerform mainContent */
+#stripHeader {
+     border-bottom: 1px solid hsla(292, 35%, 58%, 0.5);
+     padding: 10px;
+     padding-left: 15px;
+     color: hsla(292, 35%, 58%, 0.5);
+     font-weight: bold;
+}
+
+/* field form mainContent */
+content #mainContent #fieldContent {
+     padding: 18px;
+}
+
+#fieldContent .field {
+     border-radius: 3px;
+     margin: 0 0 20px;
+     background-color: #ffffff;
+     padding: 15px 15px 15px 15px;
+     box-shadow: 0 1px 3px rgba(0, 0, 0, .1), 0 1px 2px rgba(0, 0, 0, .18);
+}
+
+#fieldContent .field h1 {
+     padding-bottom: 8px;
+     margin: 0;
+     font-weight: bold;
+     font-size: large;
+     color: hsla(300, 94%, 33%, 0.62);
+     border-bottom: 1.3px solid #f0e3fc;
+     margin-bottom: 10px;
+}
+
+#fieldContent .field h1>span {
+     text-align: right;
+     float: right;
+}
+
+
+
+#lokasi .modal-content .dot {
+     float: left;
+     margin-top: 7px;
+}
+
+#lokasi .modal-content label {
+     position: relative;
+     min-height: 23px;
+     margin-top: 7px;
+     padding-left: 15px;
+     padding-right: 5px;
+     float: left;
+     width: auto;
+}
+
+#lokasi .modal-content span {
+     color: #FF0004;
+}
+
+#lokasi .modal-content input {
+     display: block;
+     clear: right;
+     width: 100%;
+     height: 35px;
+     margin-bottom: 5px;
+     padding: 1px 10px 1px 13px;
+     font-size: 14px;
+     line-height: 1.42857;
+     color: #555;
+     background-color: #fff;
+     background-image: none;
+     border: 1px solid #ccc;
+     border-radius: 4px;
+     -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+     box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+     -webkit-transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
+     -o-transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
+     transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s
+}
+
+#lokasi .modal-content select {
+     display: block;
+     clear: right;
+     width: 100%;
+     height: 35px;
+     padding-top: 6px;
+     padding-right: 10px;
+     padding-left: 10px;
+     padding-bottom: 6px;
+     font-size: 14px;
+     line-height: 1.42857;
+     color: #555;
+     background-color: #fff;
+     background-image: none;
+     border: 1px solid #ccc;
+     border-radius: 4px;
+     -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+     box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+     -webkit-transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
+     -o-transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
+     transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s
+}
+
+#lokasi .modal-content select option {
+     display: block;
+     clear: right;
+     width: 100%;
+     height: 30px;
+     padding: 6px 12px;
+     font-size: 14px;
+     line-height: 1.42857;
+     color: #555;
+     background-color: #fff;
+     background-image: none;
+     border: 1px solid #ccc;
+     border-radius: 4px;
+     -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+     box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+     -webkit-transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
+     -o-transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
+     transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s
+}
+
+
+
+
+*,
+*::after,
+*::before {
+     -webkit-box-sizing: border-box;
+     -moz-box-sizing: border-box;
+     box-sizing: border-box;
+}

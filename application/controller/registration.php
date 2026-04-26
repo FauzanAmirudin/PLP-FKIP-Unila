@@ -44,6 +44,7 @@ class registration extends gf_controller
 	public function validate()
 	{
 		require_level("Admin, Operator");
+		$this->data['config'] = get_dbconfig();
 		$this->data['enableregister'] = get_dbconfig('OPENREGISTER');
 		$tahun  = $this->input->get('tahun');
 		$periode  = $this->input->get('periode');
@@ -64,7 +65,6 @@ class registration extends gf_controller
 		$this->data['registration_list'] = $this->registrasi->list($this->data['tahun'], $this->data['periode'], $this->data['berkas'], $this->data['prodi'], $this->data['npm']);
 
 		$this->data['notification'] = implode("<br/>", get_notification());
-		$this->load->view("header", $this->data);
 		$this->load->view("navigation", $this->data);
 		$this->load->view("sidebar", $this->data);
 		$this->load->view("page/registrationvalidate", $this->data);
@@ -72,7 +72,8 @@ class registration extends gf_controller
 	}
 	public function data()
 	{
-		require_level("Admin, Operator");
+		require_level("Admin, Monitor, Operator");
+		$this->data['config'] = get_dbconfig();
 		$this->data['enableregister'] = get_dbconfig('OPENREGISTER');
 		$tahun = $this->input->get('tahun');
 		$periode = $this->input->get('periode');
@@ -109,7 +110,6 @@ class registration extends gf_controller
 
 		$this->data["barCount"] = $barCount;
 		$this->data['notification'] = implode("<br/>", get_notification());
-		$this->load->view("header", $this->data);
 		$this->load->view("navigation", $this->data);
 		$this->load->view("sidebar", $this->data);
 		$this->load->view("page/registrationlist", $this->data);
@@ -148,7 +148,6 @@ class registration extends gf_controller
 		}
 		$this->data['config'] = get_dbconfig();
 		$this->alert = implode("\n", get_notification());
-		$this->load->view("header", $this->data);
 		$this->load->view("navigation", $this->data);
 		$this->load->view("sidebar", $this->data);
 		$this->load->view("page/registrationassignment", $this->data);

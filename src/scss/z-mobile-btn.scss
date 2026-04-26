@@ -1,0 +1,13 @@
+/* Mobile view */
+@media screen and (max-width:769px) {
+     .btn-tiny {
+          padding-top: 5px;
+          padding-bottom: 5px;
+          padding-left: 13px;
+          padding-right: 13px;
+     }
+.field-action .btn-tiny,
+.modal .title .btn-tiny {
+     margin: -8px 5px 5px 5px;
+}
+}

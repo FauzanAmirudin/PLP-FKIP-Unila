@@ -5,8 +5,8 @@ defined('GF_BASE_PATH') OR exit('No direct script access allowed');
 */
 	$gf_db['default'] = array(
 		'server' 	=> 'localhost',
-		'username' 	=> 'test',
-		'password'	=> 'test',
+		'username' 	=> 'root',
+		'password'	=> '',
 		'database'	=> 'test_fkip_plt',
 		'baseUser' 	=> 'userplt'
 	);

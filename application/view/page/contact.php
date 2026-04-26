@@ -1,38 +1,82 @@
 <?php
 defined('GF_BASE_PATH') OR exit('No direct script access allowed');
-/**
-*	
-*/
-
 ?>
-<div id="stripHeader">
-  <stong>Contact</strong></a>
+<!-- ===================== CONTACT HERO SECTION ===================== -->
+<div class="contact-hero-section">
+    <div class="hero-content">
+        <h1 class="hero-title">CONTACT US</h1>
+    </div>
 </div>
-	<div id="fieldContent">
-		<h1><strong>Sekretariat PLT </strong></h1>
-		<a>Sekretariat PLT Fakultas Keguruan dan Ilmu Pendidikan Universitas Lampung Jl. Sumantri Brojonegoro No.1 Kampus Gedung Meneng Bandar Lampung 35145 Telp. (0721) 704624, Fax. (0721) 704624<br/>Email : pltunila@gmail.com<br/>Ghea Chadndra<br/>Amrulah</a>
-	</div>
-		<!-- <span style="display:block">
-			Sekarang bulan : <strong><?php echo $month ?> tahun <?php echo $year ?></strong><br/>
-			Perkuliahan masuk dalam semester : <strong><?php echo $datecek ?></strong><br/>
-			Sehingga database yang dibaca adalah : <strong><?php echo $basetable ?></strong><br/>
-			dan status database : <strong> <?php echo $tabstat ?></strong><br/>
-			NPM : <?php echo $_SESSION['USER']; ?><br/>
-			ID : <?php echo $_SESSION['ID']; ?> <br/>
-			NAME : <?php echo $_SESSION['NAME']; ?> <br/>
-			BASE ID : <?php echo $_SESSION['BASEID']; ?> <br/>
-			ID LEVEL : <?php echo $_SESSION['level']; ?> <br/>
-			Status : <?php echo $_SESSION['stat']; echo $_SESSION['news']; ?><br/>
-			<br/>
-			# DATA READ<br/>
-			 status parameter berita : <strong><br/><?php echo $myNEWS; ?> </strong><br/>
-			 status parameter user login : <strong><br/><?php echo $myLOGIN; ?> </strong><br/>
-			 status parameter user id : <strong><br/><?php echo $myID; ?> </strong><br/>
-			 status parameter user name : <strong><br/><?php echo $myNAME; ?> </strong><br/>
-			 status parameter user base ID : <strong><br/><?php echo $myBASEID; ?> </strong><br/>
-			 status parameter user base name : <strong><br/><?php echo $myBASEID; ?> </strong><br/>
-			 status parameter user povilage : <strong><br/><?php echo $myLEVEL; ?> </strong><br/>
-			 status parameter status : <strong><br/><?php echo $status; ?> </strong><br/>
-		</span>
+
+<!-- ===================== CONTACT MAIN SECTION ===================== -->
+<div class="contact-main-section">
+    <div class="contact-wrapper">
+        <div class="contact-container">
+            
+            <!-- LEFT COLUMN: Contact Information -->
+            <div class="contact-info-col">
+                <h2 class="contact-title">PLP FKIP Unila</h2>
+                <p class="contact-desc">
+                    Sem consequat mauris conubia inceptos nostra rutrum morbi sagittis pulvinar, 
+                    commodo curabitur maecenas fermentum magna tempus nisi ullamcorper, ante 
+                    auctor magnis pretium eu lectus euismod platea. Congue sociosqu nostra est 
+                    urna pellentesque placerat euismod bibendum.
+                </p>
+
+                <!-- Contact Details Grid -->
+                <div class="contact-details-grid">
+                    
+                    <!-- Email (Full Width) -->
+                    <div class="contact-item full-width">
+                        <div class="icon-circle">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+                        </div>
+                        <div class="item-text">
+                            <span class="label">Email</span>
+                            <span class="value">info@agency.com</span>
+                        </div>
+                    </div>
+
+                    <div class="grid-divider"></div>
+
+                    <!-- Phone & Fax Row -->
+                    <div class="contact-row-split">
+                        <!-- Phone -->
+                        <div class="contact-item split-half">
+                            <div class="icon-circle">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                            </div>
+                            <div class="item-text">
+                                <span class="label">Phone</span>
+                                <span class="value">+(256) 58621-69581</span>
+                            </div>
+                        </div>
+
+                        <!-- Fax -->
+                        <div class="contact-item split-half has-border-left">
+                            <div class="icon-circle">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2" ry="2"></rect><path d="M7 15h0M2 9.5h20"></path></svg>
+                            </div>
+                            <div class="item-text">
+                                <span class="label">Fax</span>
+                                <span class="value">+2568145632</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="grid-divider-bottom"></div>
+                </div>
+
+                <a href="#" class="btn-primary-contact">CONTACT US</a>
+            </div>
+
+            <!-- RIGHT COLUMN: Map Placeholder -->
+            <div class="contact-map-col">
+                <div class="map-placeholder">
+                    <!-- Embed Google Maps iframe here -->
+                </div>
+            </div>
+
+        </div>
+    </div>
 </div>
--->

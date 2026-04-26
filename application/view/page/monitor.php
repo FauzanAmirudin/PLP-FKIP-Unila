@@ -3,65 +3,90 @@ defined('GF_BASE_PATH') or exit('No direct script access allowed');
 /**
  *	
  */
-require_login();
-require_level("Admin, Monitor, Operator");
+
 ?>
 <link rel="stylesheet" href="./assets/css/chartist.min.css">
+<style>
+  /* Refined Institutional Purple Styling for Chartist */
+  .ct-series-a .ct-bar { stroke: #a805a8 !important; stroke-linecap: round; }
+  .ct-series-a .ct-slice-pie { fill: #a805a8 !important; }
+  .ct-series-b .ct-slice-pie { fill: #c026d3 !important; }
+  .ct-series-c .ct-slice-pie { fill: #e879f9 !important; }
+  .ct-series-d .ct-slice-pie { fill: #f0e3fc !important; }
+  .ct-series-e .ct-slice-pie { fill: #64748b !important; }
+  .ct-series-f .ct-slice-pie { fill: #334155 !important; }
+  .ct-series-g .ct-slice-pie { fill: #94a3b8 !important; }
+  
+  .ct-label { font-size: 12px; font-weight: 500; fill: #64748b; color: #64748b; }
+  .ct-pie-label { fill: #fff; font-weight: 600; text-shadow: 0px 1px 2px rgba(0,0,0,0.4); font-size: 11px; }
+  
+  .monitor-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+    margin-bottom: 20px;
+  }
+</style>
 
-<content>
-  <section id="mainContent">
-    <div class="content">
-      <div class="header">
-        <stong>Data Peserta Tahun <?= $curentyear ?> <?= $curentperiode ?></strong>
+<div class="settings-container">
+  
+  <?php if (isset($response) && $response != null) {
+    echo '<div class="notif notif-primary-strong" style="margin-bottom: 20px;">' . $response . '</div>';
+  } ?>
+
+  <!-- <div class="settings-card" style="margin-bottom: 20px; background: linear-gradient(135deg, #a805a8, #7c047c); color: white;">
+    <div style="padding: 5px 0;">
+      <h1 style="font-size: 24px; font-weight: 700; margin: 0;">Dashboard Monitor Tahun <?php echo get_dbconfig('CURENTYEAR') ?></h1>
+      <p style="margin: 5px 0 0 0; opacity: 0.9; font-size: 14px;">Pantau statistik keseluruhan dari pendaftar dan status verifikasi secara langsung.</p>
+    </div>
+  </div> -->
+
+  <div class="monitor-grid">
+    <div class="settings-card">
+      <div class="card-header">
+        <h2 class="card-title" style="font-size: 16px;">Status Verifikasi Berkas</h2>
       </div>
-      <?php if (isset($notification) && $notification != null) {
-        echo '<div class="note-Field"><h2 class="alert">' . $notification . '</h2></div>';
-      } ?>
-      <div class="field">
-        <h1>Data Terverifikasi
-          <span class="field-action action-right"> </span>
-        </h1>
-        <div class="content">
-          <div class="row">
-            <div class="col-md-6">
-              <div id="dataTerverifikasi" class="ct-pie-1"></div>
-            </div>
-            <div class="col-md-6">
-              <div id="dataPeserta" class="ct-pie-1"></div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="field">
-        <h1>Jumlah Pendaftar
-          <span class="field-action action-right"> </span>
-        </h1>
-        <div class="content">
-          <div class="chart-wraper">
-            <div id="dataPendaftar" class="ct-chart"></div>
-          </div>
-        </div>
-      </div>
-      <div class="field">
-        <h1>Presentase Pendaftar
-          <span class="field-action action-right"> </span>
-        </h1>
-        <div class="content">
-          <div id="presentasePendaftar" class="ct-pie"></div>
-        </div>
+      <div style="margin-top: 15px;">
+        <div id="dataTerverifikasi" class="ct-pie-1" style="height: 250px;"></div>
       </div>
     </div>
-  </section>
-</content>
+    
+    <div class="settings-card">
+      <div class="card-header">
+        <h2 class="card-title" style="font-size: 16px;">Jenis Kelamin</h2>
+      </div>
+      <div style="margin-top: 15px;">
+        <div id="dataPeserta" class="ct-pie-1" style="height: 250px;"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="settings-card" style="margin-bottom: 20px;">
+    <div class="card-header">
+      <h2 class="card-title" style="font-size: 16px;">Jumlah Pendaftar per Program Studi</h2>
+    </div>
+    <div style="margin-top: 15px; padding-bottom: 10px;">
+      <div class="chart-wraper" style="overflow-x: auto; overflow-y: hidden;">
+        <div id="dataPendaftar" class="ct-chart" style="height:300px; min-width: 600px;"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="settings-card" style="margin-bottom: 20px;">
+    <div class="card-header">
+      <h2 class="card-title" style="font-size: 16px;">Persentase Pendaftar per Program Studi</h2>
+    </div>
+    <div style="margin-top: 15px;">
+      <div id="presentasePendaftar" class="ct-pie" style="height: 350px;"></div>
+    </div>
+  </div>
+
+</div>
 <?php
-$dataMahasiswaAccess = new gf_sql(GF_DB['default']);
-$dataMahasiswaAccess->tabel('datamahasiswa');
-$data = $dataMahasiswaAccess->reset()
-  ->column("PROGRAMSTUDI, COUNT(PROGRAMSTUDI) AS JUMLAHPESERTA")
-  ->where("TAHUNDAFTAR = " . $curentyear)
-  ->group("PROGRAMSTUDI")
-  ->result_array();
-/* echo $dataMahasiswaAccess->last_query; */
+$curentYear = get_dbconfig('CURENTYEAR');
+$dbAccess = clone $this->database('default', 'dbconfig', TRUE);
+$data = $dbAccess->reset()->join('databerkas', 'datamahasiswa.USRKEY = databerkas.USRKEY')->column("PROGRAMSTUDI, COUNT(PROGRAMSTUDI) AS JUMLAHPESERTA", FALSE)->where(["TAHUNDAFTAR" => $curentYear])->group("PROGRAMSTUDI")->result_array('datamahasiswa');
+/* echo $dbAccess->last_query; */
 $label  = "";
 $series = "";
 foreach ($data as $n => $d) {
@@ -73,12 +98,8 @@ foreach ($data as $n => $d) {
   $label  .= "'" . $d["PROGRAMSTUDI"] . "'";
   $series .= $d["JUMLAHPESERTA"];
 }
-$data = $dataMahasiswaAccess->reset()
-  ->column("JENISKELAMIN, COUNT(NPM) AS JUMLAHPESERTA")
-  ->where("TAHUNDAFTAR = " . $curentyear)
-  ->group("JENISKELAMIN")
-  ->result_array();
-/* echo $dataMahasiswaAccess->last_query; */
+$data = $dbAccess->reset()->join('databerkas', 'datamahasiswa.USRKEY = databerkas.USRKEY')->column("JENISKELAMIN, COUNT(NPM) AS JUMLAHPESERTA", FALSE)->where(["TAHUNDAFTAR" => $curentYear])->group("JENISKELAMIN")->result_array('datamahasiswa');
+/* echo $dbAccess->last_query; */
 $jnskllabel  = "";
 $jnsklseries = "";
 foreach ($data as $n => $d) {
@@ -91,14 +112,9 @@ foreach ($data as $n => $d) {
   $jnskllabel  .= "'" . $d["JENISKELAMIN"] . "'";
   $jnsklseries .= $d["JUMLAHPESERTA"];
 }
-$dataMahasiswaAccess = new gf_sql(GF_DB['default']);
-$data = $dataMahasiswaAccess->reset()
-  ->tabel('statusberkas')
-  ->column("( SELECT STATUSBERKAS FROM statusberkas WHERE statusberkas.USRKEY = datamahasiswa.USRKEY ORDER BY id DESC LIMIT 1 ) AS STATUSBERKAS ")
-  ->where("TAHUNDAFTAR = " . $curentyear)
-  ->result_array();
+$data = $dbAccess->reset()->join('databerkas', 'datamahasiswa.USRKEY = databerkas.USRKEY')->column("( SELECT STATUSBERKAS FROM datastatus WHERE datastatus.USRKEY = datamahasiswa.USRKEY ORDER BY id DESC LIMIT 1 ) AS STATUSBERKAS ", FALSE)->where(["TAHUNDAFTAR" => $curentYear])->result_array('datamahasiswa');
 $dataVerifiksi = [];
-// echo $dataMahasiswaAccess->last_query;
+// echo $dbAccess->last_query;
 foreach ($data as $d) {
   if ($d["STATUSBERKAS"] == '') $d["STATUSBERKAS"] = 'Pengajuan';
   if (!isset($dataVerifiksi[$d["STATUSBERKAS"]])) $dataVerifiksi[$d["STATUSBERKAS"]] = 0;

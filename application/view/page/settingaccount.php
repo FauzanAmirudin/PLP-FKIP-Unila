@@ -3,44 +3,39 @@ defined('GF_BASE_PATH') or exit('No direct script access allowed');
 /**
  *	
  */
-require_login();
+
 ?>
-<content>
-  <section id="mainContent">
-    <div class="content">
-      <div class="header">
-        <a>PENGATURAN</a>
-      </div>
-      <?php if (isset($notification) && !empty($notification)) {
-        echo '<div class="note-Field"><h2 class="alert">' . $notification . '</h2></div>';
-      } ?>
-      <div class="field">
-        <h1>Rubah Password
-          <span class="field-action action-right"> </span>
-        </h1>
-        <div>
-          <form class="form" method="post" action="<?php set_url('user/password_change') ?>">
-            <div class="form-group row">
-              <label for="passwordLama" class="inline-label">Password Lama<span class="required">*</span></label>
-              <div class="dot">:</div>
-              <div class="col-md-4">
-                <input name="passwordOld" value="" placeholder="Masukan Password Lama Anda" type="password" required="required" />
-              </div>
-            </div>
-            <div class="form-group row">
-              <label for="passwordBaru" class="inline-label">Password Baru<span class="required">*</span></label>
-              <div class="dot">:</div>
-              <div class="col-md-4">
-                <input name="passwordNew1" value="" placeholder="Masukan Password Baru Anda" type="password" required="required" />
-                <input name="passwordNew2" value="" placeholder="Masukan Kembali Password Baru Anda" type="password" required="required" />
-              </div>
-            </div>
-            <div class="form-group action-right">
-              <button type="submit" name="action" value="rubahpassword" class="btn btn-medium btn-ok">Simpan</button>
-            </div>
-        </div> <!-- edit console -->
-        </form>
-      </div>
+<div class="settings-container">
+  <?php if (isset($response) && $response != null) {
+      echo '<div class="notif notif-primary-strong" style="margin-bottom: 20px;">' . $response . '</div>';
+  } ?>
+  
+  <div class="settings-card">
+    <div class="card-header">
+      <h1 class="card-title">Ubah Password</h1>
     </div>
-  </section>
-</content>
+    
+    <form class="form" method="post" action="?page=account&action=rubahpassword" id="form2">
+      <div class="settings-form-group">
+        <label for="passwordNew1">Password Baru<span class="required">*</span></label>
+        <input name="passwordNew1" id="passwordNew1" placeholder="Masukan password baru Anda" type="password" required="required" autofocus />
+        <span class="input-hint">Pilih kata sandi yang kuat namun mudah Anda ingat.</span>
+      </div>
+
+      <div class="settings-form-group">
+        <label for="passwordNew2">Konfirmasi Password Baru<span class="required">*</span></label>
+        <input name="passwordNew2" id="passwordNew2" placeholder="Masukan kembali password baru" type="password" required="required" />
+      </div>
+
+      <div class="settings-form-group" style="margin-top: 30px; border-top: 1px solid #eee; padding-top: 25px;">
+        <label for="passwordOld">Password Lama<span class="required">*</span></label>
+        <input name="passwordOld" id="passwordOld" placeholder="Masukan password aktif Anda" type="password" required="required" />
+        <span class="input-hint">Sebagai lapis keamanan tambahan, otentikasi bahwa ini adalah Anda.</span>
+      </div>
+
+      <div class="form-actions">
+        <button type="submit" name="action" value="rubahpassword" class="btn-save">Simpan Perubahan</button>
+      </div>
+    </form>
+  </div>
+</div>

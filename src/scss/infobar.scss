@@ -1,0 +1,22 @@
+.info {
+     font-size: smaller;
+     padding: 10px;
+     background-color: #ffffff;
+     margin: 10px;
+     border: solid #e193fd 2px;
+     border-radius: 6px;
+	&-danger {
+		background-color: #ffe0e0;
+		border: solid #ffc8c8 2px;
+	}
+	
+	&-success {
+		background-color: #e0ffe5;
+		border: solid #abf5a2 2px;
+	}
+	
+	&-ok {
+		background-color: #e0ffe5;
+		border: solid #abf5a2 2px;
+	}
+}

@@ -93,7 +93,7 @@ class user extends gf_controller
 						session_save('USERID', $user['USERID']);
 						session_save('FULLNAME', $fullName);
 						session_save('NAME', $shortName);
-						redirect();
+						redirect('user/dashboard');
 					} else {
 						$report	.= 'Login gagal:';
 						$report .= '\n - Password yang anda masukan salah';
@@ -139,7 +139,6 @@ class user extends gf_controller
 			$this->data['registration_done'] = $this->registrasi->status_check($this->data['user']["ID"]);
 		}
 		$this->data['notification'] = implode("<br/>", get_notification());
-		$this->load->view("header", $this->data);
 		$this->load->view("navigation", $this->data);
 		$this->load->view("sidebar", $this->data);
 		$this->load->view("page/dashboard", $this->data);
@@ -172,7 +171,6 @@ class user extends gf_controller
 			save_notification($report);
 		}
 		$this->data['notification'] = implode("<br/>", get_notification());;
-		$this->load->view("header", $this->data);
 		$this->load->view("navigation", $this->data);
 		$this->load->view("sidebar", $this->data);
 		$this->load->view("page/settingaccount", $this->data);
@@ -198,7 +196,6 @@ class user extends gf_controller
 		}
 		$this->data['config'] = get_dbconfig();
 		$this->alert = implode("\n", get_notification());
-		$this->load->view("header", $this->data);
 		$this->load->view("navigation", $this->data);
 		$this->load->view("sidebar", $this->data);
 		$this->load->view("page/resetpassword", $this->data);
@@ -239,7 +236,6 @@ class user extends gf_controller
 		}
 		$this->data['config'] = get_dbconfig();
 		$this->alert = implode("\n", get_notification());
-		$this->load->view("header", $this->data);
 		$this->load->view("navigation", $this->data);
 		$this->load->view("sidebar", $this->data);
 		$this->load->view("page/createuser", $this->data);

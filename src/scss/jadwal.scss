@@ -1,0 +1,131 @@
+$primary-color: #a805a8;
+$primary-gradient: linear-gradient(135deg, #a805a8 0%, #bd0fc1 100%);
+$text-dark: #333333;
+$text-light: #666666;
+$border-color: #eaeaea;
+
+.schedule-container {
+    padding: 10px 0;
+    font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    max-width: 1200px;
+    margin: 0 auto;
+
+    .card-title {
+        font-size: 22px;
+        color: $primary-color;
+        font-weight: 700;
+        margin-top: 0;
+        margin-bottom: 25px;
+        padding-bottom: 15px;
+        border-bottom: 2px solid #f0e3fc;
+    }
+
+    .schedule-card {
+        background: #ffffff;
+        border-radius: 12px;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+        padding: 30px;
+        border: 1px solid #f9f9f9;
+        
+        .table-responsive {
+            width: 100%;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .modern-table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+            min-width: 800px;
+
+            th, td {
+                padding: 16px 20px;
+                vertical-align: middle;
+            }
+
+            thead {
+                th {
+                    background: $primary-gradient;
+                    color: #ffffff;
+                    font-weight: 600;
+                    font-size: 14px;
+                    letter-spacing: 0.5px;
+                    border: none;
+                    white-space: nowrap;
+                    
+                    &:first-child {
+                        border-top-left-radius: 8px;
+                    }
+                    &:last-child {
+                        border-top-right-radius: 8px;
+                    }
+                }
+            }
+
+            tbody {
+                tr {
+                    border-bottom: 1px solid $border-color;
+                    transition: background-color 0.2s ease;
+
+                    &:nth-child(even) {
+                        background-color: #fcf9fe;
+                    }
+
+                    &:last-child {
+                        border-bottom: none;
+                    }
+
+                    &:hover {
+                        background-color: #f4e8fa;
+                    }
+
+                    td {
+                        color: $text-dark;
+                        font-size: 14px;
+                        line-height: 1.6;
+
+                        &:first-child {
+                            font-weight: 600;
+                            color: $primary-color;
+                        }
+
+                        // Deskripsi
+                        &:nth-child(2) {
+                            color: $text-dark;
+                            font-size: 13.5px;
+                            max-width: 320px;
+                        }
+
+                        // Tanggal dates
+                        &:nth-child(3),
+                        &:nth-child(4) {
+                            white-space: nowrap;
+                            font-size: 13px;
+                            color: #555;
+                            font-weight: 500;
+                        }
+
+                        &:last-child {
+                            color: $text-light;
+                        }
+                    }
+                }
+            }
+        }
+        
+        .empty-state {
+            text-align: center;
+            padding: 50px 20px;
+            color: $text-light;
+            background: #fdfdfd;
+            border-radius: 8px;
+            border: 2px dashed #eee;
+
+            p {
+                margin: 0;
+                font-size: 16px;
+            }
+        }
+    }
+}

@@ -1,0 +1,377 @@
+// =============================================
+// HOME PAGE STYLES (frontPage.php)
+// Design Reference: design/home.jpg
+// Aesthetic: Refined Institutional
+// =============================================
+
+// Base variables - merujuk ke deskripsi.md
+$color-primary: #B33791;
+$color-secondary: #C562AF;
+$color-third: #DB8DD0;
+$color-forth: #FEC5F6;
+$color-bg-light: #F9FAFB;
+$color-text-dark: #1e293b;
+$color-text-mutted: #64748b;
+$font-family: 'Poppins', sans-serif;
+
+html {
+    scroll-snap-type: y mandatory;
+    scroll-padding-top: 55px; // tinggi navbar
+    scroll-behavior: smooth;
+    
+    // Matikan overflow x untuk menghilangkan scroll horisontal jika ada element berlebih
+    overflow-x: hidden;
+}
+
+// =============================================
+// 1. HERO SECTION (Redesign: Centered & Diagonal Background)
+// =============================================
+.hero-section {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: calc(100vh - 55px);
+    width: 100%;
+    
+    // Kembalikan base ungu yang sama dengan navbar
+    background-color: $color-primary; 
+    
+    font-family: $font-family;
+    scroll-snap-align: start;
+    scroll-snap-stop: always;
+    overflow: hidden;
+    z-index: 1;
+
+    // Bagian Atas: Gambar unila.jpg sedikit gelap (menggantikan area warna kedua yang miring)
+    .hero-bg-diagonal {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 95%; // Menutupi bagian atas secara penuh sebelum potongan
+        background-image: linear-gradient(rgba(0, 0, 0, 0.65), rgba(0, 0, 0, 0.7)), url('../images/unila.jpg');
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        
+        // Memakai clip-path agar pemotongannya tetap ada diagonal, 
+        // tapi orientasi gambar aslinya tidak ikut miring
+        clip-path: polygon(0 0, 100% 0, 100% 82%, 0 100%);
+        z-index: -1;
+    }
+
+    // Tengah: Typographical Content
+    .hero-content {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        padding: 80px 20px 0;
+        max-width: 900px;
+        z-index: 2;
+        
+        .hero-badge {
+            display: inline-block;
+            background-color: rgba(255, 255, 255, 0.15);
+            color: #ffffff;
+            font-size: 0.85rem;
+            font-weight: 600;
+            letter-spacing: 2px;
+            padding: 8px 16px;
+            border-radius: 30px;
+            margin-bottom: 24px;
+            backdrop-filter: blur(5px);
+        }
+
+        .hero-title-main {
+            font-size: 4rem;
+            font-weight: 800;
+            color: #ffffff;
+            line-height: 1.15;
+            letter-spacing: -0.02em;
+            margin: 0 0 24px;
+            
+            span {
+                color: $color-forth; // Pink terang untuk emphasis
+            }
+        }
+        
+        .hero-subtitle {
+            font-size: 1.15rem;
+            color: rgba(255, 255, 255, 0.9);
+            line-height: 1.6;
+            margin: 0 0 40px;
+            max-width: 700px;
+            font-weight: 400;
+        }
+
+        .hero-actions {
+            .btn-primary {
+                display: inline-block;
+                background-color: #ffffff;
+                color: $color-primary;
+                font-weight: 700;
+                font-size: 1rem;
+                padding: 14px 32px;
+                border-radius: 6px;
+                text-decoration: none;
+                transition: all 0.3s ease;
+                box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+
+                &:hover {
+                    transform: translateY(-2px);
+                    box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+                }
+            }
+        }
+    }
+
+    // Gambar: Hero Asset
+    .hero-centerpiece {
+        position: relative;
+        z-index: 3;
+        width: 90%;
+        max-width: 800px;
+        max-height: 40vh; // Mengunci tinggi agar hero section tidak melar melebihi viewport 1 layar penuh
+        object-fit: contain; // Pastikan gambar tidak pecah rasionya
+        margin-top: 40px;
+        margin-bottom: 2rem; 
+        border-radius: 12px;
+        filter: drop-shadow(0 15px 30px rgba(0,0,0,0.15));
+        transition: transform 0.3s ease;
+    }
+}
+
+// =============================================
+// 2. WELCOME SECTION (Split 40/60)
+// =============================================
+.welcome-section {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    gap: 40px; // Dikurangi agar lebih rapat
+    padding: 60px 8%;
+    width: 100%;
+    min-height: calc(100vh - 55px);
+    scroll-snap-align: start;
+    scroll-snap-stop: always;
+    font-family: $font-family;
+    background-color: #ffffff;
+    
+    .welcome-visual {
+        justify-self: end; // Dorong gambar ke arah tengah
+        width: 100%;
+        max-width: 360px; // Diperkecil lagi secara signifikan
+        aspect-ratio: 4/5;
+        background-color: #e2e8f0; // Placeholder background
+        border-radius: 4px;
+        overflow: hidden;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.05); // Modern shadow aesthetic
+        
+        img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+    }
+    
+    .welcome-content {
+        justify-self: start; // Tarik blok teks merapat ke tengah
+        width: 100%;
+        max-width: 500px; // Ensure paragraph doesn't stretch too wide
+        
+        .welcome-badge {
+            display: inline-block;
+            background-color: $color-third;
+            color: #ffffff;
+            font-size: 0.75rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            padding: 6px 12px;
+            text-transform: uppercase;
+            margin-bottom: 24px;
+            border-radius: 2px;
+        }
+        
+        .welcome-title {
+            font-size: 2.2rem; // Slightly scaled down to fit nicely in 50% split
+            font-weight: 800;
+            color: $color-text-dark;
+            line-height: 1.3;
+            margin: 0 0 24px;
+            letter-spacing: -0.02em;
+        }
+        
+        .welcome-desc {
+            font-size: 1.05rem;
+            line-height: 1.8;
+            color: $color-text-mutted;
+            margin: 0;
+        }
+    }
+}
+
+// =============================================
+// 3. INFORMASI TERBARU SECTION
+// =============================================
+.info-section {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 100%;
+    min-height: calc(100vh - 55px);
+    background-color: $color-forth;
+    padding: 60px 5%;
+    font-family: $font-family;
+    scroll-snap-align: start;
+    scroll-snap-stop: always;
+    
+    .info-header {
+        text-align: center;
+        margin-bottom: 60px;
+        
+        .info-badge {
+            display: inline-block;
+            background-color: $color-primary;
+            color: #ffffff;
+            font-size: 0.75rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            padding: 6px 16px;
+            border-radius: 4px;
+            margin-bottom: 20px;
+        }
+        
+        .info-title {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: $color-text-dark;
+            margin: 0 0 24px;
+        }
+        
+        .info-dots {
+            display: flex;
+            justify-content: center;
+            gap: 6px;
+            
+            span {
+                width: 6px;
+                height: 6px;
+                background-color: $color-primary;
+                border-radius: 50%;
+                transform: rotate(45deg);
+                border-radius: 1px; // Diamond shape based on design
+            }
+        }
+    }
+    
+    .info-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+        gap: 30px;
+        max-width: 1200px;
+        margin: 0 auto;
+        
+        .info-card {
+            background: #ffffff;
+            padding: 40px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            
+            &:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 20px 40px rgba(0,0,0,0.06);
+            }
+            
+            .card-title {
+                font-size: 1.25rem;
+                font-weight: 700;
+                color: $color-text-dark;
+                margin: 0 0 16px;
+                text-transform: uppercase;
+                letter-spacing: 0.5px;
+            }
+            
+            .card-desc {
+                font-size: 0.95rem;
+                color: $color-text-mutted;
+                line-height: 1.6;
+                margin: 0 0 32px;
+            }
+            
+            .card-link {
+                display: inline-flex;
+                align-items: center;
+                gap: 12px;
+                text-decoration: none;
+                color: $color-text-dark;
+                font-weight: 700;
+                font-size: 0.85rem;
+                letter-spacing: 1px;
+                border: 1px solid #e2e8f0;
+                padding: 10px 20px;
+                transition: all 0.2s ease;
+                
+                &:hover {
+                    background-color: $color-bg-light;
+                    border-color: $color-text-dark;
+                }
+            }
+        }
+    }
+}
+
+// =============================================
+// RESPONSIVE STYLING
+// =============================================
+@media screen and (max-width: 900px) {
+    .hero-section {
+        flex-direction: column;
+        
+        .hero-content {
+            padding: 60px 20px;
+            
+            .hero-title-main {
+                font-size: 2.25rem;
+            }
+        }
+        
+        .hero-image {
+            min-height: 400px;
+        }
+    }
+    
+    .welcome-section {
+        grid-template-columns: 1fr;
+        padding: 60px 20px;
+        gap: 40px;
+        text-align: center; // Center text contents linearly on mobile
+        
+        .welcome-visual {
+            max-width: 400px;
+            aspect-ratio: 16/9; // More horizontal frame on mobile
+        }
+        
+        .welcome-content {
+            .welcome-title {
+                font-size: 1.8rem;
+            }
+        }
+    }
+    
+    .info-section {
+        padding: 60px 20px;
+        min-height: auto; // lepas paksaan vh di mobile
+    }
+}
+
+@media screen and (max-width: 600px) {
+    .info-section {
+        .info-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+    }
+}

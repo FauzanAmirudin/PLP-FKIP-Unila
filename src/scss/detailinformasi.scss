@@ -1,0 +1,285 @@
+// =============================================
+// DETAIL INFORMASI PAGE STYLES (detailinformasi.php)
+// Design Reference: design/informasi-details.jpg
+// Aesthetic: Refined Institutional
+// =============================================
+
+$color-primary: #B33791;
+$color-secondary: #C562AF;
+$color-third: #DB8DD0;
+$color-forth: #FEC5F6;
+
+$font-family: 'Poppins', sans-serif;
+$color-hero-bg: #555555; // Dark grey from design
+$color-text-dark: #1e293b;
+$color-text-mutted: #64748b;
+$color-bg-light: #F9FAFB;
+$color-border: #e2e8f0;
+
+.detail-hero-section, .detail-main-section {
+    font-family: $font-family;
+}
+
+// =============================================
+// HERO SECTION
+// =============================================
+.detail-hero-section {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    min-height: 45vh;
+    background-color: $color-primary;
+    background-image: linear-gradient(rgba(179, 55, 145, 0.6), rgba(0, 0, 0, 0.85)), url('../images/FKIP.jpeg');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed; 
+    background-repeat: no-repeat;
+    text-align: center;
+    z-index: 1;
+    padding-top: 55px;
+    overflow: hidden;
+
+    .bg-text {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        font-size: 15vw;
+        font-weight: 800;
+        color: transparent;
+        -webkit-text-stroke: 2px rgba(255, 255, 255, 0.1);
+        white-space: nowrap;
+        z-index: -1;
+        letter-spacing: 5px;
+    }
+
+    .hero-content {
+        z-index: 2;
+        color: #ffffff;
+        
+        .hero-title {
+            font-size: 3.5rem;
+            font-weight: 800;
+            margin: 0;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .hero-subtitle {
+            font-size: 0.95rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-top: 15px;
+        }
+    }
+}
+
+// =============================================
+// MAIN CONTENT & LAYOUT
+// =============================================
+.detail-main-section {
+    background-color: #ffffff;
+    padding: 80px 5%;
+
+    .detail-container {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 40px;
+        max-width: 1200px;
+        margin: 0 auto;
+        align-items: flex-start;
+    }
+
+    // LEFT COLUMN (Full Article)
+    .detail-content-left {
+        flex: 1 1 65%;
+        min-width: 300px;
+
+        .full-article {
+            
+            .article-hero-image {
+                width: 100%;
+                aspect-ratio: 16/9; // approximate from design
+                background-color: #e2e8f0; // placeholder color
+                border-radius: 4px;
+                margin-bottom: 25px;
+            }
+
+            .article-meta {
+                display: flex;
+                gap: 20px;
+                margin-bottom: 15px;
+                
+                .meta-item {
+                    display: flex;
+                    align-items: center;
+                    gap: 6px;
+                    font-size: 0.85rem;
+                    color: $color-text-mutted;
+                    
+                    .meta-icon {
+                        width: 14px;
+                        height: 14px;
+                        color: $color-primary;
+                    }
+                }
+            }
+            
+            .article-title {
+                font-size: 2.2rem;
+                font-weight: 800;
+                color: $color-text-dark;
+                margin: 0 0 25px;
+                line-height: 1.3;
+                text-transform: uppercase;
+            }
+
+            .article-body {
+                p {
+                    font-size: 1.05rem;
+                    line-height: 1.8;
+                    color: $color-text-mutted;
+                    margin-bottom: 20px;
+                    
+                    &:last-child {
+                        margin-bottom: 0;
+                    }
+                }
+            }
+
+            .article-tags {
+                margin-top: 40px;
+                padding-top: 25px;
+                border-top: 1px solid rgba(0,0,0,0.05);
+                font-size: 0.95rem;
+
+                .tag-label {
+                    font-weight: 800;
+                    color: $color-text-dark;
+                    margin-right: 10px;
+                }
+
+                .tag-values {
+                    color: $color-text-mutted;
+                }
+            }
+        }
+    }
+
+    // RIGHT COLUMN (Sidebar Widget) -> Inherited logic structure from informasi
+    .detail-sidebar-right {
+        flex: 1 1 30%;
+        min-width: 250px;
+
+        .sidebar-widget {
+            background-color: #fafbfc;
+            padding: 30px;
+            margin-bottom: 40px;
+            border-radius: 4px;
+
+            .widget-title {
+                font-size: 1.2rem;
+                font-weight: 800;
+                color: $color-text-dark;
+                margin: 0 0 25px;
+                padding-bottom: 15px;
+                border-bottom: 1px solid rgba(0,0,0,0.05);
+            }
+
+            // Recent Posts List
+            .recent-posts-list {
+                display: flex;
+                flex-direction: column;
+                gap: 20px;
+
+                .recent-item {
+                    display: flex;
+                    gap: 15px;
+                    align-items: flex-start;
+
+                    .recent-thumb {
+                        width: 70px;
+                        height: 70px;
+                        background-color: #e2e8f0;
+                        flex-shrink: 0;
+                        border-radius: 4px;
+                    }
+
+                    .recent-info {
+                        .recent-meta {
+                            display: flex;
+                            align-items: center;
+                            gap: 5px;
+                            font-size: 0.75rem;
+                            color: $color-text-mutted;
+                            margin-bottom: 5px;
+                            
+                            .meta-icon {
+                                width: 12px;
+                                height: 12px;
+                            }
+                        }
+
+                        .recent-title {
+                            font-size: 0.95rem;
+                            font-weight: 700;
+                            color: $color-text-dark;
+                            margin: 0;
+                            line-height: 1.4;
+                            cursor: pointer;
+                            transition: color 0.2s;
+                            
+                            &:hover {
+                                color: $color-primary;
+                            }
+                        }
+                    }
+                }
+            }
+
+            // Gallery Grid
+            .gallery-grid {
+                display: grid;
+                grid-template-columns: repeat(3, 1fr);
+                gap: 10px;
+
+                .gallery-item {
+                    aspect-ratio: 1;
+                    background-color: #e2e8f0;
+                    border-radius: 4px;
+                    transition: transform 0.2s ease, box-shadow 0.2s;
+                    cursor: pointer;
+                    
+                    &:hover {
+                        transform: scale(1.05);
+                        box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+                    }
+                }
+            }
+        }
+    }
+}
+
+// Media Queries 
+@media screen and (max-width: 768px) {
+    .detail-hero-section {
+        .hero-content .hero-title {
+            font-size: 2.5rem;
+        }
+        .bg-text {
+            font-size: 24vw;
+        }
+    }
+    
+    .detail-main-section {
+        .detail-content-left .full-article {
+            .article-title {
+                font-size: 1.6rem;
+            }
+        }
+    }
+}

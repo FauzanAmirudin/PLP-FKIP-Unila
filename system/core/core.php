@@ -262,7 +262,15 @@ foreach ($GF_COMPONENS as $GF_SECTION => $GF_COMPONEN) {
         }
     }
 }
-define('GF_REQUEST', explode("/", isset($_SERVER["PATH_INFO"]) ? ltrim(rtrim($_SERVER["PATH_INFO"], "/"), "/") : GF_CONFIG["ctrl_default"] . '/' . GF_CONFIG["func_default"]));
+$request_path = '';
+if (isset($_GET['page']) && trim($_GET['page']) !== '') {
+    $request_path = trim($_GET['page'], "/");
+} else if (isset($_SERVER["PATH_INFO"]) && trim($_SERVER["PATH_INFO"], "/") !== "") {
+    $request_path = trim($_SERVER["PATH_INFO"], "/");
+} else {
+    $request_path = GF_CONFIG["ctrl_default"] . '/' . GF_CONFIG["func_default"];
+}
+define('GF_REQUEST', explode("/", $request_path));
 $GF_REQUEST_DATA = GF_REQUEST;
 $GF_CONTROLER_PATH = GF_CONTROL_PATH;
 foreach (GF_REQUEST as $URI) {

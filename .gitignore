@@ -1,0 +1,31 @@
+# Folder User Uploads
+uploads/
+
+# Folder Agent & AI
+agents/
+.agents/
+.gemini/
+
+# Folder Temporary & Cache
+tmp/
+temp/
+
+# Database Dumps
+*.sql
+
+# System Files
+.DS_Store
+Thumbs.db
+error_log
+*.log
+application/log/
+
+# IDE Settings
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Web dependencies (jika ada)
+node_modules/
+vendor/

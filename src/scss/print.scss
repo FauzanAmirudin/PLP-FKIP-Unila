@@ -1,0 +1,150 @@
+@media print {
+
+     @page {
+          margin: 20mm;
+          size: A4 landscape;
+     }
+
+     html,
+     body {
+          height: 210mm;
+          width: 297mm;
+          font-size: 12pt;
+          background-color: #ffffff !important;
+     }
+
+     header,
+     nav,
+     footer,
+     content #sidebar-wraper,
+     .field-action,
+     .Sidebar,
+     .btn {
+          display: none;
+     }
+
+     content #mainContent,
+     .content {
+          width: 100% !important;
+     }
+
+     content .content {
+          margin: 0mm;
+
+          .header {
+               border-bottom: 0px;
+               color: #000000;
+               font-weight: bold;
+               margin: 0;
+               text-align: center;
+               font-size: 20pt;
+               vertical-align: middle;
+               page-break-after: always;
+               margin-top: 75mm;
+               text-transform: uppercase;
+          }
+
+          .field {
+               padding: 0;
+               box-shadow: 0 0 0 rgba(0, 0, 0, 0.1);
+               page-break-after: always;
+
+               h1 {
+                    color: #000000;
+                    border-bottom: 0px;
+                    font-weight: bold;
+                    text-align: center;
+                    font-size: 12pt;
+               }
+          }
+
+          .table-view {
+               table {
+                    min-width: auto;
+               }
+
+               overflow-x: hidden !important;
+               width: 100%;
+
+               & table,
+               & td,
+               & th {
+                    border: 1px solid #000000 !important;
+               }
+
+               table {
+
+                    padding: 4pt !important;
+
+                    .thead td {
+                         margin-top: 55px;
+                         background-color: #b1b1b1 !important;
+                         color: #000000 !important;
+                    }
+
+                    .trow td {}
+
+                    .laporan {
+                         &-set {
+                              position: relative;
+                              float: left;
+                              height: 2.3rem;
+
+                              .btn {
+                                   display: inline-block;
+                                   padding: 1mm;
+                                   background-color: white;
+                                   color: black;
+                                   border: 0;
+                                   border-radius: 0;
+                              }
+
+                              .btn-ok {
+                                   border-top: .3mm solid #000000;
+                              }
+
+                              .btn-cancel {
+                                   border-top: .4mm dotted #000000;
+                              }
+
+                              .btn-view {
+                                   border-top: 0mm dotted #000000;
+                              }
+
+                              .laporan-download {}
+
+                              .laporan-response {
+                                   position: absolute;
+                                   min-height: 1px;
+                                   height: 1px;
+                                   overflow: hidden;
+                                   top: 3mm;
+                                   color: #ffffff00;
+                                   background-color: #ffffff00;
+                                   transform: rotate(-45deg);
+                                   width: 5mm;
+                              }
+                         }
+
+
+                         &-collected {
+                              display: none;
+                         }
+                    }
+
+                    tr:nth-child(even) {
+                         background-color: white !important;
+                    }
+
+               }
+          }
+     }
+
+     #dataPendaftar {
+     }
+
+     .chart-wraper {
+          overflow-x: visible !important;
+          overflow-y: visible !important;
+     }
+}

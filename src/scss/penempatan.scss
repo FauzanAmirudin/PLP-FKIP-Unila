@@ -1,0 +1,215 @@
+$primary-color: #a805a8;
+$primary-gradient: linear-gradient(135deg, #a805a8 0%, #bd0fc1 100%);
+$text-dark: #333333;
+$text-light: #666666;
+$border-color: #eaeaea;
+
+.placement-container {
+    padding: 10px 0;
+    font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    max-width: 1200px;
+    margin: 0 auto;
+
+    // Headings
+    .card-title {
+        font-size: 20px;
+        color: $primary-color;
+        font-weight: 700;
+        margin-top: 0;
+        margin-bottom: 25px;
+        padding-bottom: 15px;
+        border-bottom: 2px solid #f0e3fc;
+    }
+
+    // Shared UI logic for cards
+    .placement-card {
+        background: #ffffff;
+        border-radius: 12px;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+        padding: 30px;
+        border: 1px solid #f9f9f9;
+        margin-bottom: 30px;
+
+        @media screen and (max-width: 768px) {
+            padding: 20px;
+        }
+    }
+
+    // Top card (Location Info)
+    .placement-info-card {
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px 30px;
+
+            .info-group {
+                display: flex;
+                flex-direction: column;
+                background: #fcfcfc;
+                border: 1px solid #f2f2f2;
+                border-radius: 8px;
+                padding: 12px 15px;
+                transition: border-color 0.2s ease;
+
+                &:hover {
+                    border-color: rgba(168, 5, 168, 0.3);
+                }
+
+                .info-label {
+                    font-size: 11px;
+                    text-transform: uppercase;
+                    color: $text-light;
+                    letter-spacing: 0.5px;
+                    font-weight: 600;
+                    margin-bottom: 6px;
+                }
+
+                .info-value {
+                    font-size: 15px;
+                    color: $text-dark;
+                    font-weight: 500;
+                    word-wrap: break-word;
+                }
+            }
+        }
+    }
+
+    // Bottom card (Team Table)
+    .placement-team-card {
+        .table-responsive {
+            width: 100%;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .modern-table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+            min-width: 800px;
+
+            th, td {
+                padding: 14px 18px;
+                vertical-align: middle;
+            }
+
+            thead {
+                th {
+                    background: $primary-gradient;
+                    color: #ffffff;
+                    font-weight: 600;
+                    font-size: 13px;
+                    letter-spacing: 0.5px;
+                    border: none;
+                    white-space: nowrap;
+                    
+                    &:first-child {
+                        border-top-left-radius: 8px;
+                    }
+                    &:last-child {
+                        border-top-right-radius: 8px;
+                    }
+                }
+            }
+
+            tbody {
+                tr {
+                    border-bottom: 1px solid $border-color;
+                    transition: background-color 0.2s ease;
+
+                    &:nth-child(even) {
+                        background-color: #fcf9fe;
+                    }
+
+                    &:last-child {
+                        border-bottom: none;
+                    }
+
+                    &:hover {
+                        background-color: #f4e8fa;
+                    }
+
+                    td {
+                        color: $text-dark;
+                        font-size: 13.5px;
+                        line-height: 1.5;
+
+                        // No column
+                        &:first-child {
+                            font-weight: 600;
+                            color: $primary-color;
+                        }
+
+                        // Nama column
+                        &:nth-child(2) {
+                            font-weight: 600;
+                            color: #444;
+                        }
+
+                        // Phone and NPM
+                        &:nth-child(3),
+                        &:last-child {
+                            font-family: monospace;
+                            color: #666;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+// Media print rules preserved safely
+@media print {
+    @page {
+        margin: 20mm;
+        size: A4 portrait;
+    }
+
+    body {
+        width: 240mm;
+        height: 297mm;
+        background: white !important;
+    }
+
+    .placement-container {
+        max-width: none !important;
+        
+        .card-title {
+            color: black !important;
+            border-bottom: 2px solid black !important;
+        }
+
+        .placement-card {
+            box-shadow: none !important;
+            border: 1px solid #ccc !important;
+            padding: 10px !important;
+            margin-bottom: 20px !important;
+            page-break-inside: avoid;
+        }
+
+        .placement-info-card .info-grid .info-group {
+            border: 1px solid #ccc !important;
+            background: white !important;
+        }
+
+        .modern-table {
+            border: 1px solid black !important;
+
+            thead th {
+                background: white !important;
+                color: black !important;
+                border: 1px solid black !important;
+            }
+
+            tbody tr {
+                background: white !important;
+                
+                td {
+                    border: 1px solid black !important;
+                    color: black !important;
+                }
+            }
+        }
+    }
+}

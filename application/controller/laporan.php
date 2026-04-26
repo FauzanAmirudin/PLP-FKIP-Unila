@@ -30,8 +30,11 @@ class laporan extends gf_controller
         
         $registration = $this->registrasi->data($id);
 
-        $this->data['biodata_done'] = $this->mahasiswa->data_check($this->data['user']["ID"], $registration["TAHUNDAFTAR"], $registration['PERIODEDAFTAR']);
-        $this->data['registration_done'] = $this->registrasi->status_check($this->data['user']["ID"], $registration["TAHUNDAFTAR"], $registration['PERIODEDAFTAR']);
+        $tahunDaftar = isset($registration["TAHUNDAFTAR"]) ? $registration["TAHUNDAFTAR"] : null;
+        $periodeDaftar = isset($registration["PERIODEDAFTAR"]) ? $registration["PERIODEDAFTAR"] : null;
+        
+        $this->data['biodata_done'] = $this->mahasiswa->data_check($this->data['user']["ID"], $tahunDaftar, $periodeDaftar);
+        $this->data['registration_done'] = $this->registrasi->status_check($this->data['user']["ID"], $tahunDaftar, $periodeDaftar);
 
         if ($this->data['biodata_done'] && $this->data['registration_done']) {
             $this->data['report'] = $this->report->data($registration['ID']);
@@ -41,7 +44,6 @@ class laporan extends gf_controller
         }
 
         $this->data['notification'] = implode("<br/>", get_notification());
-        $this->load->view("header", $this->data);
         $this->load->view("navigation", $this->data);
         $this->load->view("sidebar", $this->data);
         $this->load->view("page/laporan", $this->data);
@@ -77,6 +79,7 @@ class laporan extends gf_controller
         $periode = $this->input->get('periode');
         $npm = $this->input->get('npm');
 
+        $this->data['config'] = get_dbconfig();
         $id = $this->getID($data, "Admin, Monitor, Operator");
 
         $this->data['alltahun'] = $this->registrasi->register_year();
@@ -89,7 +92,6 @@ class laporan extends gf_controller
         $this->data['mahasiswa'] = $this->report->list($this->data['tahun'], $this->data['periode'], $id, $this->data['npm']);
 
         $this->data['notification'] = implode("<br/>", get_notification());
-        $this->load->view("header", $this->data);
         $this->load->view("navigation", $this->data);
         $this->load->view("sidebar", $this->data);
         $this->load->view("page/reportcheck", $this->data);

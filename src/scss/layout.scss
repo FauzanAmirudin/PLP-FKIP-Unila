@@ -1,0 +1,328 @@
+// =============================================
+// COLOR PALETTE (design/deskripsi.md)
+// Primary:   #B33791
+// Secondary: #C562AF
+// Third:     #DB8DD0
+// Forth:     #FEC5F6
+// =============================================
+
+// NAVBAR - Design: logo kiri | menu tengah | login kanan
+// =============================================
+
+nav {
+     .mobileMenu {
+          display: none;
+     }
+}
+
+// Inner wrapper navbar: 3 kolom - logo kiri | menu BENAR-BENAR tengah | login kanan
+.nav-inner {
+     display: flex;
+     align-items: center;
+     justify-content: space-between;
+     position: relative;
+     max-width: 100%;
+     padding: 0 100px;  // margin kiri & kanan
+     height: 60px;
+     font-family: 'Poppins', sans-serif;
+}
+
+// KIRI: Logo + Teks Brand
+.nav-brand {
+     display: flex;
+     align-items: center;
+     flex: 0 0 auto;
+
+     .nav-brand-link {
+          display: flex;
+          align-items: center;
+          text-decoration: none;
+          gap: 12px;
+     }
+
+     .nav-logo-img {
+          height: 38px;
+          width: 38px;
+          object-fit: contain;
+          border-radius: 3px;
+     }
+
+     .nav-brand-text {
+          color: #ffffff;
+          font-size: 13px;
+          font-weight: 700;
+          font-family: 'Poppins', sans-serif;
+          letter-spacing: 0.5px;
+          text-transform: uppercase;
+          white-space: nowrap;
+     }
+}
+
+// TENGAH: Menu navigasi - benar-benar di tengah navbar
+.nav-menu-center {
+     display: flex;
+     align-items: center;
+     gap: 4px;
+     position: absolute;
+     left: 50%;
+     transform: translateX(-50%);
+
+     .nav-link {
+          color: rgba(255, 255, 255, 0.85);
+          text-decoration: none;
+          font-size: 10px;
+          font-family: 'Poppins', sans-serif;
+          font-weight: 600;
+          letter-spacing: 1.4px;
+          text-transform: uppercase;
+          padding: 7px 12px;
+          border-radius: 3px;
+          transition: color 0.2s ease, background-color 0.2s ease;
+
+          &:hover {
+               color: #ffffff;
+               background-color: #C562AF;
+          }
+
+          &.nav-link-active {
+               color: #ffffff;
+               border-bottom: 2px solid #ffffff;
+          }
+     }
+}
+
+// KANAN: Tombol Login / outline button
+.nav-actions {
+     display: flex;
+     align-items: center;
+     flex: 0 0 auto;
+
+     .nav-btn-login {
+          display: inline-flex;
+          align-items: center;
+          color: #ffffff;
+          border: 1.5px solid #FEC5F6;
+          background: transparent;
+          font-size: 10px;
+          font-family: 'Poppins', sans-serif;
+          font-weight: 700;
+          letter-spacing: 1.4px;
+          text-transform: uppercase;
+          padding: 7px 18px;
+          text-decoration: none;
+          cursor: pointer;
+          border-radius: 2px;
+          transition: background-color 0.2s ease, border-color 0.2s ease;
+          white-space: nowrap;
+
+          &:hover {
+               background-color: #C562AF;
+               border-color: #ffffff;
+          }
+     }
+}
+
+// Mobile toggle - hidden di desktop
+.nav-mobile-toggle {
+     display: none;
+}
+
+// =============================================
+// OVERRIDE nav dari @main.scss - sesuaikan warna
+// =============================================
+nav {
+     background: #B33791 !important;
+     min-height: 60px !important;
+
+     // Sembunyikan elemen menu lama jika masih ada
+     .menu.desktop {
+          display: none;
+     }
+     .mobileMenu {
+          display: none;
+     }
+
+     #logo {
+          display: none; // digantikan .nav-brand
+     }
+}
+
+
+// =============================================
+// LAYOUT - Sidebar & Main Content
+// =============================================
+
+/* Container for the Sidebar Menu*/
+content {
+     #sidebar-wraper {
+          float: left;
+          margin-top: 15px;
+          width: 22%;
+          min-height: 482px;
+     }
+
+     /* Container for the website main content view */
+     #mainContent {
+          width: 78%;
+          min-height: 482px;
+          float: Right;
+     }
+}
+
+// =============================================
+// GLOBAL HIDES
+// =============================================
+.mobile-menu-overlay {
+     display: none;
+}
+
+// =============================================
+// RESPONSIVE - Mobile
+// =============================================
+@media screen and (max-width: 800px) {
+
+     .nav-menu-center {
+          display: none;
+     }
+
+     .nav-actions {
+          display: none;
+     }
+
+     .nav-mobile-toggle {
+          display: flex;
+          align-items: center;
+          gap: 8px;
+
+          .nav-mobile-btn {
+               color: #ffffff;
+               background: transparent;
+               border: 1.5px solid rgba(255, 255, 255, 0.7);
+               font-size: 12px;
+               font-weight: 700;
+               letter-spacing: 0.8px;
+               padding: 6px 14px;
+               cursor: pointer;
+               text-decoration: none;
+               border-radius: 2px;
+
+               &:hover {
+                    background-color: rgba(255, 255, 255, 0.15);
+               }
+          }
+     }
+
+     .nav-inner {
+          padding: 0 15px;
+     }
+
+     /* Container for the Sidebar Menu*/
+     content {
+          #sidebar-wraper {
+               position: fixed;
+               top: 60px;
+               margin-top: 0px;
+               width: 100%;
+               z-index: 100;
+               min-height: 0px !important;
+               height: 0px;
+               background-color: #FFFFFF;
+               overflow-y: hidden;
+               transition-property: height;
+               transition-duration: 0.5s;
+
+               .Sidebar {
+                    margin-left: 0px;
+               }
+          }
+
+          #mainContent {
+               width: 100%;
+          }
+     }
+
+     .mobile-menu-overlay {
+          position: fixed;
+          top: 60px;
+          left: 0;
+          width: 100%;
+          height: 0; 
+          background-color: #B33791; 
+          z-index: 99;
+          overflow: hidden;
+          transition: height 0.4s cubic-bezier(0.77, 0, 0.175, 1);
+          display: flex;
+          flex-direction: column;
+
+          &.active {
+               height: calc(100vh - 60px); 
+          }
+
+          .mobile-menu-content {
+               display: flex;
+               flex-direction: column;
+               padding: 40px 30px;
+               gap: 20px;
+               opacity: 0;
+               transform: translateY(-20px);
+               transition: opacity 0.3s ease 0.2s, transform 0.3s ease 0.2s;
+          }
+
+          &.active .mobile-menu-content {
+               opacity: 1;
+               transform: translateY(0);
+          }
+
+          .mobile-link {
+               color: rgba(255, 255, 255, 0.8);
+               text-decoration: none;
+               font-size: 16px;
+               font-family: 'Poppins', sans-serif;
+               font-weight: 600;
+               letter-spacing: 2px;
+               text-transform: uppercase;
+               transition: color 0.2s ease, transform 0.2s ease;
+
+               &:hover, &.active {
+                    color: #ffffff;
+                    transform: translateX(10px);
+               }
+          }
+
+          .mobile-menu-divider {
+               height: 1px;
+               background-color: rgba(255, 255, 255, 0.2);
+               margin: 10px 0;
+          }
+
+          .mobile-btn {
+               display: flex;
+               justify-content: center;
+               align-items: center;
+               color: #B33791;
+               background-color: #ffffff;
+               padding: 14px;
+               font-size: 14px;
+               font-family: 'Poppins', sans-serif;
+               font-weight: 700;
+               letter-spacing: 1.5px;
+               text-transform: uppercase;
+               border-radius: 4px;
+               cursor: pointer;
+               text-decoration: none;
+               transition: background-color 0.2s ease, transform 0.2s ease;
+
+               &.register-btn {
+                    background-color: transparent;
+                    color: #ffffff;
+                    border: 1.5px solid #ffffff;
+                    margin-top: -10px;
+               }
+
+               &:hover {
+                    transform: translateY(-2px);
+                    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+               }
+          }
+     }
+}
