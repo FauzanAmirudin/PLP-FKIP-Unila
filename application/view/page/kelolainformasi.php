@@ -22,7 +22,12 @@ require_level('Admin, Operator');
 
     <div style="margin-top: 20px; overflow-x: auto;">
       <?php if (!empty($informasi_list)) { ?>
-      <table class="modern-table">
+      <style>
+        .modern-table th { padding: 12px 15px; background: #f8fafc; border-bottom: 2px solid #e2e8f0; color: #475569; font-weight: 600; text-transform: uppercase; font-size: 12px; letter-spacing: 0.5px; }
+        .modern-table td { padding: 12px 15px; border-bottom: 1px solid #f1f5f9; vertical-align: middle; font-size: 14px; }
+        .modern-table tbody tr:hover { background: #f8fafc; }
+      </style>
+      <table class="modern-table" style="width: 100%; min-width: 800px; border-collapse: collapse; text-align: left;">
         <thead>
           <tr>
             <th style="width: 40px;">No</th>

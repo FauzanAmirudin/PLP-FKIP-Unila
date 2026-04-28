@@ -29,11 +29,11 @@ class registration_data extends gf_model
 	function save(int $id, string $berkas, string $validator, int $year = NULL, string $periode = NULL)
 	{
 		$year = $year === NULL ? $this->year : $year;
-		$periode = $periode === NULL ? $this->period : $year;
+		$periode = $periode === NULL ? $this->period : $periode;
 		$this->dbAccess->reset();
 		$registered = $this->get_berkas($id, $year, $periode);
 		if (!empty($registered)) $result = $this->update_berkas($id, "USRKEY", $berkas, $year, $periode);
-		else $result = $this->insert_berkas($id, "USRKEY", $berkas, $year, $periode);
+		else $result = $this->insert_berkas($id, $year, $periode, $berkas);
 		$registered = $this->get_berkas($id, $year, $periode);
 		$this->set_status($registered['ID'], "Pengajuan", NULL, $validator, $year, $periode);
 		return $this->get_status($id, $year, $periode);

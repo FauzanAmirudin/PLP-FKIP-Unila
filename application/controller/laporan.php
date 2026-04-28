@@ -27,21 +27,20 @@ class laporan extends gf_controller
     {
         $id = $this->getID($data, "Admin, Monitor, Operator, DPL");
         $this->data['enableregister'] = get_dbconfig('OPENREGISTER');
-        
-        $registration = $this->registrasi->data($id);
+        $this->data['config'] = get_dbconfig();
 
+        // Check registration status to enforce upload rules
+        $registration = $this->registrasi->data($id);
         $tahunDaftar = isset($registration["TAHUNDAFTAR"]) ? $registration["TAHUNDAFTAR"] : null;
         $periodeDaftar = isset($registration["PERIODEDAFTAR"]) ? $registration["PERIODEDAFTAR"] : null;
-        
-        $this->data['biodata_done'] = $this->mahasiswa->data_check($this->data['user']["ID"], $tahunDaftar, $periodeDaftar);
-        $this->data['registration_done'] = $this->registrasi->status_check($this->data['user']["ID"], $tahunDaftar, $periodeDaftar);
+        $this->data['registration_done'] = $this->registrasi->status_check($id, $tahunDaftar, $periodeDaftar);
 
-        if ($this->data['biodata_done'] && $this->data['registration_done']) {
-            $this->data['report'] = $this->report->data($registration['ID']);
-        } else {
-            $report = '<a>Pendaftaran anda belum disetujui.</a>';
-            save_notification($report);
+        if (!$this->data['registration_done']) {
+            save_notification("Pendaftaran Anda belum disetujui. Anda tidak dapat mengupload laporan.");
         }
+
+        // Always load laporan directly by USRKEY — so they can still view past reports if any
+        $this->data['report'] = $this->report->direct($id);
 
         $this->data['notification'] = implode("<br/>", get_notification());
         $this->load->view("navigation", $this->data);
@@ -50,25 +49,62 @@ class laporan extends gf_controller
         $this->load->view("footer", $this->data);
     }
     public function simpan($data)
-    { 
+    {
         $id = $this->getID($data, "Admin, Monitor, Operator, DPL");
         if ($this->permision) {
-            $file = $this->input->post('laporan');
+            $file  = $this->input->post('laporan');
             $timpa = $this->input->post('timpa');
 
-            $data = $this->mahasiswa->data($id);
+            $mahasiswaData = $this->mahasiswa->data($id);
             $registration = $this->registrasi->data($id);
+            $tahunDaftar = isset($registration["TAHUNDAFTAR"]) ? $registration["TAHUNDAFTAR"] : null;
+            $periodeDaftar = isset($registration["PERIODEDAFTAR"]) ? $registration["PERIODEDAFTAR"] : null;
+            $registration_done = $this->registrasi->status_check($id, $tahunDaftar, $periodeDaftar);
 
-            $ID = $data['NPM'] . "(" . $id . ")";
-            $section = $registration["TAHUNDAFTAR"] . "-files" . DIRECTORY_SEPARATOR . str_replace(" ", "_", $registration["PERIODEDAFTAR"]);
-            $folder     =    'uploads' . DIRECTORY_SEPARATOR . 'berkas-laporan' . DIRECTORY_SEPARATOR . $section . DIRECTORY_SEPARATOR . $ID;
-            $upload = $this->input->upload('file', $file, $folder, array("type" => 'doc, docx', "sizelimit" => '5000', "update" => !empty($timpa), "fileHash" => TRUE));
-            if ($upload['status']) {
-                $upload['data']['NPM'] = $data['NPM'];
-                $this->report->save($id, $registration["BRKSKEY"], $upload['data'], $this->data['user']['USERID']);
+            if (empty($mahasiswaData) || empty($mahasiswaData['NPM'])) {
+                save_notification("Upload Gagal: Data mahasiswa tidak ditemukan.");
+                redirect($this->controler_name . "/mingguan/" . $id);
+                exit;
             }
-            $report = $upload['report'];
-        } else $report = "Anda tidak memeiliki izin untuk meng upload file ini.";
+
+            if (!$registration_done) {
+                save_notification("Upload Gagal: Anda belum menyelesaikan pendaftaran atau pendaftaran belum disetujui.");
+                redirect($this->controler_name . "/mingguan/" . $id);
+                exit;
+            }
+
+            $npm    = $mahasiswaData['NPM'];
+            $config = get_dbconfig();
+            $tahun  = !empty($config['CURENTYEAR'])    ? $config['CURENTYEAR']    : date('Y');
+            $periode = !empty($config['CURENTSEMESTER']) ? $config['CURENTSEMESTER'] : 'Periode_1';
+
+            $ID      = $npm . "(" . $id . ")";
+            $section = $tahun . "-files" . DIRECTORY_SEPARATOR . str_replace(" ", "_", $periode);
+            $folder  = 'uploads' . DIRECTORY_SEPARATOR . 'berkas-laporan' . DIRECTORY_SEPARATOR . $section . DIRECTORY_SEPARATOR . $ID;
+
+            $upload = $this->input->upload('file', $file, $folder, array(
+                "type"      => 'doc, docx',
+                "sizelimit" => '5000',
+                "update"    => !empty($timpa),
+                "fileHash"  => TRUE
+            ));
+
+            if ($upload['status']) {
+                $upload['data']['NPM'] = $npm;
+                // BRKSKEY uses USRKEY as fallback — no strict registration dependency
+                $db_result = $this->report->save($id, $id, $upload['data'], $this->data['user']['USERID']);
+                if ($db_result) {
+                    $report = "Upload laporan berhasil!";
+                } else {
+                    $report = "Upload Gagal: Terjadi kesalahan saat menyimpan data ke database.";
+                    @unlink(GF_BASE_PATH . DIRECTORY_SEPARATOR . str_replace('/', DIRECTORY_SEPARATOR, $upload['data']['FILELINK']));
+                }
+            } else {
+                $report = $upload['report'];
+            }
+        } else {
+            $report = "Anda tidak memiliki izin untuk mengupload file ini.";
+        }
         save_notification($report);
         redirect($this->controler_name . "/mingguan/" . $id);
     }

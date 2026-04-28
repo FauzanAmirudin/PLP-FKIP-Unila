@@ -15,15 +15,15 @@ class jadwal extends gf_model
 		parent::__construct();
 		$this->load->database('default', 'dbAccess');
 	}
-	function data(int $id)
+	function get(int $id)
 	{
 		$this->dbAccess->reset();
-		return $this->dbAccess->tabel('aditionaldata')->where(array("id" => $id))->result_row_array();
+		return $this->dbAccess->tabel('jadwal')->where(array("ID" => $id))->result_row_array();
 	}
 	function list()
 	{
 		$this->dbAccess->reset();
-		return $this->dbAccess->order("`WAKTUAKHIR`")->order("`WAKTUAWAL`", TRUE)->result_array('jadwal');
+		return $this->dbAccess->order("ID", "DESC")->result_array('jadwal');
 	}
 	function insert($data)
 	{
@@ -35,5 +35,12 @@ class jadwal extends gf_model
 	{
 		$this->dbAccess->reset();
 		$result = $this->dbAccess->tabel('jadwal')->where(array("ID" => $id))->update($data);
+		return $result;
+	}
+	function delete(int $id)
+	{
+		$this->dbAccess->reset();
+		$result = $this->dbAccess->tabel('jadwal')->where(array("ID" => $id))->delete();
+		return $result;
 	}
 }
