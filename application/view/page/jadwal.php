@@ -71,8 +71,8 @@ defined('GF_BASE_PATH') or exit('No direct script access allowed');
                       <?php } ?>
                     </div>
                   </td>
-                  <td><?= !empty($jadwal['WAKTUAWAL']) ? date("d M Y", strtotime($jadwal['WAKTUAWAL'])) : '-' ?></td>
-                  <td><?= !empty($jadwal['WAKTUAKHIR']) ? date("d M Y", strtotime($jadwal['WAKTUAKHIR'])) : '-' ?></td>
+                  <td><?= $jadwal['WAKTUAWAL_FORMATTED'] ?></td>
+                  <td><?= $jadwal['WAKTUAKHIR_FORMATTED'] ?></td>
                   <td><span style="display: inline-block; padding: 4px 12px; background: #f0e3fc; color: #a805a8; border-radius: 20px; font-size: 12px; font-weight: 500;"><?= htmlspecialchars($jadwal['PELAKSANA'] ?? 'Panitia') ?></span></td>
                 </tr>
               <?php } ?>

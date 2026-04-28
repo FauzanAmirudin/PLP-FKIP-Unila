@@ -50,15 +50,15 @@ require_level('Admin, Operator');
             <td><?php echo $n++; ?></td>
             <td style="font-weight: 600;"><?php echo htmlspecialchars($row['JENISKEGIATAN']); ?></td>
             <td><?php echo htmlspecialchars($row['PELAKSANA'] ?? '-'); ?></td>
-            <td><?php echo !empty($row['WAKTUAWAL']) ? date("d M Y", strtotime($row['WAKTUAWAL'])) : '-'; ?></td>
-            <td><?php echo !empty($row['WAKTUAKHIR']) ? date("d M Y", strtotime($row['WAKTUAKHIR'])) : '-'; ?></td>
+            <td><?php echo $row['WAKTUAWAL_FORMATTED']; ?></td>
+            <td><?php echo $row['WAKTUAKHIR_FORMATTED']; ?></td>
             <td style="font-size: 12px; color: #64748b;"><?php echo htmlspecialchars(mb_strimwidth($row['KETERANGAN'], 0, 50, '...')); ?></td>
             <td>
               <div class="action-btns">
                 <a href="<?php echo set_url("site/kelola_jadwal_form"); ?>&id=<?php echo $row['ID']; ?>" class="btn-edit" title="Edit">
                   <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
                 </a>
-                <button type="button" onclick="confirmDelete(<?php echo $row['ID']; ?>, '<?php echo htmlspecialchars(addslashes($row['JENISKEGIATAN']), ENT_QUOTES); ?>')" class="btn-delete" title="Hapus">
+                <button type="button" onclick="confirmDelete(<?php echo $row['ID']; ?>, '<?php echo htmlspecialchars(addslashes($row['JENISKEGIATAN']), ENT_QUOTES); ?>', '<?php echo $csrf_token; ?>')" class="btn-delete" title="Hapus">
                   <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
                 </button>
               </div>
@@ -77,9 +77,9 @@ require_level('Admin, Operator');
 
 <!-- Simple Delete Confirmation -->
 <script>
-function confirmDelete(id, title) {
+function confirmDelete(id, title, csrf) {
   if (confirm("Apakah Anda yakin ingin menghapus jadwal '" + title + "'?")) {
-    window.location.href = "<?php echo set_url('site/kelola_jadwal_delete'); ?>&id=" + id;
+    window.location.href = "<?php echo set_url('site/kelola_jadwal_delete'); ?>&id=" + id + "&csrf=" + csrf;
   }
 }
 </script>

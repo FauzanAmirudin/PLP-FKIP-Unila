@@ -331,6 +331,13 @@ class site extends gf_controller
 	public function kelola_jadwal()
 	{
 		require_level("Admin, Operator");
+		
+		// Generate CSRF token
+		if (!session_get('csrf_token')) {
+			session_save('csrf_token', md5(uniqid(rand(), true)));
+		}
+		$this->data['csrf_token'] = session_get('csrf_token');
+		
 		$this->data['jadwal_list'] = $this->jadwal->list();
 		$this->data['notification'] = implode("<br/>", get_notification());
 		$this->load->view("navigation", $this->data);
@@ -385,6 +392,14 @@ class site extends gf_controller
 	{
 		require_level("Admin, Operator");
 		$id = isset($_GET['id']) ? (int)$_GET['id'] : 0;
+		$csrf = isset($_GET['csrf']) ? $_GET['csrf'] : '';
+		
+		if ($csrf !== session_get('csrf_token') || empty($csrf)) {
+			save_notification("Token keamanan tidak valid. Penghapusan dibatalkan.");
+			redirect("site/kelola_jadwal");
+			return;
+		}
+		
 		if ($id > 0) {
 			$result = $this->jadwal->delete($id);
 			save_notification($result ? "Jadwal berhasil dihapus." : "Gagal menghapus jadwal.");

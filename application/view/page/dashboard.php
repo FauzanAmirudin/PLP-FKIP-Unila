@@ -82,44 +82,48 @@ defined('GF_BASE_PATH') or exit('No direct script access allowed');
         </div>
 
         <!-- JADWAL KEGIATAN -->
-        <div class="dashboard-table-container">
-            <h3 class="dashboard-section-title">Jadwal Kegiatan</h3>
-            <div style="overflow-x: auto;">
-                <table class="dashboard-table">
+        <div class="schedule-container" style="padding: 0; margin-top: 20px;">
+          <div class="schedule-card">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+                <h1 class="card-title">Jadwal Kegiatan</h1>
+                <a href="<?php echo set_url('kegiatan/jadwal'); ?>" style="font-size: 13px; color: #a805a8; text-decoration: none; font-weight: 600;">Lihat Semua &rarr;</a>
+            </div>
+
+            <?php if (!empty($jadwal_list)) { ?>
+                <div class="table-responsive">
+                  <table class="modern-table">
                     <thead>
-                        <tr>
-                            <th>Kegiatan</th>
-                            <th>Deskripsi</th>
-                            <th>Tanggal Mulai</th>
-                            <th>Tanggal Berakhir</th>
-                            <th>Pelaksana</th>
-                        </tr>
+                      <tr>
+                        <th style="width: 20%;">Kegiatan</th>
+                        <th style="width: 30%;">Deskripsi</th>
+                        <th style="width: 15%;">Mulai</th>
+                        <th style="width: 15%;">Selesai</th>
+                        <th style="width: 20%;">Pelaksana</th>
+                      </tr>
                     </thead>
                     <tbody>
-                        <?php
-                        $dbAccess = clone $this->database('default', 'dbconfig', TRUE);
-                        $jadwalList = $dbAccess->reset()->where("`WAKTUAKHIR` >= CURDATE() ORDER BY `WAKTUAWAL` ASC")->result_array('jadwal');
-                        
-                        if (empty($jadwalList)) {
-                            echo '<tr><td colspan="5" style="text-align: center; border-bottom: none; color: #a1a1aa; padding: 20px;">Jadwal tidak tersedia.</td></tr>';
-                        } else {
-                            foreach ($jadwalList as $r) {
-                                $tglMulai = ($r['WAKTUAWAL']) ? date("d M Y", strtotime($r['WAKTUAWAL'])) : '-';
-                                $tglAkhir = ($r['WAKTUAKHIR']) ? date("d M Y", strtotime($r['WAKTUAKHIR'])) : '-';
-                                
-                                echo '<tr>';
-                                echo '<td class="heavy">' . htmlspecialchars($r['JENISKEGIATAN']) . '</td>';
-                                echo '<td style="font-size: 12px; color: #64748b;">' . htmlspecialchars(mb_strimwidth($r['KETERANGAN'], 0, 40, '...')) . '</td>';
-                                echo '<td>' . $tglMulai . '</td>';
-                                echo '<td>' . $tglAkhir . '</td>';
-                                echo '<td><span class="dashboard-badge" style="background: #f0e3fc; color: #a805a8; border: none; font-size: 11px;">' . htmlspecialchars($r['PELAKSANA'] ?? 'Panitia') . '</span></td>';
-                                echo '</tr>';
-                            }
-                        }
-                        ?>
+                      <?php foreach ($jadwal_list as $jadwal) { ?>
+                        <tr>
+                          <td style="font-weight: 600; color: #1e293b;"><?= htmlspecialchars($jadwal['JENISKEGIATAN']) ?></td>
+                          <td style="font-size: 13px; color: #64748b;"><?= nl2br(htmlspecialchars($jadwal['KETERANGAN'])) ?></td>
+                          <td><?= $jadwal['WAKTUAWAL_FORMATTED'] ?></td>
+                          <td><?= $jadwal['WAKTUAKHIR_FORMATTED'] ?></td>
+                          <td><span style="display: inline-block; padding: 4px 12px; background: #f0e3fc; color: #a805a8; border-radius: 20px; font-size: 12px; font-weight: 500;"><?= htmlspecialchars($jadwal['PELAKSANA'] ?? 'Panitia') ?></span></td>
+                        </tr>
+                      <?php } ?>
                     </tbody>
-                </table>
-            </div>
+                  </table>
+                </div>
+            <?php } else { ?>
+                <div class="empty-state" style="text-align: center; padding: 60px 20px;">
+                    <div style="width: 80px; height: 80px; background: #f8fafc; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px;">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#94a3b8" stroke-width="1.5"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+                    </div>
+                    <h3 style="color: #475569; font-size: 18px; margin: 0 0 8px;">Jadwal Belum Tersedia</h3>
+                    <p style="color: #94a3b8; font-size: 14px; margin: 0;">Jadwal kegiatan terbaru akan segera diumumkan.</p>
+                </div>
+            <?php } ?>
+          </div>
         </div>
     </div>
 </div>

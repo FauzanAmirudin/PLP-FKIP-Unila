@@ -77,3 +77,18 @@ $keterangan = isset($jadwal['KETERANGAN']) ? $jadwal['KETERANGAN'] : '';
     </form>
   </div>
 </div>
+
+<script>
+document.querySelector('.settings-form').addEventListener('submit', function(e) {
+  var tglMulai = document.getElementById('tanggal_mulai').value;
+  var tglAkhir = document.getElementById('tanggal_akhir').value;
+  
+  if (tglMulai && tglAkhir) {
+    if (new Date(tglAkhir) < new Date(tglMulai)) {
+      e.preventDefault();
+      alert("Kesalahan: Tanggal Berakhir tidak boleh lebih awal dari Tanggal Mulai!");
+      document.getElementById('tanggal_akhir').focus();
+    }
+  }
+});
+</script>

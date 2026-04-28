@@ -17,6 +17,7 @@ class user extends gf_controller
 		$this->load->model('user_data', 'user');
 		$this->load->model('mahasiswa_data', 'mahasiswa');
 		$this->load->model('registration_data', 'registrasi');
+		$this->load->model('jadwal', 'jadwal');
 	}
 	public function registration()
 	{
@@ -138,6 +139,9 @@ class user extends gf_controller
 			$this->data['registration_process'] = $this->registrasi->data($this->data['user']["ID"]);
 			$this->data['registration_done'] = $this->registrasi->status_check($this->data['user']["ID"]);
 		}
+		
+		$this->data['jadwal_list'] = $this->jadwal->dashboard_list();
+		
 		$this->data['notification'] = implode("<br/>", get_notification());
 		$this->load->view("navigation", $this->data);
 		$this->load->view("sidebar", $this->data);
