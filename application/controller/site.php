@@ -21,6 +21,7 @@ class site extends gf_controller
 		$this->load->model('registration_data', 'registrasi');
 		$this->load->model('informasi_data', 'informasi');
 		$this->load->model('gallery_data', 'gallery');
+		$this->load->model('jadwal', 'jadwal');
 	}
 	public function index()
 	{
@@ -33,6 +34,7 @@ class site extends gf_controller
 			$statusPendaftaran 	= $this->input->post('statusPendaftaran');
 			$tahunPendaftaram 	= $this->input->post('tahunPendaftaram');
 			$periodePendaftaran = $this->input->post('periodePendaftaran');
+			$maxReport          = $this->input->post('maxReport');
 			$valid = TRUE;
 			if (!save_dbconfig("OPENREGISTER", $statusPendaftaran)) {
 				$valid = FALSE;
@@ -45,6 +47,10 @@ class site extends gf_controller
 			if (!save_dbconfig("CURENTSEMESTER", $periodePendaftaran)) {
 				$valid = FALSE;
 				save_notification("Gagal memperbaharui pengaturan Semester<br>");
+			}
+			if (!save_dbconfig("MAXREPORT", $maxReport)) {
+				$valid = FALSE;
+				save_notification("Gagal memperbaharui pengaturan Maksimal Laporan<br>");
 			}
 			if ($valid == TRUE) save_notification("Pengaturaan Web diperhaharui.<br>");
 		}
@@ -317,5 +323,87 @@ class site extends gf_controller
 			}
 		}
 		redirect("site/gallery");
+	}
+
+	/**
+	 * Kelola Jadwal Kegiatan - List
+	 */
+	public function kelola_jadwal()
+	{
+		require_level("Admin, Operator");
+		
+		// Generate CSRF token
+		if (!session_get('csrf_token')) {
+			session_save('csrf_token', md5(uniqid(rand(), true)));
+		}
+		$this->data['csrf_token'] = session_get('csrf_token');
+		
+		$this->data['jadwal_list'] = $this->jadwal->list();
+		$this->data['notification'] = implode("<br/>", get_notification());
+		$this->load->view("navigation", $this->data);
+		$this->load->view("sidebar", $this->data);
+		$this->load->view("page/kelolajadwal", $this->data);
+		$this->load->view("footer", $this->data);
+	}
+
+	/**
+	 * Kelola Jadwal Kegiatan - Create/Edit Form
+	 */
+	public function kelola_jadwal_form()
+	{
+		require_level("Admin, Operator");
+		$id = isset($_GET['id']) ? (int)$_GET['id'] : 0;
+		$this->data['edit_mode'] = ($id > 0);
+		$this->data['jadwal'] = $id > 0 ? $this->jadwal->get($id) : null;
+
+		if (!empty($this->input->post())) {
+			$data = [
+				"JENISKEGIATAN" => $this->input->post('nama_kegiatan'),
+				"PELAKSANA"     => $this->input->post('pelaksana'),
+				"WAKTUAWAL"     => $this->input->post('tanggal_mulai'),
+				"WAKTUAKHIR"    => $this->input->post('tanggal_akhir'),
+				"KETERANGAN"    => $this->input->post('deskripsi'),
+			];
+
+			if ($this->data['edit_mode']) {
+				$result = $this->jadwal->update($id, $data);
+				$msg = $result ? "Jadwal berhasil diperbaharui." : "Gagal memperbaharui jadwal.";
+			} else {
+				$result = $this->jadwal->insert($data);
+				$msg = $result ? "Jadwal baru berhasil ditambahkan." : "Gagal menambahkan jadwal baru.";
+			}
+
+			save_notification($msg);
+			redirect("site/kelola_jadwal");
+			return;
+		}
+
+		$this->data['notification'] = implode("<br/>", get_notification());
+		$this->load->view("navigation", $this->data);
+		$this->load->view("sidebar", $this->data);
+		$this->load->view("page/kelolajadwalform", $this->data);
+		$this->load->view("footer", $this->data);
+	}
+
+	/**
+	 * Kelola Jadwal Kegiatan - Delete
+	 */
+	public function kelola_jadwal_delete()
+	{
+		require_level("Admin, Operator");
+		$id = isset($_GET['id']) ? (int)$_GET['id'] : 0;
+		$csrf = isset($_GET['csrf']) ? $_GET['csrf'] : '';
+		
+		if ($csrf !== session_get('csrf_token') || empty($csrf)) {
+			save_notification("Token keamanan tidak valid. Penghapusan dibatalkan.");
+			redirect("site/kelola_jadwal");
+			return;
+		}
+		
+		if ($id > 0) {
+			$result = $this->jadwal->delete($id);
+			save_notification($result ? "Jadwal berhasil dihapus." : "Gagal menghapus jadwal.");
+		}
+		redirect("site/kelola_jadwal");
 	}
 }

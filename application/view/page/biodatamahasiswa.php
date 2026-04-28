@@ -143,9 +143,9 @@ $r = $dbAccess->reset()->where("`NPM` = '$dataID'")->result_row_array('datamahas
 			</div>
 			
 			<div id="uploadPanel" class="upload-panel-collapse">
-				<form action="?page=biodata&action=uploadfoto<?= "&NPM=" . $dataID ?>" method="post" enctype="multipart/form-data">
+				<form action="?page=mahasiswa/simpan_foto/<?= $r['USRKEY'] ?>" method="post" enctype="multipart/form-data" onsubmit="return validateUpload(event)">
 					<div class="upload-form-group">
-						<input type="file" name="file" accept="image/jpeg">
+						<input type="file" id="fotoInput" name="file" accept="image/jpeg, image/jpg">
 						<div class="action-buttons">
 							<button type="submit" name="action" value="uploadFoto" class="btnOk">Upload</button>
 							<button type="reset" class="btnCancel" onclick="toggleUploadPanel()">Batal</button>
@@ -158,7 +158,7 @@ $r = $dbAccess->reset()->where("`NPM` = '$dataID'")->result_row_array('datamahas
 
 		<div class="profile-right-pane">
 			<h3 class="card-title">Data Biodata Personal</h3>
-			<form id="form2" method="post" action="?page=biodata<?= "&NPM=" . $dataID ?>">
+			<form id="form2" method="post" action="?page=mahasiswa/simpan_biodata/<?= $r['USRKEY'] ?>">
 				<div class="form-grid">
 				<div class="form-group-modern">
 					<label for="nama">Nama<span class="required">*</span></label>
@@ -380,8 +380,87 @@ $r = $dbAccess->reset()->where("`NPM` = '$dataID'")->result_row_array('datamahas
 			}
 				?>
 </div>
-<script>
 
+<!-- Custom Alert Modal -->
+<div id="uploadAlertModal" class="modal-overlay" style="display:none;">
+	<div class="modal-content">
+		<div class="modal-icon error">
+			<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="15" y1="9" x2="9" y2="15"></line><line x1="9" y1="9" x2="15" y2="15"></line></svg>
+		</div>
+		<h3 class="modal-title">Upload Gagal</h3>
+		<p id="uploadAlertMsg" class="modal-message"></p>
+		<button class="modal-btn" onclick="closeUploadAlert()">Mengerti</button>
+	</div>
+</div>
+
+<style>
+.modal-overlay {
+	position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+	background: rgba(0, 0, 0, 0.6); z-index: 9999;
+	display: flex; align-items: center; justify-content: center;
+	backdrop-filter: blur(3px);
+}
+.modal-content {
+	background: #fff; border-radius: 12px; padding: 24px;
+	width: 90%; max-width: 320px; text-align: center;
+	box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+	animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+.modal-icon {
+	width: 48px; height: 48px; border-radius: 50%;
+	display: flex; align-items: center; justify-content: center;
+	margin: 0 auto 16px;
+}
+.modal-icon.error { background: #fee2e2; color: #dc2626; }
+.modal-icon svg { width: 24px; height: 24px; }
+.modal-title { font-size: 1.25rem; font-weight: 600; color: #1f2937; margin: 0 0 8px; }
+.modal-message { font-size: 0.875rem; color: #4b5563; margin: 0 0 20px; line-height: 1.5; }
+.modal-btn {
+	background: #a805a8; color: #fff; border: none;
+	padding: 10px 24px; border-radius: 8px; font-weight: 500;
+	cursor: pointer; width: 100%; transition: background 0.2s;
+}
+.modal-btn:hover { background: #860486; }
+@keyframes popIn {
+	0% { opacity: 0; transform: scale(0.9); }
+	100% { opacity: 1; transform: scale(1); }
+}
+</style>
+
+<script>
+function validateUpload(event) {
+	const fileInput = document.getElementById('fotoInput');
+	const file = fileInput.files[0];
+	
+	if (!file) {
+		showUploadAlert("Silakan pilih file foto terlebih dahulu.");
+		return false;
+	}
+
+	const fileType = file.name.split('.').pop().toLowerCase();
+	const fileSize = file.size / 1024; // in KB
+
+	if (fileType !== 'jpg' && fileType !== 'jpeg') {
+		showUploadAlert("Tipe file tidak valid. Harap unggah file dengan format .jpg atau .jpeg.");
+		return false;
+	}
+
+	if (fileSize > 100) {
+		showUploadAlert("Ukuran file terlalu besar. Maksimal ukuran file adalah 100 KB. Ukuran file Anda: " + Math.round(fileSize) + " KB.");
+		return false;
+	}
+
+	return true; // proceed with upload
+}
+
+function showUploadAlert(msg) {
+	document.getElementById('uploadAlertMsg').innerText = msg;
+	document.getElementById('uploadAlertModal').style.display = 'flex';
+}
+
+function closeUploadAlert() {
+	document.getElementById('uploadAlertModal').style.display = 'none';
+}
 </script>
 
 </html>

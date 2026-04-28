@@ -97,6 +97,22 @@ class report_data extends gf_model
         return $data;
     }
     /**
+     * direct - Get laporan directly by USRKEY without databerkas dependency
+     * 
+     * @param  int $usrkey
+     * @return array
+     */
+    function direct(int $usrkey)
+    {
+        $this->dbAccess->reset();
+        $data = $this->dbAccess
+            ->tabel('laporan')
+            ->where("`laporan`.`USRKEY` = " . $usrkey)
+            ->order('`FILENAME`', TRUE)
+            ->result_array();
+        return $data;
+    }
+    /**
      * list
      *
      * @param  mixed $year
@@ -167,7 +183,8 @@ class report_data extends gf_model
         $result = [];
         if (!empty($mahasiswa)) {
             foreach ($mahasiswa as $key => $berkas) {
-                $report = $this->dbAccess->reset()->tabel('laporan')->where(array("BRKSKEY" => $berkas["ID"]))->result_array();
+                // Fetch reports using USRKEY instead of databerkas ID to match the new save logic
+                $report = $this->dbAccess->reset()->tabel('laporan')->where(array("USRKEY" => $berkas["USRKEY"]))->order('`FILENAME`', TRUE)->result_array();
                 $mahasiswa[$key]['LAPORAN'] = $report;
                 array_push($result, $mahasiswa[$key]);
             }
