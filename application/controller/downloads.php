@@ -75,21 +75,48 @@ class downloads extends gf_controller
         if (isset($data[0]) && strtolower($data[0]) == 'bundle') {
             if (is_level("Admin, Monitor, Operator, DPL")) {
                 if (isset($data[1])) {
+                    $berkasId = (int) $data[1];
 
-                    $berkas = $this->report->data($data[1]);
-                    $registration = $this->registrasi->get($data[1]);
-                    $data = $this->mahasiswa->data($registration['USRKEY']);
+                    // Ambil USRKEY langsung dari databerkas via model
+                    $berkasRow = $this->report->get_berkas_by_id($berkasId);
 
-                    $files = array_map(function ($item) {
-                        return GF_BASE_PATH . DIRECTORY_SEPARATOR . $item['FILEPATH'] . DIRECTORY_SEPARATOR . $item['FILENAME'] . $item['FILEEXT'];
-                    }, $berkas);
+                    if (empty($berkasRow) || empty($berkasRow['USRKEY'])) {
+                        echo "Maaf, data berkas tidak ditemukan.";
+                        return;
+                    }
+
+                    $usrkey = (int) $berkasRow['USRKEY'];
+
+                    // Ambil data laporan berdasarkan USRKEY via model
+                    $berkas = $this->report->direct_by_usrkey($usrkey);
+
+                    if (empty($berkas)) {
+                        echo "Maaf, tidak ada laporan untuk mahasiswa ini.";
+                        return;
+                    }
+
+                    // Ambil data mahasiswa untuk nama arsip
+                    $mahasiswaData = $this->mahasiswa->data($usrkey);
+
+                    $files = array_values(array_filter(array_map(function ($item) {
+                        $relative_path = str_replace(['/', '\\'], DIRECTORY_SEPARATOR, $item['FILELINK']);
+                        $path = GF_BASE_PATH . DIRECTORY_SEPARATOR . $relative_path;
+                        return file_exists($path) ? $path : null;
+                    }, $berkas)));
+
+                    if (empty($files)) {
+                        echo "Maaf, file laporan tidak ditemukan di server.";
+                        return;
+                    }
 
                     /* Archive Name */
-                    $archive = 'tmp' . DIRECTORY_SEPARATOR . 'Laporan ' . $data["NAMA"] . ' (' . $data["NPM"] . ').zip';
+                    $nama    = !empty($mahasiswaData['NAMA']) ? $mahasiswaData['NAMA'] : 'Mahasiswa';
+                    $npm     = !empty($mahasiswaData['NPM'])  ? $mahasiswaData['NPM']  : $usrkey;
+                    $archive = 'tmp' . DIRECTORY_SEPARATOR . 'Laporan ' . $nama . ' (' . $npm . ').zip';
 
-                    /*zip and download */
+                    /* zip and download */
                     zipFilesAndDownload($files, $archive);
-                } else echo "Maaf file id file tidak ada.";
+                } else echo "Maaf, id file tidak ada.";
             } else error403();
         } else error404();
     }

@@ -23,6 +23,33 @@ class laporan extends gf_controller
         $this->load->model('extra_data', 'extra');
         $this->data['user'] = session_get();
     }
+    public function index()
+    {
+        $ajax = $this->input->get('ajax');
+        if ($ajax == 'get_response') {
+            $npm = $this->input->get('id');
+            $filename = $this->input->get('object');
+            $this->data['res'] = $this->report->get_response_by_file($npm, $filename);
+            $this->load->view('ajax/report_status', $this->data);
+            exit;
+        }
+
+        if ($ajax == 'balas_laporan') {
+            $npm = $this->input->get('id');
+            $filename = $this->input->get('object');
+            $response = $this->input->post('respons');
+            $comment = $this->input->post('komentar');
+
+            $res = $this->report->save_response($npm, $filename, $response, $comment);
+            if ($res) {
+                $this->data['success'] = true;
+            } else {
+                $this->data['error'] = 'Gagal menyimpan respons.';
+            }
+            $this->load->view('ajax/report_message', $this->data);
+            exit;
+        }
+    }
     public function mingguan($data)
     {
         $id = $this->getID($data, "Admin, Monitor, Operator, DPL");

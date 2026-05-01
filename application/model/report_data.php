@@ -64,6 +64,21 @@ class report_data extends gf_model
             ->update(["RESPONSE" => $response, "KRITIKSARAN" => $comment]);
         return $report;
     }
+    function save_response($npm, $filename, $response, $comment)
+    {
+        $report = $this->dbAccess->reset()
+            ->tabel('laporan')
+            ->where(["NPM" => $npm, "FILENAME" => $filename])
+            ->update(["RESPONSE" => $response, "KRITIKSARAN" => $comment]);
+        return $report;
+    }
+    function get_response_by_file($npm, $filename)
+    {
+        return $this->dbAccess->reset()
+            ->tabel('laporan')
+            ->where(["NPM" => $npm, "FILENAME" => $filename])
+            ->result_row_array();
+    }
     /**
      * get_report Give report by ID report
      *
@@ -129,7 +144,7 @@ class report_data extends gf_model
         if (!empty($year)) $condition["`databerkas`.`TAHUNDAFTAR`"] = $year;
         if (!empty($periode)) $condition["`databerkas`.`PERIODEDAFTAR`"] = $periode;
         if (!empty($dosen) && empty($npm)) $condition["`datapenempatan`.`DPLUSRKEY`"] = $dosen;
-        if (!empty($npm)) $condition["`datamahasiswa`.`NPM`"] = $npm;
+        // if (!empty($npm)) $condition["`datamahasiswa`.`NPM`"] = $npm; // Removed strict NPM check
 
         $this->dbAccess->reset();
         $suport = $this->dbAccess->suport_version('33.0.0');
@@ -158,14 +173,26 @@ class report_data extends gf_model
             ->join('datastatus', '`datastatus`.`BRKSKEY` = `databerkas`.`ID`', 'LEFT')
             ->join('datapenempatan', '`datapenempatan`.`USRKEY` = `datamahasiswa`.`USRKEY`', 'LEFT')
             ->join('dosen', '`dosen`.`USRKEY` = `datapenempatan`.`DPLUSRKEY`', 'LEFT')
-            ->where($condition)
-            ->order("`databerkas`.`TAHUNDAFTAR`", 'DESC')
+            ->where($condition);
+
+        if (!empty($npm)) {
+            /* Improve security using real_escape_string instead of simple addslashes */
+            $safe_npm = $this->dbAccess->mysql->real_escape_string($npm);
+            $this->dbAccess->where("(`datamahasiswa`.`NPM` LIKE '%$safe_npm%' OR `datamahasiswa`.`NAMA` LIKE '%$safe_npm%')");
+            if (!empty($dosen)) {
+                $safe_dosen = $this->dbAccess->mysql->real_escape_string($dosen);
+                $this->dbAccess->where("`datapenempatan`.`DPLUSRKEY` = '$safe_dosen'");
+            }
+        }
+
+        $this->dbAccess->order("`databerkas`.`TAHUNDAFTAR`", 'DESC')
             ->order("`databerkas`.`PERIODEDAFTAR`", 'DESC')
             ->order("`datastatus`.`DATEVALID`", 'DESC')
             ->order("`datapenempatan`.`LOKASIDESA`", 'DESC')
             ->order("`datapenempatan`.`LOKASISEKOLAH`", 'DESC');
+            
         if ($suport) {
-            $this->dbAccess->column("row_number() over ( PARTITION BY datastatus.BRKSKEY ORDER BY datastatus.DATEVALID DESC ) AS NUMRECORD", FALSE);
+            $this->dbAccess->column("row_number() over ( PARTITION BY datamahasiswa.USRKEY ORDER BY databerkas.TAHUNDAFTAR DESC, databerkas.PERIODEDAFTAR DESC, datastatus.DATEVALID DESC ) AS NUMRECORD", FALSE);
             $tabel = $this->dbAccess->query();
             $mahasiswa = $this->dbAccess->reset(TRUE)
                 ->tabel("(" . $tabel . ") AS NUMRECORD", FALSE)
@@ -173,11 +200,15 @@ class report_data extends gf_model
                 ->result_array();
         } else {
             $mahasiswa = $this->dbAccess->result_array();
-            $last_row['USRKEY'] = 0;
-            foreach ($mahasiswa as $key => $row) {
-                if ($last_row['USRKEY'] == $row['USRKEY']) unset($mahasiswa[$key]);
-                $last_row['USRKEY'] = $row['USRKEY'];
+            $unique_mahasiswa = [];
+            $seen = [];
+            foreach ($mahasiswa as $row) {
+                if (!isset($seen[$row['USRKEY']])) {
+                    $unique_mahasiswa[] = $row;
+                    $seen[$row['USRKEY']] = true;
+                }
             }
+            $mahasiswa = $unique_mahasiswa;
         }
         // echo ($this->dbAccess->last_query);
         $result = [];
@@ -191,5 +222,27 @@ class report_data extends gf_model
         }
 
         return $result;
+    }
+    /**
+     * get_berkas_by_id - Fetch databerkas row by primary key ID
+     *
+     * @param  int $id
+     * @return array
+     */
+    function get_berkas_by_id(int $id)
+    {
+        $this->dbAccess->reset();
+        return $this->dbAccess->tabel('databerkas')->where(['ID' => $id])->result_row_array();
+    }
+    /**
+     * direct_by_usrkey - Get all laporan by USRKEY
+     *
+     * @param  int $usrkey
+     * @return array
+     */
+    function direct_by_usrkey(int $usrkey)
+    {
+        $this->dbAccess->reset();
+        return $this->dbAccess->tabel('laporan')->where(['USRKEY' => $usrkey])->order('`FILENAME`', TRUE)->result_array();
     }
 }

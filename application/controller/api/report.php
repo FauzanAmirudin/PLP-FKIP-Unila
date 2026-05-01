@@ -33,31 +33,30 @@ class report extends gf_controller
 		if ($_SERVER["REQUEST_METHOD"] == "POST") {
 			$id = strip_tags($_GET['id']);
 			$respons = strip_tags($_POST['respons']);
-			$komentar = strip_tags(isset($_POST['komentar']) ? $_POST['komentar'] : 'Tidak Ada');
-			global $REPORT;
+			$komentar = strip_tags(isset($_POST['komentar']) ? $_POST['komentar'] : '');
+			if (empty(trim($komentar))) {
+				$this->data['error'] = 'Komentar atau catatan revisi wajib diisi untuk semua penilaian.';
+				$this->load->view('ajax/report_message', $this->data);
+				return;
+			}
+			
 			switch ($respons) {
 				case 'Tidak Ada':
-					$REPORT .= '<div class="info info-danger"><a>Anda belum memasukan respons laopran</a></div>';
+					$this->data['error'] = 'Anda belum memilih status respons laporan.';
 					break;
 				case 'Cukup':
-					if ($this->report->response($id, $respons, $komentar)) {
-						$REPORT .= '<div class="info info-success"><a>Response berhasil di simpan</a></div>';
-					} else {
-						$REPORT .= '<div class="info info-danger"><a>Response gagal disimpan</a></div>';
-					}
-					break;
 				case 'Kurang':
 					if ($this->report->response($id, $respons, $komentar)) {
-						$REPORT .= '<div class="info info-success"><a>Response berhasil di simpan</a></div>';
+						$this->data['success'] = 'Response dan komentar berhasil disimpan.';
 					} else {
-						$REPORT .= '<div class="info info-danger"><a>Response gagal disimpan</a></div>';
+						$this->data['error'] = 'Response gagal disimpan.';
 					}
 					break;
 				default:
-					$REPORT .= '<div class="info info-danger"><a>Anda belum memasukan respons laopran</a></div>';
+					$this->data['error'] = 'Pilihan respons tidak valid.';
 					break;
 			}
-			echo $REPORT;
+			$this->load->view('ajax/report_message', $this->data);
 		}
 	}
 	public function comment()

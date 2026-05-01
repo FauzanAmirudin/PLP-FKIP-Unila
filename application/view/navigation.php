@@ -233,7 +233,7 @@ function closeMobileMenu() {
     document.body.style.overflow = 'auto';
 }
 
-// Auto-hide Navbar on Scroll
+/* Auto-hide Navbar on Scroll */
 let lastScrollTop = 0;
 const navbar = document.querySelector('nav');
 
@@ -242,17 +242,17 @@ window.addEventListener('scroll', function() {
     
     if (isMobileMenuOpen) return;
     
-    // Jangan sembunyikan jika berada di paling atas
+    /* Jangan sembunyikan jika berada di paling atas */
     if (scrollTop <= 55) {
         navbar.style.top = '0';
         return;
     }
     
     if (scrollTop > lastScrollTop) {
-        // Scroll ke bawah -> Sembunyikan navbar
+        /* Scroll ke bawah -> Sembunyikan navbar */
         navbar.style.top = '-80px'; 
     } else {
-        // Scroll ke atas -> Tampilkan navbar
+        /* Scroll ke atas -> Tampilkan navbar */
         navbar.style.top = '0';
     }
     

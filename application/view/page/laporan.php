@@ -124,23 +124,21 @@ require_level('Mahasiswa');
             if (!empty($laporan)) {
 			foreach ($laporan as $r) {
 				// Status Logic mapped from existing checks
-				if ($r['RESPONSE'] != NULL && $r['RESPONSE'] != "") {
+				$responAvailable = ($r['RESPONSE'] != NULL && $r['RESPONSE'] != "");
+				if ($responAvailable) {
 					if ($r['RESPONSE'] == "Cukup") {
-                        $responBtn = "btn-view";
-						$prop = 'disabled="true"';
-						$statusBadge = '<span class="badge badge-read">Sudah Diperiksa</span>';
+                        $responBtn = "btn-view"; // Hijau
+						$statusBadge = '<span class="badge badge-read" style="background: #dcfce7; color: #16a34a;">Selesai (Cukup)</span>';
 					} else {
-                        $responBtn = "btn-cancel";
-						$prop = "";
-						$statusBadge = '<span class="badge badge-unread">Perlu Revisi</span>';
+                        $responBtn = "btn-warning"; // Kuning
+						$statusBadge = '<span class="badge badge-unread" style="background: #fef3c7; color: #d97706;">Perlu Revisi (Kurang)</span>';
 					}
+					$prop = ""; // Selalu bisa diklik jika ada respon
 				} else {
 					$responBtn = "btn-disable";
 					$prop = 'disabled="true"';
-					$statusBadge = '<span class="badge badge-pending">Belum Diperiksa</span>';
+					$statusBadge = '<span class="badge badge-pending" style="background: #f1f5f9; color: #64748b;">Menunggu Diperiksa</span>';
 				}
-
-				$mark = '';
 				?>
 				<div class="report-item">
 					<div class="report-icon">
@@ -153,44 +151,54 @@ require_level('Mahasiswa');
                         </svg>
                     </div>
 					<div class="report-info">
-						<h3 class="report-filename"><?= htmlspecialchars($r['FILENAME']) ?><?= $mark ?></h3>
+						<h3 class="report-filename"><?= htmlspecialchars($r['FILENAME']) ?></h3>
 						<div class="report-status"><?= $statusBadge ?></div>
 					</div>
-					<div class="report-actions">
-						<a class="btn btn-tiny btn-download" style="padding: 6px 12px; height: auto; text-decoration: none;" href="<?= htmlspecialchars($r['FILELINK']) ?>">Unduh</a>
-						<button class="btn btn-tiny <?= $responBtn ?>" <?= $prop ?> onclick="readResponseLaporan('<?= $r['NPM'] ?>', '<?= $r['FILENAME'] ?>')" style="padding: 6px 12px; height: auto;">Respon</button>
+					<div class="report-actions" style="display: flex; gap: 8px;">
+						<a class="btn btn-tiny btn-download" style="padding: 8px 16px; height: auto; text-decoration: none; border-radius: 8px; font-size: 13px;" href="<?= htmlspecialchars($r['FILELINK']) ?>">Unduh</a>
+						<button class="btn btn-tiny <?= $responBtn ?>" <?= $prop ?> onclick="readResponseLaporan('<?= $r['NPM'] ?>', '<?= $r['FILENAME'] ?>')" style="padding: 8px 16px; height: auto; border-radius: 8px; font-size: 13px;">Respon</button>
 					</div>
 				</div>
 			<?php } 
             }
             if (empty($laporan)) {
-                echo '<div class="empty-state"><p>Tidak Ada Laporan</p></div>';
+                echo '<div class="empty-state" style="text-align: center; padding: 40px; color: #64748b; font-style: italic;"><p>Tidak Ada Laporan yang Diupload</p></div>';
             }
             ?>
 		</div>
 	</div>
 </div>
 
+<!-- Modal Detail Respons -->
 <div id="modal" class="modal">
-	<div class="modal-centered" style="width: 450px;">
-		<div class="animate">
-			<div class="content" style="background:#fff; border-radius:8px; overflow:hidden;">
-				<div class="title" style="background:#f8f9fa; padding:15px; border-bottom:1px solid #eaeaea;">
-					<h1 style="display:flex; justify-content:space-between; margin:0; font-size:16px; color:#a805a8;">Respons Laporan
-						<span class="action-right">
-							<a onclick="document.getElementById('modal').style.display='none'" class="btn btn-tiny btn-danger btn-close" title="Close Modal" style="float: right; cursor:pointer;"></a>
-						</span>
-					</h1>
-				</div>
-				<div class="container" id="contain" style="padding: 20px;">
-					<div class="field">
-						<div id="response"></div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
+    <div class="modal-centered" style="max-width: 480px; width: 90%;">
+        <div class="content animate" style="border-radius: 16px; border: none; background: #fff; display: flex; flex-direction: column; max-height: 85vh; width: 100%; box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);">
+            <div class="container" id="contain" style="padding: 0; width: 100%; display: flex; flex-direction: column; overflow: hidden; border-radius: 16px;">
+                <div class="title" style="background: #a805a8; color: white; padding: 18px 24px; margin: 0; display: flex; justify-content: space-between; align-items: center; flex-shrink: 0;">
+                    <h1 style="font-size: 18px; font-weight: 600; margin: 0; padding: 0; border: none; color: white;">
+                        Hasil Review Laporan
+                    </h1>
+                    <span onclick="document.getElementById('modal').style.display='none'" style="cursor: pointer; font-size: 24px; line-height: 1; color: white; opacity: 0.8;" title="Tutup">&times;</span>
+                </div>
+                <div class="field" style="padding: 24px; background: white; margin: 0; overflow-y: auto; flex-grow: 1;">
+                    <div id="response-content">
+                        <div style="text-align: center; padding: 20px;">
+                            <div class="loading-spinner" style="border: 3px solid #f3f3f3; border-top: 3px solid #a805a8; border-radius: 50%; width: 30px; height: 30px; animation: spin 1s linear infinite; margin: 0 auto 10px;"></div>
+                            <p style="color: #64748b; font-size: 14px;">Memuat respon...</p>
+                        </div>
+                    </div>
+                    <div style="margin-top: 24px; display: flex; justify-content: center;">
+                        <button type="button" onclick="document.getElementById('modal').style.display='none'" style="padding: 10px 30px; background: #f1f5f9; color: #475569; border: 1.5px solid #e2e8f0; border-radius: 10px; font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.2s;">Tutup</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
+
+<style>
+@keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+</style>
 
 <script type="text/javascript">
 	function toggleUploadPanel() {
@@ -199,14 +207,41 @@ require_level('Mahasiswa');
 	}
 
 	function readResponseLaporan(npm, skl) {
+		const contentArea = document.getElementById("response-content");
+		const modal = document.getElementById('modal');
+		
+		/* Reset content and show modal */
+		contentArea.innerHTML = `
+			<div style="text-align: center; padding: 20px;">
+				<div class="loading-spinner" style="border: 3px solid #f3f3f3; border-top: 3px solid #a805a8; border-radius: 50%; width: 30px; height: 30px; animation: spin 1s linear infinite; margin: 0 auto 10px;"></div>
+				<p style="color: #64748b; font-size: 14px;">Memuat respon...</p>
+			</div>
+		`;
+		modal.style.display = "block";
+
 		var xhttp = new XMLHttpRequest();
-		document.getElementById('modal').style.display = "block";
 		xhttp.onreadystatechange = function() {
-			if (this.readyState == 4 && this.status == 200) {
-				document.getElementById("response").innerHTML = this.responseText;
+			if (this.readyState == 4) {
+				if (this.status == 200) {
+					if (this.responseText.trim() !== "") {
+						contentArea.innerHTML = `
+							<div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 20px;">
+								<div style="margin-bottom: 15px; border-bottom: 1px dashed #cbd5e1; padding-bottom: 10px;">
+									<span style="font-size: 12px; font-weight: 600; color: #64748b; text-transform: uppercase; letter-spacing: 0.5px;">Laporan</span>
+									<div style="font-size: 15px; font-weight: 700; color: #1e293b; margin-top: 4px;">${skl}</div>
+								</div>
+								${this.responseText}
+							</div>
+						`;
+					} else {
+						contentArea.innerHTML = '<div style="text-align: center; color: #64748b; padding: 20px;">Belum ada respon untuk laporan ini.</div>';
+					}
+				} else {
+					contentArea.innerHTML = '<div style="text-align: center; color: #ef4444; padding: 20px;">Gagal memuat data. Silakan coba lagi.</div>';
+				}
 			}
 		};
-		xhttp.open("GET", "?page=laporan&ajax=get_response&id=" + npm + "&object=" + skl, true);
+		xhttp.open("GET", "?page=laporan&ajax=get_response&id=" + npm + "&object=" + encodeURIComponent(skl), true);
 		xhttp.send();
 	}
 
