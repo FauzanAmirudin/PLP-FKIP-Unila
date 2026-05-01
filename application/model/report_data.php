@@ -176,10 +176,12 @@ class report_data extends gf_model
             ->where($condition);
 
         if (!empty($npm)) {
-            $safe_npm = addslashes($npm);
+            /* Improve security using real_escape_string instead of simple addslashes */
+            $safe_npm = $this->dbAccess->mysql->real_escape_string($npm);
             $this->dbAccess->where("(`datamahasiswa`.`NPM` LIKE '%$safe_npm%' OR `datamahasiswa`.`NAMA` LIKE '%$safe_npm%')");
             if (!empty($dosen)) {
-                $this->dbAccess->where("`datapenempatan`.`DPLUSRKEY` = '$dosen'");
+                $safe_dosen = $this->dbAccess->mysql->real_escape_string($dosen);
+                $this->dbAccess->where("`datapenempatan`.`DPLUSRKEY` = '$safe_dosen'");
             }
         }
 

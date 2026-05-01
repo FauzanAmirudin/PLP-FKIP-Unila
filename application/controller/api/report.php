@@ -34,31 +34,29 @@ class report extends gf_controller
 			$id = strip_tags($_GET['id']);
 			$respons = strip_tags($_POST['respons']);
 			$komentar = strip_tags(isset($_POST['komentar']) ? $_POST['komentar'] : '');
-			global $REPORT;
-			
 			if (empty(trim($komentar))) {
-				$REPORT .= '<div class="info info-danger" style="margin-bottom: 10px; padding: 10px; border-radius: 6px; background: #fee2e2; color: #dc2626; border: 1px solid #f87171;"><a>Komentar atau catatan revisi wajib diisi untuk semua penilaian.</a></div>';
-				echo $REPORT;
+				$this->data['error'] = 'Komentar atau catatan revisi wajib diisi untuk semua penilaian.';
+				$this->load->view('ajax/report_message', $this->data);
 				return;
 			}
 			
 			switch ($respons) {
 				case 'Tidak Ada':
-					$REPORT .= '<div class="info info-danger" style="margin-bottom: 10px; padding: 10px; border-radius: 6px; background: #fee2e2; color: #dc2626; border: 1px solid #f87171;"><a>Anda belum memilih status respons laporan.</a></div>';
+					$this->data['error'] = 'Anda belum memilih status respons laporan.';
 					break;
 				case 'Cukup':
 				case 'Kurang':
 					if ($this->report->response($id, $respons, $komentar)) {
-						$REPORT .= '<div class="info info-success" style="margin-bottom: 10px; padding: 10px; border-radius: 6px; background: #dcfce7; color: #16a34a; border: 1px solid #4ade80;"><a>Response dan komentar berhasil disimpan.</a></div>';
+						$this->data['success'] = 'Response dan komentar berhasil disimpan.';
 					} else {
-						$REPORT .= '<div class="info info-danger" style="margin-bottom: 10px; padding: 10px; border-radius: 6px; background: #fee2e2; color: #dc2626; border: 1px solid #f87171;"><a>Response gagal disimpan.</a></div>';
+						$this->data['error'] = 'Response gagal disimpan.';
 					}
 					break;
 				default:
-					$REPORT .= '<div class="info info-danger" style="margin-bottom: 10px; padding: 10px; border-radius: 6px; background: #fee2e2; color: #dc2626; border: 1px solid #f87171;"><a>Pilihan respons tidak valid.</a></div>';
+					$this->data['error'] = 'Pilihan respons tidak valid.';
 					break;
 			}
-			echo $REPORT;
+			$this->load->view('ajax/report_message', $this->data);
 		}
 	}
 	public function comment()
