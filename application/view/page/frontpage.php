@@ -34,7 +34,7 @@ defined('GF_BASE_PATH') OR exit('No direct script access allowed');
 
 	<div class="welcome-section">
 		<div class="welcome-visual">
-			<img src="assets/images/welcome-visual.jpg" alt="Welcome to PLP" onerror="this.src='https://placehold.co/600x800/e2e8f0/64748b?text=Welcome+Image'" />
+			<img src="assets/images/hero-asset.jpg" alt="Welcome to PLP" onerror="this.src='https://placehold.co/600x800/e2e8f0/64748b?text=Welcome+Image'" />
 		</div>
 		<div class="welcome-content">
 			<span class="welcome-badge">TENTANG PLP</span>

@@ -5,10 +5,11 @@ defined('GF_BASE_PATH') or exit('No direct script access allowed');
  */
 
 require_level('Admin, Monitor, Operator');
-$tahun  = !empty($_POST['tahun'])  ? strip_tags($_POST['tahun'])   : NULL;
-$npm    = !empty($_POST['npm'])    ? strip_tags($_POST['npm'])     : NULL;
-$prodi  = !empty($_POST['prodi'])  ? strip_tags($_POST['prodi'])   : NULL;
-$berkas = !empty($_POST['status']) &&  $npm == NULL  ? strip_tags($_POST['status'])  : NULL;
+/* Use data from controller as primary source */
+$tahun  = isset($tahun) ? $tahun : NULL;
+$npm    = isset($npm) ? $npm : NULL;
+$prodi  = isset($prodi) ? $prodi : NULL;
+$berkas = isset($berkas) ? $berkas : NULL;
 $dataAccess = clone $this->database('default', 'dbconfig', TRUE);
 $data = $dataAccess->reset()->column("TAHUNDAFTAR, COUNT(TAHUNDAFTAR) AS JUMLAHPESERTA", FALSE)->group("TAHUNDAFTAR")->result_array('databerkas');
 $label  = "";
@@ -95,9 +96,9 @@ foreach ($data as $n => $d) {
     color: #475569;
   }
 </style>
-<div class="settings-container">
+<div class="schedule-container">
   
-  <div class="settings-card" style="margin-bottom: 20px;">
+  <div class="schedule-card" style="margin-bottom: 25px;">
     <div class="card-header">
       <h1 class="card-title">Statistik Pendaftar</h1>
       <p class="card-subtitle">Pantau grafik perbandingan jumlah pendaftar setiap tahunnya.</p>
@@ -110,14 +111,15 @@ foreach ($data as $n => $d) {
     </div>
   </div>
 
-  <div class="settings-card" style="margin-bottom: 20px;">
+  <div class="schedule-card" style="margin-bottom: 25px;">
     <div class="card-header">
       <h1 class="card-title">Pencarian & Filter Data</h1>
       <p class="card-subtitle">Gunakan filter di bawah ini untuk menampilkan spesifik data peserta.</p>
     </div>
 
     <div style="margin-top: 20px;">
-      <form class="form" method="post" action="?page=registration/data">
+      <form class="form" method="get" action="">
+        <input type="hidden" name="page" value="registration/data">
         <div class="filter-form-grid">
           <div class="input-group">
             <label for="tahun">Tahun<span class="required" style="color: #ef4444; margin-left: 2px;">*</span></label>
@@ -129,11 +131,8 @@ foreach ($data as $n => $d) {
                   return $a["TAHUNDAFTAR"];
                 }, $alltahun);
                 foreach ($alltahun as $key => $TAHUNDAFTAR_VAL) {
-                  if ($TAHUNDAFTAR_VAL == $tahun) {
-                    echo '<option value="' . $TAHUNDAFTAR_VAL . '" selected>' . $TAHUNDAFTAR_VAL . '</option>';
-                  } else {
-                    echo '<option value="' . $TAHUNDAFTAR_VAL . '">' . $TAHUNDAFTAR_VAL . '</option>';
-                  }
+                  $isSelected = ($TAHUNDAFTAR_VAL == $tahun) ? 'selected' : '';
+                  echo '<option value="' . $TAHUNDAFTAR_VAL . '" ' . $isSelected . '>' . $TAHUNDAFTAR_VAL . '</option>';
                 }
               } else {
                 echo '<option>Belum ada pendaftar</option>';
@@ -154,14 +153,11 @@ foreach ($data as $n => $d) {
                 $allprodi = array_map(function ($a) {
                   return $a["PROGRAMSTUDI"];
                 }, $allprodi);
+                echo '<option value="" ' . (empty($prodi) ? 'selected' : '') . '>Semua Program Studi</option>';
                 foreach ($allprodi as $PROGRAMSTUDI_VAL) {
-                  if ($PROGRAMSTUDI_VAL == $prodi) {
-                    echo '<option value="' . $PROGRAMSTUDI_VAL . '" selected>' . $PROGRAMSTUDI_VAL . '</option>';
-                  } else {
-                    echo '<option value="' . $PROGRAMSTUDI_VAL . '">' . $PROGRAMSTUDI_VAL . '</option>';
-                  }
+                  $isSelected = ($PROGRAMSTUDI_VAL == $prodi) ? 'selected' : '';
+                  echo '<option value="' . $PROGRAMSTUDI_VAL . '" ' . $isSelected . '>' . $PROGRAMSTUDI_VAL . '</option>';
                 }
-                if (!empty($npm)) echo '<option value="" selected>Semua</option>';
               } else {
                 echo '<option>Belum ada pendaftar</option>';
               }
@@ -191,23 +187,12 @@ foreach ($data as $n => $d) {
     </div>
   </div>
   <?php
-  $dataAccess->reset();
-  $dataAccess->join('databerkas', 'datamahasiswa.USRKEY = databerkas.USRKEY');
-  // $dataAccess->join('statusberkas', 'datamahasiswa.USRKEY = statusberkas.USRKEY');
-  // $dataAccess->column('datamahasiswa.USRKEY, NAMA, datamahasiswa.NPM, PROGRAMSTUDI, JENISKELAMIN, NOTELEPON, statusberkas.STATUSBERKAS');
-  if (!in_array($prodi, $allprodi)) $prodi = NULL;
-  $TAHUNDAFTAR = !empty($tahun) ? $tahun : (!empty($alltahun) && isset($alltahun[0]) ? $alltahun[0] : "");
-  $PROGRAMSTUDI = !empty($prodi) ? $prodi : (!empty($allprodi) && isset($allprodi[0]) ? $allprodi[0] : "*");
-  $dataAccess->where(["TAHUNDAFTAR" => $TAHUNDAFTAR]);
-  if (!empty($npm)) {
-    $dataAccess->where(["NPM" => $npm]);
-  } else {
-    $dataAccess->where(["PROGRAMSTUDI" => $PROGRAMSTUDI]);
-  }
-  $data = $dataAccess->result_array('datamahasiswa');
-  // print $dataAccess->last_query;
+  /* Use data prepared by controller */
+  $data = isset($mahasiswa) ? $mahasiswa : [];
+  $TAHUNDAFTAR = !empty($tahun) ? $tahun : "Seluruh Tahun";
+  $PROGRAMSTUDI = !empty($prodi) ? $prodi : "Seluruh Program Studi";
   ?>
-  <div class="settings-card">
+  <div class="schedule-card">
     <div class="card-header">
       <h1 class="card-title">Daftar Mahasiswa Tahun <?= $TAHUNDAFTAR ?><?= isset($PROGRAMSTUDI) && $PROGRAMSTUDI !== '*' ? ", Program studi " . htmlspecialchars($PROGRAMSTUDI) : "" ?></h1>
       <p class="card-subtitle">Berikut adalah data pendaftar yang sesuai dengan kriteria yang dipilih.</p>
@@ -215,44 +200,59 @@ foreach ($data as $n => $d) {
     
     <div style="margin-top: 20px;">
       <?php
-      if ($data !== FALSE && count($data) != 0) {
-        $tabel = "";
-        $tabel .= "        <div class=\"table-responsive\">\n";
-        $tabel .= "          <table class=\"modern-table\">\n";
-        $tabel .= "            <thead>\n";
-        $tabel .= "            <tr>\n";
-        $tabel .= "              <th width=\"50px\">No</th>\n";
-        $tabel .= "              <th>Mahasiswa</th>\n";
-        $tabel .= "              <th>Program Studi</th>\n";
-        $tabel .= "              <th>Kontak</th>\n";
-        $tabel .= "              <th>Status</th>\n";
-        $tabel .= "              <th width=\"80px\">Action</th>\n";
-        $tabel .= "            </tr>\n";
-        $tabel .= "            </thead>\n";
-        $tabel .= "            <tbody>\n";
-        $n = 1;
-        $berkasAccess = clone $this->database('default', 'dbconfig', TRUE);
-        foreach ($data as $key => $r) {
-          $result = $berkasAccess->reset()->where(["USRKEY" => $r["USRKEY"]])->result_row_array('datastatus');
-          if ($berkas !== NULL && $result["STATUSBERKAS"] != $berkas) continue;
-          
-          $statusBadge = ($result["STATUSBERKAS"] != FALSE ? $result["STATUSBERKAS"] : "Pengajuan");
-          $statusColor = ($statusBadge == "Disetujui") ? "#10b981" : (($statusBadge == "Ditolak") ? "#ef4444" : "#f59e0b");
-          
-          $tabel .= "            <tr>\n";
-          $tabel .= "              <td>" . $n . "</td>\n";
-          $tabel .= "              <td><div style=\"font-weight:600;color:#333;\">" . htmlspecialchars($r["NAMA"]) . "</div><div style=\"font-size:12px;color:#64748b;\">" . htmlspecialchars($r["NPM"]) . "</div></td>\n";
-          $tabel .= "              <td>" . htmlspecialchars($r["PROGRAMSTUDI"]) . "</td>\n";
-          $tabel .= "              <td><div style=\"font-size:13px;\">" . htmlspecialchars($r["NOTELEPON"]) . "</div><div style=\"font-size:12px;color:#64748b;\">" . htmlspecialchars($r["JENISKELAMIN"]) . "</div></td>\n";
-          $tabel .= "              <td><span style=\"background:" . $statusColor . "20; color:" . $statusColor . "; padding:4px 8px; border-radius:4px; font-size:12px; font-weight:600;\">" . htmlspecialchars($statusBadge) . "</span></td>\n";
-          $tabel .= "              <td><a class=\"btn btn-tiny btn-view\" style=\"background:#64748b; color:white; border:none; border-radius:4px; padding:6px 12px; text-decoration:none;\" href=\"?page=biodata&NPM=" . $r["NPM"] . "\">Detail</a></td>\n";
-          $tabel .= "            </tr>\n";
-          $n++;
-        }
-        $tabel .= "          </tbody></table>\n";
-        $tabel .= "        </div>\n";
-        echo $tabel;
-      } else { ?>
+      if ($data !== FALSE && count($data) != 0) { ?>
+        <div class="table-responsive">
+          <table class="modern-table">
+            <thead>
+              <tr>
+                <th width="60px" style="text-align: center;">No</th>
+                <th>Mahasiswa</th>
+                <th>Program Studi</th>
+                <th>Kontak</th>
+                <th width="120px" style="text-align: center;">Status</th>
+                <th width="100px" style="text-align: center;">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <?php
+              $n = 1;
+              $berkasAccess = clone $this->database('default', 'dbconfig', TRUE);
+              foreach ($data as $key => $r) {
+                /* Menggunakan status yang sudah diambil secara akurat oleh Controller melalui Model */
+                $statusBadge = (isset($r["STATUSBERKAS"]) && $r["STATUSBERKAS"] != FALSE) ? $r["STATUSBERKAS"] : "Pengajuan";
+                
+                if ($berkas !== NULL && $statusBadge != $berkas) continue;
+                
+                $statusColor = ($statusBadge == "Disetujui") ? "#10b981" : (($statusBadge == "Ditolak") ? "#ef4444" : "#f59e0b");
+                $statusBg = ($statusBadge == "Disetujui") ? "#dcfce7" : (($statusBadge == "Ditolak") ? "#fee2e2" : "#fef3c7");
+                ?>
+                <tr>
+                  <td style="text-align: center; color: #64748b; font-weight: 500;"><?= $n ?></td>
+                  <td>
+                    <div style="font-weight: 700; color: #1e293b; font-size: 14px;"><?= htmlspecialchars($r["NAMA"]) ?></div>
+                    <div style="font-size: 12px; color: #64748b; margin-top: 2px;"><?= htmlspecialchars($r["NPM"]) ?></div>
+                  </td>
+                  <td style="color: #475569; font-size: 13px;"><?= htmlspecialchars($r["PROGRAMSTUDI"]) ?></td>
+                  <td>
+                    <div style="font-size: 13px; color: #1e293b;"><?= htmlspecialchars($r["NOTELEPON"]) ?></div>
+                    <div style="font-size: 12px; color: #64748b;"><?= htmlspecialchars($r["JENISKELAMIN"]) ?></div>
+                  </td>
+                  <td style="text-align: center;">
+                    <span style="background: <?= $statusBg ?>; color: <?= $statusColor ?>; padding: 4px 10px; border-radius: 6px; font-size: 11px; font-weight: 700; border: 1px solid <?= $statusColor ?>33;">
+                      <?= strtoupper(htmlspecialchars($statusBadge)) ?>
+                    </span>
+                  </td>
+                  <td style="text-align: center;">
+                    <a class="btn btn-tiny btn-view" style="background: #a805a8; color: white; border: none; border-radius: 8px; padding: 6px 14px; text-decoration: none; font-size: 12px; font-weight: 600; display: inline-block;" href="?page=mahasiswa/data/<?= $r["USRKEY"] ?>&NPM=<?= $r["NPM"] ?>">Detail</a>
+                  </td>
+                </tr>
+                <?php
+                $n++;
+              } ?>
+            </tbody>
+          </table>
+        </div>
+      <?php } else { ?>
         <div class="empty-state" style="text-align: center; padding: 60px 20px;">
           <div style="background: #f0e3fc; width: 80px; height: 80px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px;">
             <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#a805a8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>

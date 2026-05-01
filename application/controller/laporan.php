@@ -23,6 +23,42 @@ class laporan extends gf_controller
         $this->load->model('extra_data', 'extra');
         $this->data['user'] = session_get();
     }
+    public function index()
+    {
+        $ajax = $this->input->get('ajax');
+        if ($ajax == 'get_response') {
+            $npm = $this->input->get('id');
+            $filename = $this->input->get('object');
+            $res = $this->report->get_response_by_file($npm, $filename);
+            if (!empty($res) && !empty($res['RESPONSE'])) {
+                $badgeColor = ($res['RESPONSE'] == 'Cukup') ? 'background: #dcfce7; color: #16a34a;' : 'background: #fef3c7; color: #d97706;';
+                echo '<div style="margin-bottom: 15px;">';
+                echo '<span style="font-size: 12px; font-weight: 600; color: #64748b; text-transform: uppercase; letter-spacing: 0.5px;">Status Review</span>';
+                echo '<div style="margin-top: 5px;"><span style="'. $badgeColor .' padding: 4px 12px; border-radius: 6px; font-size: 13px; font-weight: 700;">' . $res['RESPONSE'] . '</span></div>';
+                echo '</div>';
+                echo '<div>';
+                echo '<span style="font-size: 12px; font-weight: 600; color: #64748b; text-transform: uppercase; letter-spacing: 0.5px;">Komentar Dosen</span>';
+                echo '<div style="margin-top: 8px; color: #334155; line-height: 1.6; font-size: 14.5px; background: #fff; padding: 12px; border: 1px solid #e2e8f0; border-radius: 8px;">' . ($res['KRITIKSARAN'] ?: '<i>Tidak ada komentar.</i>') . '</div>';
+                echo '</div>';
+            }
+            exit;
+        }
+
+        if ($ajax == 'balas_laporan') {
+            $npm = $this->input->get('id');
+            $filename = $this->input->get('object');
+            $response = $this->input->post('respons');
+            $comment = $this->input->post('komentar');
+
+            $res = $this->report->save_response($npm, $filename, $response, $comment);
+            if ($res) {
+                echo '<div class="info info-success">Respons berhasil disimpan.</div>';
+            } else {
+                echo '<div class="info info-danger">Gagal menyimpan respons.</div>';
+            }
+            exit;
+        }
+    }
     public function mingguan($data)
     {
         $id = $this->getID($data, "Admin, Monitor, Operator, DPL");

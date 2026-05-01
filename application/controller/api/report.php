@@ -33,28 +33,29 @@ class report extends gf_controller
 		if ($_SERVER["REQUEST_METHOD"] == "POST") {
 			$id = strip_tags($_GET['id']);
 			$respons = strip_tags($_POST['respons']);
-			$komentar = strip_tags(isset($_POST['komentar']) ? $_POST['komentar'] : 'Tidak Ada');
+			$komentar = strip_tags(isset($_POST['komentar']) ? $_POST['komentar'] : '');
 			global $REPORT;
+			
+			if (empty(trim($komentar))) {
+				$REPORT .= '<div class="info info-danger" style="margin-bottom: 10px; padding: 10px; border-radius: 6px; background: #fee2e2; color: #dc2626; border: 1px solid #f87171;"><a>Komentar atau catatan revisi wajib diisi untuk semua penilaian.</a></div>';
+				echo $REPORT;
+				return;
+			}
+			
 			switch ($respons) {
 				case 'Tidak Ada':
-					$REPORT .= '<div class="info info-danger"><a>Anda belum memasukan respons laopran</a></div>';
+					$REPORT .= '<div class="info info-danger" style="margin-bottom: 10px; padding: 10px; border-radius: 6px; background: #fee2e2; color: #dc2626; border: 1px solid #f87171;"><a>Anda belum memilih status respons laporan.</a></div>';
 					break;
 				case 'Cukup':
-					if ($this->report->response($id, $respons, $komentar)) {
-						$REPORT .= '<div class="info info-success"><a>Response berhasil di simpan</a></div>';
-					} else {
-						$REPORT .= '<div class="info info-danger"><a>Response gagal disimpan</a></div>';
-					}
-					break;
 				case 'Kurang':
 					if ($this->report->response($id, $respons, $komentar)) {
-						$REPORT .= '<div class="info info-success"><a>Response berhasil di simpan</a></div>';
+						$REPORT .= '<div class="info info-success" style="margin-bottom: 10px; padding: 10px; border-radius: 6px; background: #dcfce7; color: #16a34a; border: 1px solid #4ade80;"><a>Response dan komentar berhasil disimpan.</a></div>';
 					} else {
-						$REPORT .= '<div class="info info-danger"><a>Response gagal disimpan</a></div>';
+						$REPORT .= '<div class="info info-danger" style="margin-bottom: 10px; padding: 10px; border-radius: 6px; background: #fee2e2; color: #dc2626; border: 1px solid #f87171;"><a>Response gagal disimpan.</a></div>';
 					}
 					break;
 				default:
-					$REPORT .= '<div class="info info-danger"><a>Anda belum memasukan respons laopran</a></div>';
+					$REPORT .= '<div class="info info-danger" style="margin-bottom: 10px; padding: 10px; border-radius: 6px; background: #fee2e2; color: #dc2626; border: 1px solid #f87171;"><a>Pilihan respons tidak valid.</a></div>';
 					break;
 			}
 			echo $REPORT;
