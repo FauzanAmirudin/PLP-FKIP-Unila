@@ -60,7 +60,7 @@ defined('GF_BASE_PATH') OR exit('No direct script access allowed');
 				<div class="info-card">
 					<h4 class="card-title"><?php echo htmlspecialchars(mb_strimwidth($info['JUDUL'], 0, 40, '...')); ?></h4>
 					<p class="card-desc"><?php echo htmlspecialchars(mb_strimwidth($info['INFORMASI'], 0, 100, '...')); ?></p>
-					<a href="?page=detailinformasi&id=<?php echo $info['ID']; ?>" class="card-link">READ MORE &mdash; &rarr;</a>
+					<a href="?page=detailinformasi&id=<?php echo (int)$info['ID']; ?>" class="card-link">READ MORE &mdash; &rarr;</a>
 				</div>
 				<?php } ?>
 			<?php } else { ?>

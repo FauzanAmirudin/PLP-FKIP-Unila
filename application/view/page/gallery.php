@@ -117,19 +117,6 @@ defined('GF_BASE_PATH') OR exit('No direct script access allowed');
     from { opacity: 0; transform: scale(0.94); }
     to   { opacity: 1; transform: scale(1); }
 }
-
-@media screen and (max-width: 600px) {
-    .gallery-grid {
-        grid-template-columns: repeat(2, 1fr) !important;
-        gap: 12px !important;
-    }
-    .gallery-main-section {
-        padding: 40px 15px !important;
-    }
-    .gallery-main-section .section-header .title {
-        font-size: 1.6rem !important;
-    }
-}
 </style>
 
 <script>

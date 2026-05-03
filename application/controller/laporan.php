@@ -118,8 +118,14 @@ class laporan extends gf_controller
 
             if ($upload['status']) {
                 $upload['data']['NPM'] = $npm;
-                // Ambil BERKASID dari data registrasi untuk disimpan sebagai BRKSKEY
-                $berkasId = isset($registration['ID']) ? (int)$registration['ID'] : $id;
+                // Pastikan BERKASID valid — blokir upload jika data registrasi tidak lengkap
+                if (empty($registration['ID'])) {
+                    save_notification("Upload Gagal: Data registrasi tidak ditemukan, tidak dapat menyimpan laporan.");
+                    @unlink(GF_BASE_PATH . DIRECTORY_SEPARATOR . str_replace('/', DIRECTORY_SEPARATOR, $upload['data']['FILELINK']));
+                    redirect($this->controler_name . "/mingguan/" . $id);
+                    exit;
+                }
+                $berkasId = (int)$registration['ID'];
                 $db_result = $this->report->save($id, $berkasId, $upload['data'], $this->data['user']['USERID']);
                 if ($db_result) {
                     $report = "Upload laporan berhasil!";

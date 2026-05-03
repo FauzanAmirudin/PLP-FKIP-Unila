@@ -92,7 +92,7 @@ class mahasiswa_data extends gf_model
 		$this->dbAccess->last_placement = $data;
 		return $data;
 	}
-	function group($id, $dplusrkey = NULL, $lokasidesa = NULL, $lokasisekolah = NULL)
+	function group($id, $dplusrkey = NULL)
 	{
 		if(isset($this->dbAccess->last_placement)){
 			$data = $this->dbAccess->last_placement;		

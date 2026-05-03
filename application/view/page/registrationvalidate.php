@@ -157,8 +157,11 @@ $dataAccess = clone $this->database('default', 'dbconfig', TRUE);
     rows.forEach(function(row, i) {
       row.style.display = (i >= start && i < end) ? '' : 'none';
     });
-    document.getElementById('pagination-info').textContent =
-      'Menampilkan ' + (Math.min(start + 1, total)) + '–' + Math.min(end, total) + ' dari ' + total + ' mahasiswa';
+    const infoEl = document.getElementById('pagination-info');
+    if (infoEl) {
+      infoEl.textContent =
+        'Menampilkan ' + (Math.min(start + 1, total)) + '\u2013' + Math.min(end, total) + ' dari ' + total + ' mahasiswa';
+    }
     renderNav();
   }
 

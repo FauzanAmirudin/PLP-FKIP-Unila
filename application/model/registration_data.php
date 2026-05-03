@@ -341,9 +341,11 @@ class registration_data extends gf_model
 			->join('datastatus', '`datastatus`.`BRKSKEY` = `databerkas`.`ID`', 'LEFT')
 			->where($condition);
 
-		/* LIKE search on NPM or NAMA (safe via real_escape_string) */
+		/* LIKE search on NPM or NAMA (safe via real_escape_string + wildcard escape) */
 		if (!empty($search)) {
-			$safe = $this->dbAccess->mysql->real_escape_string($search);
+			// Escape wildcard characters to prevent slow full-table-scan via '%%%%'
+			$search_esc = str_replace(['\\', '%', '_'], ['\\\\', '\\%', '\\_'], $search);
+			$safe = $this->dbAccess->mysql->real_escape_string($search_esc);
 			$this->dbAccess->where("(`datamahasiswa`.`NPM` LIKE '%$safe%' OR `datamahasiswa`.`NAMA` LIKE '%$safe%')");
 		}
 
@@ -380,7 +382,10 @@ class registration_data extends gf_model
 	public function parameter($key, int $year = NULL, string $periode = NULL)
 	{
 		$this->dbAccess->reset(TRUE);
-		if (!empty($year)) $this->dbAccess->where("`databerkas`.`TAHUNDAFTAR` = " . $year);
+		// Validasi numerik sebelum dipakai dalam query
+		if (!empty($year) && is_numeric($year)) {
+			$this->dbAccess->where("`databerkas`.`TAHUNDAFTAR` = " . (int)$year);
+		}
 		if (!empty($periode)) $this->dbAccess->where("`databerkas`.`PERIODEDAFTAR` = '" . $periode . "'");
 		$parameter = $this->dbAccess->tabel('datamahasiswa')
 			->join('databerkas', '`datamahasiswa`.`USRKEY` = `databerkas`.`USRKEY`')
