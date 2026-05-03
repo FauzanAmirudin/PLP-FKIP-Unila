@@ -153,14 +153,19 @@ class registration_data extends gf_model
 	function list(int $year = NULL, string $periode = NULL, string $status = NULL, string $prodi = NULL, string $npm = NULL)
 	{
 		$condition = array();
-		if (!empty($year)) $condition["`TAHUNDAFTAR`"] = $year;
+		if (!empty($year)) $condition["`databerkas`.`TAHUNDAFTAR`"] = $year;
 		if (!empty($periode)) $condition["`PERIODEDAFTAR`"] = $periode;
+
+		/* If npm/name search provided, skip prodi filter and use LIKE search instead */
+		$search = NULL;
 		if (!empty($npm)) {
 			$status = NULL;
-			$condition["NPM"] = $npm;
-		} else if (!empty($prodi) && empty($npm)) $condition["PROGRAMSTUDI"] = $prodi;
+			$search = $npm; /* passed to data_registration for LIKE handling */
+		} elseif (!empty($prodi)) {
+			$condition["`datamahasiswa`.`PROGRAMSTUDI`"] = $prodi;
+		}
 
-		$result = $this->data_registration($condition, $status);
+		$result = $this->data_registration($condition, $status, $search);
 		return $result;
 	}
 	/**
@@ -308,7 +313,7 @@ class registration_data extends gf_model
 		// echo ($this->dbAccess->last_query);
 		return $result;
 	}
-	private function data_registration($condition = '', $status = NULL)
+	private function data_registration($condition = '', $status = NULL, $search = NULL)
 	{
 		$this->dbAccess->reset();
 		$suport = $this->dbAccess->suport_version('20.0.0');
@@ -334,11 +339,20 @@ class registration_data extends gf_model
 			))
 			->join('databerkas', '`databerkas`.`USRKEY` = `datamahasiswa`.`USRKEY`', 'INNER')
 			->join('datastatus', '`datastatus`.`BRKSKEY` = `databerkas`.`ID`', 'LEFT')
-			->where($condition)
+			->where($condition);
+
+		/* LIKE search on NPM or NAMA (safe via real_escape_string) */
+		if (!empty($search)) {
+			$safe = $this->dbAccess->mysql->real_escape_string($search);
+			$this->dbAccess->where("(`datamahasiswa`.`NPM` LIKE '%$safe%' OR `datamahasiswa`.`NAMA` LIKE '%$safe%')");
+		}
+
+		$this->dbAccess
 			->order("TAHUNDAFTAR", 'DESC')
 			->order("PERIODEDAFTAR", 'DESC')
 			->order("NPM", 'ASC')
 			->order("DATEVALID", 'DESC');
+
 		if ($suport) {
 			$this->dbAccess
 				->column("row_number() over ( PARTITION BY datastatus.BRKSKEY ORDER BY datastatus.DATEVALID DESC ) AS NUMRECORD", FALSE);
@@ -346,7 +360,7 @@ class registration_data extends gf_model
 			$result = $this->dbAccess->reset(TRUE)
 				->tabel("(" . $tabel . ") AS NUMRECORD", FALSE)
 				->where("NUMRECORD = 1");
-			if (!empty($status)) $this->dbAccess->where("`STATUSBERKAS` = '" . $status . "'");
+			if (!empty($status)) $this->dbAccess->where("`STATUSBERKAS` = '" . $this->dbAccess->mysql->real_escape_string($status) . "'");
 			$result = $this->dbAccess->result_array();
 		} else {
 			$result = $this->dbAccess->result_array();
@@ -357,7 +371,6 @@ class registration_data extends gf_model
 				else {
 					$last_row['USRKEY'] = $row['USRKEY'];
 					if (!empty($status) && $row['STATUSBERKAS'] != $status) unset($result[$key]);
-					// var_dump($row);
 				}
 			}
 		}
@@ -367,7 +380,7 @@ class registration_data extends gf_model
 	public function parameter($key, int $year = NULL, string $periode = NULL)
 	{
 		$this->dbAccess->reset(TRUE);
-		if (!empty($tahun)) $this->dbAccess->where("`databerkas`.`TAHUNDAFTAR` = " . $tahun);
+		if (!empty($year)) $this->dbAccess->where("`databerkas`.`TAHUNDAFTAR` = " . $year);
 		if (!empty($periode)) $this->dbAccess->where("`databerkas`.`PERIODEDAFTAR` = '" . $periode . "'");
 		$parameter = $this->dbAccess->tabel('datamahasiswa')
 			->join('databerkas', '`datamahasiswa`.`USRKEY` = `databerkas`.`USRKEY`')

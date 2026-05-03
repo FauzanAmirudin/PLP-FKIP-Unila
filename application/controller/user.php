@@ -199,7 +199,7 @@ class user extends gf_controller
 			save_notification($report);
 		}
 		$this->data['config'] = get_dbconfig();
-		$this->alert = implode("\n", get_notification());
+		$this->data['notification'] = implode("<br/>", get_notification());
 		$this->load->view("navigation", $this->data);
 		$this->load->view("sidebar", $this->data);
 		$this->load->view("page/resetpassword", $this->data);
@@ -229,6 +229,15 @@ class user extends gf_controller
 							"ACTIVE"	=> 1,
 						));
 						if ($result == TRUE) {
+							$user = $this->user->check($Username);
+							if ($Type == 'DPL') {
+								$this->user->insert_config(array(
+									"USRKEY"          => $user['ID'],
+									"NAMADOSEN"       => $FullName,
+									"NIPDOSEN"        => $Username,
+									"HANDPHPONEDOSEN" => ""
+								), "DPL");
+							}
 							$report = 'User ' . $Type . ' dengan username ' . $Username . ' Berhasil dibuat dengan password ' . $Password;
 						} else {
 							$report = 'User ' . $Username . ' Password Gagal dibuat.';

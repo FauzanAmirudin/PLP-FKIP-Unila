@@ -213,6 +213,7 @@ $color-border: #e2e8f0;
     }
 
     .gallery-main-section .gallery-grid {
-        grid-template-columns: 1fr;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
     }
 }

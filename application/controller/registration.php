@@ -56,7 +56,7 @@ class registration extends gf_controller
 		$this->data['periode'] = !empty($periode) ? $periode : get_dbconfig('CURENTSEMESTER');
 
 		$this->data['allprodi'] = $this->registrasi->register_prodi($this->data['tahun'], $this->data['periode']);
-		$this->data['prodi'] = empty($npm) ? (!empty($prodi) ? $prodi : (!empty($this->data['allprodi']) ? current($this->data['allprodi'])["PROGRAMSTUDI"] : NULL)) : NULL;
+		$this->data['prodi'] = !empty($prodi) ? $prodi : NULL;
 
 		$this->data['berkas'] = !empty($berkas) ? $berkas : NULL;
 
@@ -87,7 +87,7 @@ class registration extends gf_controller
 		$this->data['periode'] = !empty($periode) ? $periode : (!empty($this->data['allperiode']) ? current($this->data['allperiode'])['PERIODEDAFTAR'] : NULL);
 
 		$this->data['allprodi'] = $this->registrasi->register_prodi((int)$this->data['tahun'], $this->data['periode']);
-		$this->data['prodi'] = empty($npm) ? (!empty($prodi) ? $prodi : (!empty($this->data['allprodi']) ? current($this->data['allprodi'])["PROGRAMSTUDI"] : NULL)) : NULL;
+		$this->data['prodi'] = !empty($prodi) ? $prodi : NULL;
 
 		$this->data['npm'] = $npm;
 
@@ -118,34 +118,9 @@ class registration extends gf_controller
 	public function assignment()
 	{
 		require_level("Admin");
-		if (!empty($this->input->post())) {
-			$Username = $this->input->post('User');
-			$FullName = $this->input->post('Name');
-			$Type = $this->input->post('Type');
-			$Password = $this->input->post('Password');
-			$rePassword = $this->input->post('rePassword');
-			$this->data['UserData'] = array($Username, $FullName, $Type);
-			if (!empty($Username) && !empty($FullName) && !empty($Type) && !empty($Password) && !empty($rePassword)) {
-				$userCheck = $this->user->check($Username);
-				if (empty($userCheck)) {
-					if ($Password === $rePassword) {
-						$result = $this->user->insert(array(
-							"USERID"	=> $Username,
-							"PASSWORD"	=> str_encrypt($Password),
-							"STAT"		=> $Type,
-							"NOTE"		=> $FullName,
-							"ACTIVE"	=> 1,
-						));
-						if ($result == TRUE) {
-							$report = 'User ' . $Type . ' dengan username ' . $Username . ' Berhasil dibuat dengan password ' . $Password;
-						} else {
-							$report = 'User ' . $Username . ' Password Gagal dibuat.';
-						}
-					} else $report = 'Password yang dimasukan tidak sama.';
-				} else $report = 'User sudah terdaftar di dalam system.';
-			} else $report = 'Data tidak lengkap mohon isi semua data yang diperlukan.';
-			save_notification($report);
-		}
+		// Halaman ini hanya memuat view untuk Bulk Assignment.
+		// Upload file diproses secara mandiri oleh API di application/controller/api/upload.php
+
 		$this->data['config'] = get_dbconfig();
 		$this->alert = implode("\n", get_notification());
 		$this->load->view("navigation", $this->data);
