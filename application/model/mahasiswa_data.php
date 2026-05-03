@@ -92,26 +92,25 @@ class mahasiswa_data extends gf_model
 		$this->dbAccess->last_placement = $data;
 		return $data;
 	}
-	function group($id)
+	function group($id, $dplusrkey = NULL)
 	{
 		if(isset($this->dbAccess->last_placement)){
 			$data = $this->dbAccess->last_placement;		
 		} else {
 			$data = $this->placement($id);
 		}
+		// Use passed $dplusrkey if provided, else fall back to last_placement data
+		$filter_dpl = !empty($dplusrkey) ? $dplusrkey : $data['DPLUSRKEY'];
 		$this->dbAccess->reset();
 		$this->dbAccess->tabel('datamahasiswa')
 		->join('datapenempatan', '`datapenempatan`.`USRKEY` = `datamahasiswa`.`USRKEY`')
 		->join('databerkas', '`databerkas`.`USRKEY` = `datamahasiswa`.`USRKEY`')
 		->where("`databerkas`.`TAHUNDAFTAR` = " . $data['TAHUNDAFTAR'])
 		->where("`databerkas`.`PERIODEDAFTAR` = '" . $data['PERIODEDAFTAR'] . "'")
-		->where("`datapenempatan`.`DPLUSRKEY` = " . $data['DPLUSRKEY'])
-		// ->where("`datapenempatan`.`LOKASIDESA` = '" . $data['LOKASIDESA'] ."'")
-		// ->where("`datapenempatan`.`LOKASISEKOLAH` = '" . $data['LOKASISEKOLAH'] . "'")
+		->where("`datapenempatan`.`DPLUSRKEY` = " . $filter_dpl)
 		->order('`datapenempatan`.`LOKASISEKOLAH`', 'ASC')
 		->order('`datamahasiswa`.`NPM`', 'ASC');
 		$data = $this->dbAccess->result_array();
-		// echo $this->dbAccess->last_query;
 		return $data;
 	}
 	function insert($data)

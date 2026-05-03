@@ -82,7 +82,7 @@ class mahasiswa extends gf_controller
 		if ($this->data['biodata_done'] && $this->data['registration_done']) {
 			$this->data['placement'] = $this->mahasiswa->placement($id);
 			if (isset($this->data['placement']) && !empty($this->data['placement']['DPLUSRKEY'])) {
-				$this->data['group'] = $this->mahasiswa->group($this->data['placement']['DPLUSRKEY'], $this->data['placement']['LOKASIDESA'], $this->data['placement']['LOKASISEKOLAH']);
+				$this->data['group'] = $this->mahasiswa->group($this->data['placement']['DPLUSRKEY']);
 			} else $this->data['group'] = NULL;
 		} else {
 			$report = '<a>Pendaftaran anda belum disetujui.</a>';

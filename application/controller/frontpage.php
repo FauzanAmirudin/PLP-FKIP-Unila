@@ -14,12 +14,13 @@ class frontpage extends gf_controller
 	{
 		parent::__construct();
 		$this->load->helper('dbconfig');
+		$this->load->model('informasi_data', 'informasi');
 	}
 	public function index()
 	{
+		$this->data['recent_info'] = $this->informasi->recent(3);
 		if (GF_ENVIRONMENT == "development") {
-			$user 	= "0913024042";
-			$pass 	= "gheachandra07";
+			// Dev mode: pre-fill registration form fields only (no admin credentials)
 			$name	= "Test Name";
 			$npm	= "123456789";
 			$npass1	= "123456";

@@ -9,8 +9,8 @@ require_level('Admin, Operator');
 <style>
 </style>
 <div class="settings-container">
-    <?php if (isset($response) && $response != null) {
-        echo '<div class="notif notif-primary-strong" style="margin-bottom: 20px;">' . $response . '</div>';
+    <?php if (isset($notification) && $notification != null) {
+        echo '<div class="notif notif-primary-strong" style="margin-bottom: 20px;">' . $notification . '</div>';
     } ?>
 
     <div class="settings-card">

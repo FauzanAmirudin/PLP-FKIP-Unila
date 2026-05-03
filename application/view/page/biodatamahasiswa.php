@@ -124,8 +124,8 @@ $r = $dbAccess->reset()->where("`NPM` = '$dataID'")->result_row_array('datamahas
 	}
 </style>
 <div class="profile-container">
-	<?php if (isset($response) && $response != null) {
-		echo '<div class="notif notif-primary-strong">' . $response . '</div>';
+	<?php if (isset($notification) && $notification != null) {
+		echo '<div class="notif notif-primary-strong">' . $notification . '</div>';
 	} ?>
 
 	<div class="profile-layout-wrapper">
@@ -182,8 +182,8 @@ $r = $dbAccess->reset()->where("`NPM` = '$dataID'")->result_row_array('datamahas
 				</div>
 
 				<div class="form-group-modern">
-					<label for="programStudy">Program Study<span class="required">*</span></label>
-					<select class="bioFormInput" id="prodyDummy" name="programStudy" onChange="displayQuestElement(this.value)" type="hidden">
+					<label for="prodyDummy">Program Study<span class="required">*</span></label>
+					<select class="bioFormInput" id="prodyDummy" name="programStudy" onChange="displayQuestElement(this.value)">
 						<option value="">Pilih Program studi</option>
 						<option value="">Pilih jurusan terlebih dahulu</option>
 					</select>
@@ -366,15 +366,29 @@ $r = $dbAccess->reset()->where("`NPM` = '$dataID'")->result_row_array('datamahas
 	if ($set != 1) { ?>
 		<script>
 			(function() {
-				document.getElementById("jurusan").value = "<?php echo $r["JURUSAN"]; ?>"
-				document.getElementById("<?php echo $r["JURUSAN"]; ?>").value = "<?php echo $r["PROGRAMSTUDI"]; ?>"
-				if ("<?php echo $r["JURUSAN"]; ?>" != "") {
-					document.getElementById("prodyDummy").style.display = "none";
-					document.getElementById("<?php echo $r["JURUSAN"]; ?>").style.display = "block";
+				const jur = "<?php echo $r["JURUSAN"]; ?>";
+				if (jur) {
+					const jurEl = document.getElementById("jurusan");
+					if (jurEl) jurEl.value = jur;
+					
+					const prodiEl = document.getElementById(jur);
+					if (prodiEl) {
+						prodiEl.value = "<?php echo $r["PROGRAMSTUDI"]; ?>";
+						prodiEl.style.display = "block";
+						if (document.getElementById("prodyDummy")) {
+							document.getElementById("prodyDummy").style.display = "none";
+						}
+					}
 				}
-				document.getElementById("jenisKelamin").value = "<?php echo $r["JENISKELAMIN"]; ?>"
-				document.getElementById("Agama").value = "<?php echo $r["AGAMA"]; ?>"
-				document.getElementById("ukuranBaju").value = "<?php echo $r["UKURANBAJU"]; ?>"
+				
+				const jkEl = document.getElementById("jenisKelamin");
+				if (jkEl) jkEl.value = "<?php echo $r["JENISKELAMIN"]; ?>";
+				
+				const agEl = document.getElementById("Agama");
+				if (agEl) agEl.value = "<?php echo $r["AGAMA"]; ?>";
+				
+				const ubEl = document.getElementById("ukuranBaju");
+				if (ubEl) ubEl.value = "<?php echo $r["UKURANBAJU"]; ?>";
 			})();
 		</script><?php $set = 1;
 			}

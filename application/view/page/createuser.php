@@ -18,7 +18,7 @@ require_level('Admin, Operator');
             <p class="card-subtitle">Daftarkan akun baru ke dalam sistem secara manual.</p>
         </div>
 
-        <form class="form" method="post" action="<?php set_url('user/create_user') ?>" id="createUserForm">
+        <form class="form" method="post" action="<?= set_url('user/create_user') ?>" id="createUserForm">
             <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px;">
                 <div class="settings-form-group">
                     <label for="User">Username / NPM <span class="required">*</span></label>

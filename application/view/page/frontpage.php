@@ -55,22 +55,18 @@ defined('GF_BASE_PATH') OR exit('No direct script access allowed');
 		</div>
 
 		<div class="info-grid">
-			<div class="info-card">
-				<h4 class="card-title">WEDDING SERVICE</h4>
-				<p class="card-desc">The chocolate fondant which did not disappoint. It was rich and indulgent, with a gooey center that was pure bliss.</p>
-				<a href="#" class="card-link">READ MORE &mdash; &rarr;</a>
-			</div>
-			
-			<div class="info-card">
-				<h4 class="card-title">WEDDING SERVICE</h4>
-				<p class="card-desc">The chocolate fondant which did not disappoint. It was rich and indulgent, with a gooey center that was pure bliss.</p>
-				<a href="#" class="card-link">READ MORE &mdash; &rarr;</a>
-			</div>
-			
-			<div class="info-card">
-				<h4 class="card-title">WEDDING SERVICE</h4>
-				<p class="card-desc">The chocolate fondant which did not disappoint. It was rich and indulgent, with a gooey center that was pure bliss.</p>
-				<a href="#" class="card-link">READ MORE &mdash; &rarr;</a>
-			</div>
+			<?php if (!empty($recent_info)) { ?>
+				<?php foreach ($recent_info as $info) { ?>
+				<div class="info-card">
+					<h4 class="card-title"><?php echo htmlspecialchars(mb_strimwidth($info['JUDUL'], 0, 40, '...')); ?></h4>
+					<p class="card-desc"><?php echo htmlspecialchars(mb_strimwidth($info['INFORMASI'], 0, 100, '...')); ?></p>
+					<a href="?page=detailinformasi&id=<?php echo (int)$info['ID']; ?>" class="card-link">READ MORE &mdash; &rarr;</a>
+				</div>
+				<?php } ?>
+			<?php } else { ?>
+				<div class="info-card" style="grid-column: 1 / -1; text-align: center;">
+					<p class="card-desc">Belum ada informasi terbaru saat ini.</p>
+				</div>
+			<?php } ?>
 		</div>
 	</div>

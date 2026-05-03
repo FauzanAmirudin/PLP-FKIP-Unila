@@ -118,8 +118,15 @@ class laporan extends gf_controller
 
             if ($upload['status']) {
                 $upload['data']['NPM'] = $npm;
-                // BRKSKEY uses USRKEY as fallback — no strict registration dependency
-                $db_result = $this->report->save($id, $id, $upload['data'], $this->data['user']['USERID']);
+                // Pastikan BERKASID valid — blokir upload jika data registrasi tidak lengkap
+                if (empty($registration['ID'])) {
+                    save_notification("Upload Gagal: Data registrasi tidak ditemukan, tidak dapat menyimpan laporan.");
+                    @unlink(GF_BASE_PATH . DIRECTORY_SEPARATOR . str_replace('/', DIRECTORY_SEPARATOR, $upload['data']['FILELINK']));
+                    redirect($this->controler_name . "/mingguan/" . $id);
+                    exit;
+                }
+                $berkasId = (int)$registration['ID'];
+                $db_result = $this->report->save($id, $berkasId, $upload['data'], $this->data['user']['USERID']);
                 if ($db_result) {
                     $report = "Upload laporan berhasil!";
                 } else {
@@ -150,9 +157,12 @@ class laporan extends gf_controller
         $this->data['allperiode'] = $this->registrasi->register_periode();
         $this->data['periode'] = empty($periode) ? (!empty($this->data['allperiode']) ? current($this->data['allperiode'])['PERIODEDAFTAR'] : NULL) : $periode;
         $this->data['npm'] = $npm;
+        $id = $this->getID($data, "Admin, Monitor, Operator");
         $this->data['form_link'] = "laporan/data/" . $id;
 
-        $this->data['mahasiswa'] = $this->report->list($this->data['tahun'], $this->data['periode'], $id, $this->data['npm']);
+        $dosenFilter = is_level("Admin, Monitor, Operator") ? NULL : $id;
+
+        $this->data['mahasiswa'] = $this->report->list($this->data['tahun'], $this->data['periode'], $dosenFilter, $this->data['npm']);
 
         $this->data['notification'] = implode("<br/>", get_notification());
         $this->load->view("navigation", $this->data);

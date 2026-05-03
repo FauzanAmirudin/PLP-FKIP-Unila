@@ -199,7 +199,7 @@ class user extends gf_controller
 			save_notification($report);
 		}
 		$this->data['config'] = get_dbconfig();
-		$this->alert = implode("\n", get_notification());
+		$this->data['notification'] = implode("<br/>", get_notification());
 		$this->load->view("navigation", $this->data);
 		$this->load->view("sidebar", $this->data);
 		$this->load->view("page/resetpassword", $this->data);
@@ -211,33 +211,59 @@ class user extends gf_controller
 		require_level("Admin");
 		$this->data['user'] = session_get();
 		if (!empty($this->input->post())) {
-			$Username = $this->input->post('User');
-			$FullName = $this->input->post('Name');
-			$Type = $this->input->post('Type');
-			$Password = $this->input->post('Password');
+			$Username   = $this->input->post('User');
+			$FullName   = $this->input->post('Name');
+			$Type       = $this->input->post('Type');
+			$Password   = $this->input->post('Password');
 			$rePassword = $this->input->post('rePassword');
 			$this->data['UserData'] = array($Username, $FullName, $Type);
+
+			// Whitelist tipe user yang diizinkan — mencegah bypass melalui manipulasi POST
+			$allowed_types = ['Mahasiswa', 'DPL', 'Operator', 'Monitor'];
+
 			if (!empty($Username) && !empty($FullName) && !empty($Type) && !empty($Password) && !empty($rePassword)) {
-				$userCheck = $this->user->check($Username);
-				if (empty($userCheck)) {
-					if ($Password === $rePassword) {
-						$result = $this->user->insert(array(
-							"USERID"	=> $Username,
-							"PASSWORD"	=> str_encrypt($Password),
-							"STAT"		=> $Type,
-							"NOTE"		=> $FullName,
-							"ACTIVE"	=> 1,
-						));
-						if ($result == TRUE) {
-							$report = 'User ' . $Type . ' dengan username ' . $Username . ' Berhasil dibuat dengan password ' . $Password;
-						} else {
-							$report = 'User ' . $Username . ' Password Gagal dibuat.';
-						}
-					} else $report = 'Password yang dimasukan tidak sama.';
-				} else $report = 'User sudah terdaftar di dalam system.';
+				if (!in_array($Type, $allowed_types)) {
+					$report = 'Tipe user tidak valid.';
+				} else {
+					$userCheck = $this->user->check($Username);
+					if (empty($userCheck)) {
+						if ($Password === $rePassword) {
+							$result = $this->user->insert(array(
+								"USERID"	=> $Username,
+								"PASSWORD"	=> str_encrypt($Password),
+								"STAT"		=> $Type,
+								"NOTE"		=> $FullName,
+								"ACTIVE"	=> 1,
+							));
+							if ($result == TRUE) {
+								if ($Type == 'DPL') {
+									$newUser = $this->user->check($Username);
+									$dpl_result = $this->user->insert_config(array(
+										"USRKEY"          => $newUser['ID'],
+										"NAMADOSEN"       => $FullName,
+										"NIPDOSEN"        => $Username,
+										"HANDPHPONEDOSEN" => ""
+									), "DPL");
+									if (!$dpl_result) {
+										// Rollback: hapus user jika insert dosen gagal
+										$this->user->delete($newUser['ID']);
+										$report = 'User ' . htmlspecialchars($Username) . ' gagal dibuat: data DPL tidak dapat disimpan.';
+										save_notification($report);
+										goto end_create_user;
+									}
+								}
+								// Jangan tampilkan password di notifikasi
+								$report = 'User ' . $Type . ' dengan username ' . htmlspecialchars($Username) . ' berhasil dibuat.';
+							} else {
+								$report = 'User ' . htmlspecialchars($Username) . ' gagal dibuat.';
+							}
+						} else $report = 'Password yang dimasukan tidak sama.';
+					} else $report = 'User sudah terdaftar di dalam system.';
+				}
 			} else $report = 'Data tidak lengkap mohon isi semua data yang diperlukan.';
 			save_notification($report);
 		}
+		end_create_user:
 		$this->data['config'] = get_dbconfig();
 		$this->alert = implode("\n", get_notification());
 		$this->load->view("navigation", $this->data);
