@@ -9,13 +9,13 @@ defined('GF_BASE_PATH') OR exit('No direct script access allowed');
 
 <div class="about-desc-section">
     <div class="desc-content">
-        <span class="badge">CRISPY, EVERY BITE TASTE</span>
+        <span class="badge">TENTANG PLP FKIP UNILA</span>
         <h2 class="title">PLP FKIP UNILA</h2>
         
         <p>The wise man therefore always holds<br>Indies matters this principle information.<br>The wise man therefore always holds<br>Indies matters this principle information<br>The wise man therefore always holds<br>Indies matters this principle information</p>
     </div>
     <div class="desc-visual">
-        <div class="image-placeholder"></div>
+        <img src="assets/images/about-asset.jpg" alt="About PLP" class="about-image">
     </div>
 </div>
 

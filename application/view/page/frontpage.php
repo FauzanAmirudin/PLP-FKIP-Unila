@@ -20,11 +20,10 @@ defined('GF_BASE_PATH') OR exit('No direct script access allowed');
 		<div class="hero-content">
 			<h1 class="hero-title-main">
 				PENGENALAN LAPANGAN<br/>
-				<span>PERSEKOLAHAN (PLP)</span>
+				<span>PERSEKOLAHAN (PLP)
+					<br> FKIP Universitas Lampung
+				</span>
 			</h1>
-			<p class="hero-subtitle">
-				Platform Pengenalan Lapangan Persekolahan (PLP) FKIP Universitas Lampung memudahkan pendaftaran, penempatan, hingga pelaporan mahasiswa.
-			</p>
 			
 			<!-- <div class="hero-actions">
 				<a href="?page=loby" class="btn-primary">DASHBOARD PESERTA</a>
@@ -37,8 +36,8 @@ defined('GF_BASE_PATH') OR exit('No direct script access allowed');
 			<img src="assets/images/hero-asset.jpg" alt="Welcome to PLP" onerror="this.src='https://placehold.co/600x800/e2e8f0/64748b?text=Welcome+Image'" />
 		</div>
 		<div class="welcome-content">
-			<span class="welcome-badge">TENTANG PLP</span>
-			<h3 class="welcome-title">WELCOME TO PLP FKIP<br />UNIVERSITAS LAMPUNG</h3>
+			<span class="welcome-badge">Welcome</span>
+			<h3 class="welcome-title">Selamat Datang di PLP FKIP<br />Universitas Lampung</h3>
 			<p class="welcome-desc">
 				Praktik Lapangan Terpadu (PLT) Fakultas Keguruan dan Ilmu Pendidikan Universitas Lampung memiliki tanggung jawab yang besar dalam pelaksanaan tridharma perguruan tinggi baik unsur pendidikan, penelitian, maupun pengabdian kepada masyarakat yang diwujudkan secara profesional dan berkarakter.
 			</p>
@@ -47,7 +46,7 @@ defined('GF_BASE_PATH') OR exit('No direct script access allowed');
 
 	<div class="info-section">
 		<div class="info-header">
-			<span class="info-badge">PANEL BERITA</span>
+			<span class="info-badge">PANEL INFORMASI</span>
 			<h3 class="info-title">INFORMASI TERBARU</h3>
 			<div class="info-dots">
 				<span></span><span></span><span></span><span></span>
