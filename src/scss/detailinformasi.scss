@@ -283,3 +283,83 @@ $color-border: #e2e8f0;
         }
     }
 }
+
+// Refactored from detailinformasi.php inline styles
+.detail-main-section {
+    .detail-content-left {
+        .full-article {
+            .article-hero-image.article-hero-custom {
+                background: none;
+                padding: 0;
+                margin-bottom: 24px;
+            }
+            .article-hero-img {
+                width: 100%;
+                max-height: 450px;
+                object-fit: cover;
+                border-radius: 12px;
+                display: block;
+            }
+            .article-meta {
+                .meta-item.meta-tag {
+                    background: #f0e3fc;
+                    color: #7c047c;
+                    padding: 2px 10px;
+                    border-radius: 20px;
+                    font-size: 11px;
+                    font-weight: 500;
+                }
+            }
+        }
+        
+        .back-link-wrapper {
+            margin-top: 30px;
+        }
+        
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            color: #a805a8;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 14px;
+            transition: all 0.2s;
+
+            &:hover {
+                gap: 10px;
+            }
+        }
+    }
+
+    .detail-sidebar-right {
+        .sidebar-widget {
+            .recent-posts-list {
+                .recent-item {
+                    .recent-thumb.recent-thumb-bg {
+                        background-size: cover;
+                        background-position: center;
+                    }
+                    .recent-thumb.recent-thumb-placeholder {
+                        background: #f0e3fc;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                    }
+                    .recent-info {
+                        .recent-title {
+                            .recent-link {
+                                text-decoration: none;
+                                color: inherit;
+                            }
+                        }
+                    }
+                }
+                .empty-info {
+                    color: #94a3b8;
+                    font-size: 13px;
+                }
+            }
+        }
+    }
+}

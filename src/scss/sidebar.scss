@@ -1,0 +1,93 @@
+.Sidebar {
+     box-shadow: 0 2px 3px 2px rgba(0, 0, 0, .03);
+     margin-left: 15px;
+}
+
+.SidebarAvatar {
+     font-size: small;
+     font-weight: 400;
+     padding: 12px;
+     background-color: #FFFFFF;
+     padding-left: 15px;
+     padding-right: 15px;
+     padding-bottom: 10px;
+     border-bottom: 1px solid rgba(220, 220, 220, 1.00);
+}
+
+.SidebarAvatar div {
+     padding-bottom: 5px;
+     border-bottom: medium solid #D304F0;
+     margin-bottom: 8px;
+}
+
+.SidebarMenu {
+     overflow-x: hidden;
+     background-color: #E7DEEC;
+}
+
+.SidebarMenu div a {
+     display: block;
+     cursor: pointer;
+     position: relative;
+     text-decoration: none;
+     background-color: #FFFFFF;
+     color: #835d99;
+     padding: 12px 15px 10px 10px;
+}
+
+.SidebarMenu div a:hover {
+     padding: 12px 15px 10px 10px;
+     background-color: #fbeffe;
+     border-left: 3px solid rgba(136, 6, 212, 1.00);
+     color: #A000FF;
+     -webkit-animation-name: menuBT;
+     /* Safari 4.0 - 8.0 */
+     -webkit-animation-duration: 0.5s;
+     /* Safari 4.0 - 8.0 */
+     animation-name: menuBT;
+     animation-duration: 0.5s;
+     left: 5px;
+}
+
+/* Safari 4.0 - 8.0 */
+@-webkit-keyframes menuBT {
+     0% {
+          background-color: #FFFFFF;
+          color: #835d99;
+          left: 0px;
+     }
+
+     100% {
+          background-color: #B762E9;
+          color: #A000FF;
+          left: 5px;
+     }
+}
+
+/* Standard syntax */
+@keyframes menuBT {
+     0% {
+          background-color: #FFFFFF;
+          color: #835d99;
+          left: 0px;
+     }
+
+     100% {
+          background-color: #fbeffe;
+          color: #A000FF;
+          left: 5px;
+     }
+}
+
+.SidebarMenu div a:after {
+     content: '\00bb';
+     position: absolute;
+     opacity: 0;
+     right: -5px;
+     transition: 0.5s;
+}
+
+.SidebarMenu div:hover a:after {
+     opacity: 1;
+     right: 15px;
+}

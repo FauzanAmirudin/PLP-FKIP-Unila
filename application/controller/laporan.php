@@ -35,10 +35,11 @@ class laporan extends gf_controller
         }
 
         if ($ajax == 'balas_laporan') {
-            $npm = $this->input->get('id');
-            $filename = $this->input->get('object');
+            // Baca dari POST (dikirim via hidden input) dengan fallback ke GET
+            $npm      = $this->input->post('id')      ?: $this->input->get('id');
+            $filename = $this->input->post('object')  ?: $this->input->get('object');
             $response = $this->input->post('respons');
-            $comment = $this->input->post('komentar');
+            $comment  = $this->input->post('komentar');
 
             $res = $this->report->save_response($npm, $filename, $response, $comment);
             if ($res) {

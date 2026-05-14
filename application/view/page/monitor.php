@@ -6,32 +6,12 @@ defined('GF_BASE_PATH') or exit('No direct script access allowed');
 
 ?>
 <link rel="stylesheet" href="./assets/css/chartist.min.css">
-<style>
-  /* Refined Institutional Purple Styling for Chartist */
-  .ct-series-a .ct-bar { stroke: #a805a8 !important; stroke-linecap: round; }
-  .ct-series-a .ct-slice-pie { fill: #a805a8 !important; }
-  .ct-series-b .ct-slice-pie { fill: #c026d3 !important; }
-  .ct-series-c .ct-slice-pie { fill: #e879f9 !important; }
-  .ct-series-d .ct-slice-pie { fill: #f0e3fc !important; }
-  .ct-series-e .ct-slice-pie { fill: #64748b !important; }
-  .ct-series-f .ct-slice-pie { fill: #334155 !important; }
-  .ct-series-g .ct-slice-pie { fill: #94a3b8 !important; }
-  
-  .ct-label { font-size: 12px; font-weight: 500; fill: #64748b; color: #64748b; }
-  .ct-pie-label { fill: #fff; font-weight: 600; text-shadow: 0px 1px 2px rgba(0,0,0,0.4); font-size: 11px; }
-  
-  .monitor-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 20px;
-    margin-bottom: 20px;
-  }
-</style>
+
 
 <div class="settings-container">
   
   <?php if (isset($response) && $response != null) {
-    echo '<div class="notif notif-primary-strong" style="margin-bottom: 20px;">' . $response . '</div>';
+    echo '<div class="notif notif-primary-strong mb-20">' . $response . '</div>';
   } ?>
 
   <!-- <div class="settings-card" style="margin-bottom: 20px; background: linear-gradient(135deg, #a805a8, #7c047c); color: white;">
@@ -44,40 +24,40 @@ defined('GF_BASE_PATH') or exit('No direct script access allowed');
   <div class="monitor-grid">
     <div class="settings-card">
       <div class="card-header">
-        <h2 class="card-title" style="font-size: 16px;">Status Verifikasi Berkas</h2>
+        <h2 class="card-title card-title-sm">Status Verifikasi Berkas</h2>
       </div>
-      <div style="margin-top: 15px;">
-        <div id="dataTerverifikasi" class="ct-pie-1" style="height: 250px;"></div>
+      <div class="mt-15">
+        <div id="dataTerverifikasi" class="ct-pie-1 chart-h-250"></div>
       </div>
     </div>
     
     <div class="settings-card">
       <div class="card-header">
-        <h2 class="card-title" style="font-size: 16px;">Jenis Kelamin</h2>
+        <h2 class="card-title card-title-sm">Jenis Kelamin</h2>
       </div>
-      <div style="margin-top: 15px;">
-        <div id="dataPeserta" class="ct-pie-1" style="height: 250px;"></div>
-      </div>
-    </div>
-  </div>
-
-  <div class="settings-card" style="margin-bottom: 20px;">
-    <div class="card-header">
-      <h2 class="card-title" style="font-size: 16px;">Jumlah Pendaftar per Program Studi</h2>
-    </div>
-    <div style="margin-top: 15px; padding-bottom: 10px;">
-      <div class="chart-wraper" style="overflow-x: auto; overflow-y: hidden;">
-        <div id="dataPendaftar" class="ct-chart" style="height:300px; min-width: 600px;"></div>
+      <div class="mt-15">
+        <div id="dataPeserta" class="ct-pie-1 chart-h-250"></div>
       </div>
     </div>
   </div>
 
-  <div class="settings-card" style="margin-bottom: 20px;">
+  <div class="settings-card mb-20">
     <div class="card-header">
-      <h2 class="card-title" style="font-size: 16px;">Persentase Pendaftar per Program Studi</h2>
+      <h2 class="card-title card-title-sm">Jumlah Pendaftar per Program Studi</h2>
     </div>
-    <div style="margin-top: 15px;">
-      <div id="presentasePendaftar" class="ct-pie" style="height: 350px;"></div>
+    <div class="mt-15 pb-10">
+      <div class="chart-wraper">
+        <div id="dataPendaftar" class="ct-chart chart-h-300 chart-min-w-600"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="settings-card mb-20">
+    <div class="card-header">
+      <h2 class="card-title card-title-sm">Persentase Pendaftar per Program Studi</h2>
+    </div>
+    <div class="mt-15">
+      <div id="presentasePendaftar" class="ct-pie chart-h-350"></div>
     </div>
   </div>
 

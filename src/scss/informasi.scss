@@ -302,3 +302,80 @@ $color-border: #e2e8f0;
         }
     }
 }
+
+// Refactored from informasi.php inline styles
+.info-main-section {
+    .info-content-left {
+        .post-card {
+            .post-meta {
+                .meta-item.meta-tag {
+                    background: #f0e3fc;
+                    color: #7c047c;
+                    padding: 2px 10px;
+                    border-radius: 20px;
+                    font-size: 11px;
+                    font-weight: 500;
+                }
+            }
+        }
+
+        .empty-info-state {
+            text-align: center;
+            padding: 60px 20px;
+            
+            .empty-info-icon {
+                width: 80px;
+                height: 80px;
+                background: #f0e3fc;
+                border-radius: 50%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                margin: 0 auto 20px;
+            }
+            
+            .empty-info-title {
+                color: #475569;
+                font-size: 18px;
+                margin: 0 0 8px;
+            }
+            
+            .empty-info-desc {
+                color: #94a3b8;
+                font-size: 14px;
+                margin: 0;
+            }
+        }
+    }
+
+    .info-sidebar-right {
+        .sidebar-widget {
+            .recent-posts-list {
+                .recent-item {
+                    .recent-thumb.recent-thumb-bg {
+                        background-size: cover;
+                        background-position: center;
+                    }
+                    .recent-thumb.recent-thumb-placeholder {
+                        background: #f0e3fc;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                    }
+                    .recent-info {
+                        .recent-title {
+                            .recent-link {
+                                text-decoration: none;
+                                color: inherit;
+                            }
+                        }
+                    }
+                }
+                .empty-info-text {
+                    color: #94a3b8;
+                    font-size: 13px;
+                }
+            }
+        }
+    }
+}

@@ -252,6 +252,22 @@ class  gf_sql
 		if ($rsql == TRUE) return $this->query('INSERT');
 		return $this->result('INSERT');
 	}
+	/**
+	 * delete data
+	 *
+	 *
+	 * @param bool $rsql Use TRUE instead of executing a query the function will return the query as a string.
+	 *
+	 * @return bool
+	 */
+	function delete($rsql = FALSE)
+	{
+		if ($rsql === TRUE) {
+			return $this->query('DELETE');
+		} else {
+			return $this->result('DELETE');
+		}
+	}
 	function dummy_insert($data, $rsql = FALSE)
 	{
 		return TRUE;
@@ -323,7 +339,7 @@ class  gf_sql
 		if (empty($this->COLOUM)) $this->COLOUM = "*";
 		switch ($var) {
 			case 'SELECT':
-				$this->sql = "SELECT " . $this->COLOUM . " " . $this->FROM . $this->TABLE . $this->JOIN . $this->WHERE . $this->ORDER . $this->GROUP . $this->LIMIT;
+				$this->sql = "SELECT " . $this->COLOUM . " " . $this->FROM . $this->TABLE . $this->JOIN . $this->WHERE . $this->GROUP . $this->ORDER . $this->LIMIT;
 				break;
 
 			case 'INSERT':
@@ -332,6 +348,9 @@ class  gf_sql
 
 			case 'UPDATE':
 				$this->sql = "UPDATE " . $this->TABLE . $this->UPDATE . $this->WHERE;
+				break;
+			case 'DELETE':
+				$this->sql = "DELETE FROM " . $this->TABLE . $this->WHERE;
 				break;
 
 			case 'ALTER':

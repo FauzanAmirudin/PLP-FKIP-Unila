@@ -6,6 +6,34 @@ $color-base:rgb(143, 26, 186) !default;
 $color-background: white !default;
 $color-shade: rgb(219, 190, 255) !default;
 
+// Legacy & Base Styles
+@import 'typografi.scss';
+@import 'layout.scss';
+@import 'style.scss';
+@import 'a-form.scss';
+@import 'a-modal.scss';
+@import 'biodata.scss';
+@import 'button.scss';
+@import 'coloum.scss';
+@import 'content-field.scss';
+@import 'dashboard.scss';
+@import 'extra.scss';
+@import 'form-input-checkbox.scss';
+@import 'form-input-file.scss';
+@import 'form-select.scss';
+@import 'form-textarea.scss';
+@import 'infobar.scss';
+@import 'jadwal.scss';
+@import 'penempatan.scss';
+@import 'print.scss';
+@import 'settings.scss';
+@import 'tabel.scss';
+@import 'timeline.scss';
+@import 'x-chart.scss';
+@import 'x-debug.scss';
+@import 'z-mobile-btn.scss';
+@import 'z-mobile.scss';
+
 // Custom Modular Styles
 @import 'home.scss';
 @import 'about.scss';
@@ -15,8 +43,12 @@ $color-shade: rgb(219, 190, 255) !default;
 @import 'detailinformasi.scss';
 @import 'pendaftaran.scss';
 @import 'laporan.scss';
+@import 'registrationlist.scss';
+@import 'registrationvalidate.scss';
+@import 'reportcheck.scss';
 @import 'validatepeserta.scss';
 @import 'footer.scss';
+@import 'sidebar.scss';
 /* Container of all content */
 html {
      height: 100%;
