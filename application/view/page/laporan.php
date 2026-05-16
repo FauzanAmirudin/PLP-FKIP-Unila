@@ -137,7 +137,7 @@ require_level('Mahasiswa');
                             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
                             Unduh
                         </a>
-						<button class="btn-action-laporan <?= $responBtn ?>" <?= $prop ?> onclick="readResponseLaporan('<?= $r['NPM'] ?>', '<?= $r['FILENAME'] ?>')">
+						<button class="btn-action-laporan <?= $responBtn ?>" <?= $prop ?> onclick="readResponseLaporan('<?= $r['ID'] ?>', '<?= $r['FILENAME'] ?>')">
                             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg>
                             Respon
                         </button>
@@ -184,7 +184,7 @@ require_level('Mahasiswa');
 		panel.classList.toggle('active');
 	}
 
-	function readResponseLaporan(npm, skl) {
+	function readResponseLaporan(reportId, skl) {
 		const contentArea = document.getElementById("response-content");
 		const modal = document.getElementById('modal');
 		
@@ -201,25 +201,27 @@ require_level('Mahasiswa');
 		xhttp.onreadystatechange = function() {
 			if (this.readyState == 4) {
 				if (this.status == 200) {
-					if (this.responseText.trim() !== "") {
+					var trimmed = this.responseText.trim();
+					if (trimmed !== "" && trimmed !== "null" && trimmed.length > 5) {
 						contentArea.innerHTML = `
 							<div class="response-box">
 								<div class="response-header">
 									<span class="label">Laporan</span>
 									<div class="value">${skl}</div>
 								</div>
-								${this.responseText}
+								${trimmed}
 							</div>
 						`;
 					} else {
-					contentArea.innerHTML = '<div class="loading-wrapper"><p>Belum ada respon untuk laporan ini.</p></div>';
+						contentArea.innerHTML = '<div class="loading-wrapper"><p>Belum ada respon untuk laporan ini.</p></div>';
 					}
 				} else {
 					contentArea.innerHTML = '<div class="loading-wrapper"><p style="color: #ef4444;">Gagal memuat data. Silakan coba lagi.</p></div>';
 				}
 			}
 		};
-		xhttp.open("GET", "?page=laporan&ajax=get_response&id=" + npm + "&object=" + encodeURIComponent(skl), true);
+		var ts = new Date().getTime();
+		xhttp.open("GET", "?page=laporan&ajax=get_response&id=" + reportId + "&object=" + encodeURIComponent(skl) + "&_=" + ts, true);
 		xhttp.send();
 	}
 

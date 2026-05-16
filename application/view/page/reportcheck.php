@@ -6,6 +6,7 @@ defined('GF_BASE_PATH') or exit('No direct script access allowed');
 
 is_level("Admin, Monitor, DPL");
 ?>
+
 <div class="schedule-container">
     <?php if (isset($notification) && $notification != null) {
         echo '<div class="notif notif-primary-strong">' . $notification . '</div>';
@@ -118,16 +119,16 @@ is_level("Admin, Monitor, DPL");
                         
                         if (isset($l['FILENAME']) && file_exists($fullFilePath)) {
                             $qw++;
+                            // Link menuju halaman form review
+                            $urlReview = set_url('laporan/review_form/' . $l['ID'] . '/' . urlencode($r["NAMA"]));
+                            
                             echo '
                             <div class="report-item">
                                 <a href="' . $l['FILELINK'] . '" target="_blank" class="btn-download-small" title="Download Laporan ' . $qw . '">' . $qw . '</a>
-                                <button type="button"
+                                <a href="' . $urlReview . '"
                                    class="btn-respond-small btn-give-response"
-                                   data-nama="' . htmlspecialchars($r["NAMA"], ENT_QUOTES) . '"
-                                   data-npm="' . htmlspecialchars($npm, ENT_QUOTES) . '"
-                                   data-laporan="' . htmlspecialchars($namaLaporan, ENT_QUOTES) . '"
-                                   style="background: ' . $statusBg . '; color: ' . $statusColor . '; border-color: ' . $statusColor . '33;"
-                                   title="Beri Respons">R</button>
+                                   style="background: ' . $statusBg . '; color: ' . $statusColor . '; border-color: ' . $statusColor . '33; text-decoration: none; display: inline-flex; align-items: center; justify-content: center;"
+                                   title="Beri Respons">R</a>
                             </div>';
                         }
                     }
@@ -154,136 +155,6 @@ is_level("Admin, Monitor, DPL");
             </div>
         <?php } ?>
     </div>
-<script>
-(function () {
-    // Variabel state di memori
-    var _npm      = '';
-    var _laporan  = '';
+</div>
 
-    function openModal(nama, npm, laporan) {
-        _npm     = npm;
-        _laporan = laporan;
 
-        var modal      = document.getElementById('modal-response');
-        var dtaMhs     = document.getElementById('dta-mhs');
-        var dtaLap     = document.getElementById('dta-lap');
-        var resKet     = document.getElementById('res-ket');
-        var selectEl   = document.getElementById('res-lap');
-        var komentarEl = document.getElementById('komentar');
-        var saveBtn    = document.getElementById('rc-save-btn');
-
-        if (!modal) { console.error("Modal element not found"); return; }
-
-        if (dtaMhs) dtaMhs.innerHTML = '<b>Nama</b><br>' + nama + '<br><b>NPM</b><br>' + npm;
-        if (dtaLap) dtaLap.innerHTML = '<b>Laporan:</b> ' + laporan;
-        if (resKet) resKet.innerHTML = '';
-        if (selectEl) selectEl.value = '';
-        if (komentarEl) komentarEl.value = '';
-        
-        if (saveBtn) {
-            saveBtn.disabled = false;
-            saveBtn.textContent = 'Simpan Respons';
-        }
-
-        modal.style.display = 'block';
-    }
-
-    function closeModal() {
-        var modal = document.getElementById('modal-response');
-        if (modal) modal.style.display = 'none';
-    }
-
-    function saveResponse() {
-        var selectEl   = document.getElementById('res-lap');
-        var komentarEl = document.getElementById('komentar');
-        var resKet     = document.getElementById('res-ket');
-        var saveBtn    = document.getElementById('rc-save-btn');
-
-        if (!selectEl || !komentarEl) return;
-
-        var respons  = selectEl.value.trim();
-        var komentar = komentarEl.value.trim();
-
-        if (!respons || !komentar) {
-            if (resKet) resKet.innerHTML = '<div class="info info-danger info-ajax-wrapper"><a>Harap lengkapi status respons dan komentar.</a></div>';
-            return;
-        }
-
-        if (saveBtn) {
-            saveBtn.disabled = true;
-            saveBtn.textContent = 'Menyimpan...';
-        }
-        if (resKet) resKet.innerHTML = '';
-
-        var body = 'id='      + encodeURIComponent(_npm)
-                 + '&object=' + encodeURIComponent(_laporan)
-                 + '&respons='  + encodeURIComponent(respons)
-                 + '&komentar=' + encodeURIComponent(komentar);
-
-        var xhr = new XMLHttpRequest();
-        xhr.open('POST', '?page=laporan&ajax=balas_laporan', true);
-        xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-
-        xhr.onload = function () {
-            if (saveBtn) {
-                saveBtn.disabled = false;
-                saveBtn.textContent = 'Simpan Respons';
-            }
-            if (xhr.status === 200 && resKet) {
-                resKet.innerHTML = xhr.responseText;
-                if (xhr.responseText.indexOf('info-success') !== -1) {
-                    resKet.innerHTML += '<div class="reload-btn-wrapper">'
-                        + '<button type="button" class="btn btn-ok btn-reload" onclick="location.reload()">Tutup &amp; Perbarui Daftar</button>'
-                        + '</div>';
-                }
-            } else if (resKet) {
-                resKet.innerHTML = '<div class="info info-danger info-ajax-wrapper"><a>Gagal menyimpan. Status server: ' + xhr.status + '</a></div>';
-            }
-        };
-
-        xhr.onerror = function () {
-            if (saveBtn) {
-                saveBtn.disabled = false;
-                saveBtn.textContent = 'Simpan Respons';
-            }
-            if (resKet) resKet.innerHTML = '<div class="info info-danger info-ajax-wrapper"><a>Gagal menghubungi server. Periksa koneksi Anda.</a></div>';
-        };
-
-        xhr.send(body);
-    }
-
-    // Satu Event Listener untuk mengatur semua aksi klik di halaman ini
-    document.addEventListener('click', function (e) {
-        // 1. Klik tombol "R"
-        var btnR = e.target.closest ? e.target.closest('.btn-give-response') : null;
-        if (btnR) {
-            openModal(
-                btnR.getAttribute('data-nama'),
-                btnR.getAttribute('data-npm'),
-                btnR.getAttribute('data-laporan')
-            );
-            return;
-        }
-
-        // 2. Klik latar belakang modal untuk menutup
-        var modal = document.getElementById('modal-response');
-        if (modal && e.target === modal) {
-            closeModal();
-            return;
-        }
-
-        // 3. Klik tombol "Tutup" atau "Batal"
-        if (e.target.id === 'rc-close-x' || e.target.id === 'rc-close-btn') {
-            closeModal();
-            return;
-        }
-
-        // 4. Klik tombol "Simpan Respons"
-        if (e.target.id === 'rc-save-btn') {
-            saveResponse();
-            return;
-        }
-    });
-
-})();
-</script>

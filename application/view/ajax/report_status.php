@@ -11,9 +11,9 @@ if (!empty($res) && !empty($res['RESPONSE'])) {
         </div>
     </div>
     <div>
-        <span style="font-size: 12px; font-weight: 600; color: #64748b; text-transform: uppercase; letter-spacing: 0.5px;">Komentar Dosen</span>
-        <div style="margin-top: 8px; color: #334155; line-height: 1.6; font-size: 14.5px; background: #fff; padding: 12px; border: 1px solid #e2e8f0; border-radius: 8px;">
-            <?= ($res['KRITIKSARAN']) ? htmlspecialchars($res['KRITIKSARAN']) : '<i>Tidak ada komentar.</i>' ?>
+        <span style="font-size: 12px; font-weight: 600; color: #64748b; text-transform: uppercase; letter-spacing: 0.5px;">Komentar / Catatan DPL</span>
+        <div style="margin-top: 8px; color: #334155; line-height: 1.6; font-size: 14.5px; background: #fff; padding: 12px; border: 1px solid #e2e8f0; border-radius: 8px; white-space: pre-wrap;">
+            <?= (!empty($res['KRITIKSARAN'])) ? nl2br(htmlspecialchars($res['KRITIKSARAN'])) : '<i>Tidak ada komentar/catatan.</i>' ?>
         </div>
     </div>
     <?php

@@ -27,10 +27,16 @@ class laporan extends gf_controller
     {
         $ajax = $this->input->get('ajax');
         if ($ajax == 'get_response') {
-            $npm = $this->input->get('id');
+            $reportId = $this->input->get('id');
             $filename = $this->input->get('object');
-            $this->data['res'] = $this->report->get_response_by_file($npm, $filename);
-            $this->load->view('ajax/report_status', $this->data);
+            $this->data['filename'] = $filename;
+            $this->data['res'] = $this->report->get((int)$reportId);
+            
+            // Framework stores view in $this->html buffer — not suitable for AJAX.
+            // We extract vars and include directly so output goes to browser immediately.
+            $res = $this->data['res'];
+            header('Content-Type: text/html; charset=utf-8');
+            include(GF_APP_PATH . DIRECTORY_SEPARATOR . 'view' . DIRECTORY_SEPARATOR . 'ajax' . DIRECTORY_SEPARATOR . 'report_status.php');
             exit;
         }
 
@@ -170,6 +176,60 @@ class laporan extends gf_controller
         $this->load->view("sidebar", $this->data);
         $this->load->view("page/reportcheck", $this->data);
         $this->load->view("footer", $this->data);
+    }
+
+    public function review_form($data)
+    {
+        require_level("Admin, Monitor, Operator, DPL");
+        $reportId = isset($data[0]) ? $data[0] : '';
+        $this->data['nama_mahasiswa'] = isset($data[1]) ? urldecode($data[1]) : 'Tidak Diketahui';
+        
+        if (empty($reportId)) {
+            save_notification("Data laporan tidak valid.");
+            redirect("laporan/data/" . $this->data['user']['ID']);
+            exit;
+        }
+
+        $this->data['res'] = $this->report->get((int)$reportId);
+        if (empty($this->data['res'])) {
+            save_notification("Laporan tidak ditemukan di database.");
+            redirect("laporan/data/" . $this->data['user']['ID']);
+            exit;
+        }
+
+        $this->data['reportId'] = $reportId;
+        $this->data['filename'] = $this->data['res']['FILENAME'];
+        $this->data['npm'] = $this->data['res']['NPM'];
+
+        $this->data['notification'] = implode("<br/>", get_notification());
+        $this->load->view("navigation", $this->data);
+        $this->load->view("sidebar", $this->data);
+        $this->load->view("page/reportreview", $this->data);
+        $this->load->view("footer", $this->data);
+    }
+
+    public function save_review($data)
+    {
+        require_level("Admin, Monitor, Operator, DPL");
+        $reportId = $this->input->post('reportId');
+        $respons = $this->input->post('respons');
+        $komentar = $this->input->post('komentar');
+        $nama_mahasiswa = $this->input->post('nama_mahasiswa');
+
+        if (empty($reportId) || empty($respons) || empty($komentar)) {
+            save_notification("Harap lengkapi semua form respons dan komentar.");
+            redirect("laporan/review_form/" . urlencode($reportId) . "/" . urlencode($nama_mahasiswa));
+            exit;
+        }
+
+        $res = $this->report->response((int)$reportId, $respons, $komentar);
+        if ($res) {
+            save_notification("Respons Laporan berhasil disimpan.");
+        } else {
+            save_notification("Gagal menyimpan respons. Coba lagi.");
+        }
+        
+        redirect("laporan/data/" . $this->data['user']['ID']);
     }
     private function getID($data, $level)
     {
