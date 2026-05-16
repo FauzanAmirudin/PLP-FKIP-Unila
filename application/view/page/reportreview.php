@@ -4,13 +4,15 @@ defined('GF_BASE_PATH') or exit('No direct script access allowed');
  *	
  */
 
-is_level("Admin, Monitor, DPL");
+is_level("Admin, Monitor, Operator, DPL");
 
 // Mengambil data dari variabel yang diset di controller
 $reportId = isset($reportId) ? $reportId : '';
 $filename = isset($filename) ? $filename : '';
 $npm = isset($npm) ? $npm : '';
 $nama_mahasiswa = isset($nama_mahasiswa) ? $nama_mahasiswa : 'Tidak Diketahui';
+$userId = isset($user['ID']) ? $user['ID'] : '';
+$csrfToken = isset($csrf_token) ? $csrf_token : '';
 
 // Mengambil data response jika sudah pernah direview
 $existing_respons = isset($res['RESPONSE']) ? $res['RESPONSE'] : '';
@@ -46,6 +48,7 @@ $existing_komentar = isset($res['KRITIKSARAN']) ? $res['KRITIKSARAN'] : '';
         <form action="<?= set_url('laporan/save_review') ?>" method="post">
             <input type="hidden" name="reportId" value="<?= htmlspecialchars($reportId) ?>">
             <input type="hidden" name="nama_mahasiswa" value="<?= htmlspecialchars($nama_mahasiswa) ?>">
+            <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($csrfToken) ?>">
 
             <div class="form-group" style="margin-bottom: 20px;">
                 <label for="respons" style="display: block; font-weight: 500; color: #334155; margin-bottom: 8px;">Status Respons <span style="color: #ef4444;">*</span></label>
@@ -63,7 +66,7 @@ $existing_komentar = isset($res['KRITIKSARAN']) ? $res['KRITIKSARAN'] : '';
             </div>
 
             <div class="form-actions" style="display: flex; gap: 12px; justify-content: flex-end; border-top: 1px solid #e2e8f0; padding-top: 20px; margin-top: 10px;">
-                <a href="<?= set_url('laporan/data/' . $user['ID']) ?>" class="btn-cancel-modal" style="text-decoration: none; display: inline-flex; align-items: center; justify-content: center;">Batal</a>
+                <a href="<?= set_url('laporan/data/' . $userId) ?>" class="btn-cancel-modal" style="text-decoration: none; display: inline-flex; align-items: center; justify-content: center;">Batal</a>
                 <button type="submit" class="btn-save" style="display: inline-flex; align-items: center; justify-content: center;">Simpan Respons</button>
             </div>
         </form>
