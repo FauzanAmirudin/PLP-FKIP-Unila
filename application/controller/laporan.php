@@ -27,26 +27,24 @@ class laporan extends gf_controller
     {
         $ajax = $this->input->get('ajax');
         if ($ajax == 'get_response') {
-            $npm = $this->input->get('id');
-            $filename = $this->input->get('object');
-            $this->data['res'] = $this->report->get_response_by_file($npm, $filename);
-            $this->load->view('ajax/report_status', $this->data);
-            exit;
-        }
-
-        if ($ajax == 'balas_laporan') {
-            $npm = $this->input->get('id');
-            $filename = $this->input->get('object');
-            $response = $this->input->post('respons');
-            $comment = $this->input->post('komentar');
-
-            $res = $this->report->save_response($npm, $filename, $response, $comment);
-            if ($res) {
-                $this->data['success'] = true;
-            } else {
-                $this->data['error'] = 'Gagal menyimpan respons.';
+            $reportId = (int)$this->input->get('id');
+            $res = $this->report->get($reportId);
+            
+            // Validasi kepemilikan: laporan harus milik user yang sedang login
+            $userId = $this->data['user']['ID'];
+            $userLevel = isset($this->data['user']['LEVEL']) ? $this->data['user']['LEVEL'] : '';
+            $isAdmin = (stripos($userLevel, 'Admin') !== false || stripos($userLevel, 'DPL') !== false || stripos($userLevel, 'Monitor') !== false || stripos($userLevel, 'Operator') !== false);
+            
+            if (empty($res) || (!$isAdmin && $res['USRKEY'] != $userId)) {
+                header('Content-Type: text/html; charset=utf-8');
+                http_response_code(403);
+                exit;
             }
-            $this->load->view('ajax/report_message', $this->data);
+            
+            // Framework stores view in $this->html buffer — not suitable for AJAX.
+            // We include directly so output goes to browser immediately.
+            header('Content-Type: text/html; charset=utf-8');
+            include(GF_APP_PATH . DIRECTORY_SEPARATOR . 'view' . DIRECTORY_SEPARATOR . 'ajax' . DIRECTORY_SEPARATOR . 'report_status.php');
             exit;
         }
     }
@@ -169,6 +167,75 @@ class laporan extends gf_controller
         $this->load->view("sidebar", $this->data);
         $this->load->view("page/reportcheck", $this->data);
         $this->load->view("footer", $this->data);
+    }
+
+    public function review_form($data)
+    {
+        require_level("Admin, Monitor, Operator, DPL");
+        $reportId = isset($data[0]) ? (int)$data[0] : 0;
+        $this->data['nama_mahasiswa'] = isset($data[1]) ? urldecode($data[1]) : 'Tidak Diketahui';
+        
+        if ($reportId <= 0) {
+            save_notification("Data laporan tidak valid.");
+            redirect("laporan/data/" . $this->data['user']['ID']);
+            exit;
+        }
+
+        $this->data['res'] = $this->report->get($reportId);
+        if (empty($this->data['res'])) {
+            save_notification("Laporan tidak ditemukan di database.");
+            redirect("laporan/data/" . $this->data['user']['ID']);
+            exit;
+        }
+
+        $this->data['reportId'] = $reportId;
+        $this->data['filename'] = $this->data['res']['FILENAME'];
+        $this->data['npm'] = $this->data['res']['NPM'];
+
+        // Generate CSRF token
+        if (!session_get('csrf_token')) {
+            session_save('csrf_token', md5(uniqid(rand(), true)));
+        }
+        $this->data['csrf_token'] = session_get('csrf_token');
+
+        $this->data['notification'] = implode("<br/>", get_notification());
+        $this->load->view("navigation", $this->data);
+        $this->load->view("sidebar", $this->data);
+        $this->load->view("page/reportreview", $this->data);
+        $this->load->view("footer", $this->data);
+    }
+
+    public function save_review($data)
+    {
+        require_level("Admin, Monitor, Operator, DPL");
+
+        // Validasi CSRF token
+        $csrf = $this->input->post('csrf_token');
+        if (empty($csrf) || $csrf !== session_get('csrf_token')) {
+            save_notification("Token keamanan tidak valid. Silakan coba lagi.");
+            redirect("laporan/data/" . $this->data['user']['ID']);
+            exit;
+        }
+
+        $reportId = (int)$this->input->post('reportId');
+        $respons = $this->input->post('respons');
+        $komentar = $this->input->post('komentar');
+        $nama_mahasiswa = $this->input->post('nama_mahasiswa');
+
+        if ($reportId <= 0 || empty($respons) || empty($komentar)) {
+            save_notification("Harap lengkapi semua form respons dan komentar.");
+            redirect("laporan/review_form/" . $reportId . "/" . urlencode($nama_mahasiswa));
+            exit;
+        }
+
+        $res = $this->report->response($reportId, $respons, $komentar);
+        if ($res) {
+            save_notification("Respons Laporan berhasil disimpan.");
+        } else {
+            save_notification("Gagal menyimpan respons. Coba lagi.");
+        }
+        
+        redirect("laporan/data/" . $this->data['user']['ID']);
     }
     private function getID($data, $level)
     {

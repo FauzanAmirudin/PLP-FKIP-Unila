@@ -12,7 +12,7 @@ defined('GF_BASE_PATH') or exit('No direct script access allowed');
 			<div class="content animate">
 
 				<!-- ======= FORM LOGIN ======= -->
-				<form id="login" action="?page=user/login" method="post" class="login-card field hiden">
+				<form id="login" action="?page=user/login" method="post" class="login-card hiden">
 
 					<!-- Close Button -->
 					<button type="button" class="login-close-btn" id="close_modal" data-target="login, register" title="Tutup">&#10005;</button>
@@ -69,7 +69,7 @@ defined('GF_BASE_PATH') or exit('No direct script access allowed');
 				</form>
 
 				<!-- ======= FORM REGISTER ======= -->
-				<form id="register" action="?page=user/registration" method="post" class="login-card field form hiden">
+				<form id="register" action="?page=user/registration" method="post" class="login-card hiden">
 
 					<!-- Close Button -->
 					<button type="button" class="login-close-btn" id="close_modal_reg" data-target="login, register" title="Tutup">&#10005;</button>

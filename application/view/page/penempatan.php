@@ -13,10 +13,7 @@ require_level('Mahasiswa');
     
     <div class="info-grid">
       <?php
-      $dataMahasiswaAccess = clone $this->database('default', 'dbconfig', TRUE);
-      $dataMahasiswaAccess->join('datapenempatan', 'datamahasiswa.NPM = datapenempatan.NPMPESERTA');
-      $dataMahasiswaAccess->join('dosen', 'datapenempatan.NIPDPL = dosen.NIPDOSEN');
-      $dataMahasiswa = $dataMahasiswaAccess->reset()->where(["NPM" => session_get('USERID')])->result_row_array('datamahasiswa');
+      $dataMahasiswa = isset($placement) && !empty($placement) ? $placement : [];
       
       $lokasiDesa = isset($dataMahasiswa["LOKASIDESA"]) ? $dataMahasiswa["LOKASIDESA"] : "";
       
@@ -45,7 +42,7 @@ require_level('Mahasiswa');
     <h1 class="card-title">Anggota Kelompok</h1>
     
     <?php
-    $dataMahasiswaTeam = (!empty($lokasiDesa)) ? $dataMahasiswaAccess->reset()->where("`LOKASIDESA` = '" . $lokasiDesa . "'")->order('`LOKASISEKOLAH` ASC, `NPM` ASC')->result_array('datamahasiswa') : FALSE;
+    $dataMahasiswaTeam = isset($group) && !empty($group) ? $group : FALSE;
     
     if ($dataMahasiswaTeam != FALSE && !empty($dataMahasiswaTeam)) {
     ?>

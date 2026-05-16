@@ -43,7 +43,8 @@ class jadwal extends gf_model
 	function dashboard_list()
 	{
 		$this->dbAccess->reset();
-		$rows = $this->dbAccess->where("`WAKTUAKHIR` >= CURDATE() ORDER BY `WAKTUAWAL` ASC LIMIT 5")->result_array('jadwal');
+		// Menampilkan 3 jadwal terbaru yang ditambahkan (tanpa filter waktu, urut berdasarkan ID terakhir)
+		$rows = $this->dbAccess->where("1=1 ORDER BY `ID` DESC LIMIT 3")->result_array('jadwal');
 		if (is_array($rows)) {
 			foreach ($rows as &$r) {
 				$r = $this->_format_dates($r);

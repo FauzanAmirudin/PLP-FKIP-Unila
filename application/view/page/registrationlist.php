@@ -11,118 +11,110 @@ $npm    = isset($npm) ? $npm : NULL;
 $prodi  = isset($prodi) ? $prodi : NULL;
 $berkas = isset($berkas) ? $berkas : NULL;
 $dataAccess = clone $this->database('default', 'dbconfig', TRUE);
-$data = $dataAccess->reset()->column("TAHUNDAFTAR, COUNT(TAHUNDAFTAR) AS JUMLAHPESERTA", FALSE)->group("TAHUNDAFTAR")->result_array('databerkas');
-$label  = "";
-$series = "";
-$bar = 0;
-foreach ($data as $n => $d) {
-  if ($n == 0) continue;
-  if ($n > 1) {
-    $label .= ", ";
-    $series .= ", ";
-  }
-  $label  .= "'" . $d["TAHUNDAFTAR"] . "'";
-  $series .= $d["JUMLAHPESERTA"];
-  $bar++;
+
+// Data per tahun untuk grafik
+$chartData = $dataAccess->reset()->column("TAHUNDAFTAR, COUNT(TAHUNDAFTAR) AS JUMLAHPESERTA", FALSE)->group("TAHUNDAFTAR")->order("TAHUNDAFTAR", "ASC")->result_array('databerkas');
+
+$chartLabels = [];
+$chartValues = [];
+$totalAll    = 0;
+
+foreach ($chartData as $d) {
+    // Pastikan tahun tidak kosong dan jumlahnya valid
+    if (empty($d["TAHUNDAFTAR"])) continue;
+    
+    $chartLabels[] = $d["TAHUNDAFTAR"];
+    $chartValues[] = (int)$d["JUMLAHPESERTA"];
+    $totalAll += (int)$d["JUMLAHPESERTA"];
 }
+
+// Total tahun aktif
+$totalTahun = count($chartLabels);
+$rentangTahun = $totalTahun > 1 ? min($chartLabels) . ' - ' . max($chartLabels) : ($totalTahun == 1 ? $chartLabels[0] : '-');
+
+// Tahun tertinggi pendaftar
+$maxVal  = !empty($chartValues) ? max($chartValues) : 0;
+$maxIdx  = !empty($chartValues) ? array_search($maxVal, $chartValues) : 0;
+$tahunTertinggi = !empty($chartLabels) ? $chartLabels[$maxIdx] : '-';
+
+// Rata-rata per tahun
+$rataRata = $totalTahun > 0 ? round($totalAll / $totalTahun) : 0;
+
+// Encode ke JSON untuk Chart.js
+$jsLabels = json_encode($chartLabels);
+$jsValues = json_encode($chartValues);
 ?>
-<style>
-  @media print {
 
-    @page {
-      margin: 20mm;
-      size: A4 landscape;
-    }
-
-    body {
-      width: 240mm;
-      height: 297mm;
-    }
-
-    content .content .header {
-      font-size: 14pt;
-      margin-top: 5mm;
-      page-break-after: avoid;
-    }
-
-    content .content .field {
-      page-break-after: avoid;
-    }
-
-    #mainContent>div.content>div:nth-child(3),
-    .header {
-      display: none;
-    }
-  }
-</style>
-<link rel="stylesheet" href="./assets/css/chartist.min.css">
-<style>
-  .ct-series-a .ct-bar {
-    stroke: #a805a8 !important;
-    stroke-linecap: round;
-  }
-  .ct-label {
-    font-size: 12px;
-    font-weight: 500;
-    fill: #64748b;
-    color: #64748b;
-  }
-  .filter-form-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-    gap: 15px;
-    align-items: end;
-    margin-top: 20px;
-  }
-  .filter-form-grid .input-group {
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
-    width: 100%;
-  }
-  .filter-form-grid select, .filter-form-grid input {
-    width: 100%;
-    padding: 8px 12px;
-    border-radius: 6px;
-    border: 1px solid #cbd5e1;
-    font-size: 14px;
-    background: #fff;
-    color: #334155;
-    box-sizing: border-box;
-  }
-  .filter-form-grid label {
-    font-size: 13px;
-    font-weight: 600;
-    color: #475569;
-  }
-</style>
 <div class="schedule-container">
   
-  <div class="schedule-card" style="margin-bottom: 25px;">
+  <div class="schedule-card">
     <div class="card-header">
       <h1 class="card-title">Statistik Pendaftar</h1>
-      <p class="card-subtitle">Pantau grafik perbandingan jumlah pendaftar setiap tahunnya.</p>
+      <p class="card-subtitle">Ringkasan dan grafik perbandingan jumlah pendaftar setiap tahunnya.</p>
     </div>
-    
-    <div style="margin-top: 20px;">
-      <div style="overflow-x: auto; overflow-y: hidden; padding-bottom: 10px;">
-        <div id="dataPendaftar" class="ct-chart" style="min-width: <?php print($bar  * 120) ?>px; height:300px"></div>
+
+    <div class="card-content-wrapper">
+
+      <!-- Stat Summary Cards -->
+      <div class="stat-summary-grid">
+        <div class="stat-card">
+          <div class="stat-icon stat-icon--total">
+            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+          </div>
+          <div class="stat-info">
+            <div class="stat-value"><?= number_format($totalAll) ?></div>
+            <div class="stat-label">Total Pendaftar</div>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon stat-icon--year">
+            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+          </div>
+          <div class="stat-info">
+            <div class="stat-value"><?= $rentangTahun ?></div>
+            <div class="stat-label">Periode Akademik (<?= $totalTahun ?> Thn)</div>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon stat-icon--peak">
+            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline></svg>
+          </div>
+          <div class="stat-info">
+            <div class="stat-value"><?= $tahunTertinggi ?></div>
+            <div class="stat-label">Tahun Tertinggi (<?= $maxVal ?> orang)</div>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon stat-icon--avg">
+            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg>
+          </div>
+          <div class="stat-info">
+            <div class="stat-value"><?= $rataRata ?></div>
+            <div class="stat-label">Rata-rata / Tahun</div>
+          </div>
+        </div>
       </div>
+
+      <!-- Chart Canvas -->
+      <div class="chart-canvas-wrapper">
+        <canvas id="dataPendaftar"></canvas>
+      </div>
+
     </div>
   </div>
 
-  <div class="schedule-card" style="margin-bottom: 25px;">
+  <div class="schedule-card">
     <div class="card-header">
       <h1 class="card-title">Pencarian & Filter Data</h1>
       <p class="card-subtitle">Gunakan filter di bawah ini untuk menampilkan spesifik data peserta.</p>
     </div>
 
-    <div style="margin-top: 20px;">
+    <div class="card-content-wrapper">
       <form class="form" method="get" action="">
         <input type="hidden" name="page" value="registration/data">
         <div class="filter-form-grid">
           <div class="input-group">
-            <label for="tahun">Tahun<span class="required" style="color: #ef4444; margin-left: 2px;">*</span></label>
+            <label for="tahun">Tahun<span class="required">*</span></label>
             <select name="tahun" require="required">
               <?php
               $alltahun = $dataAccess->reset()->distinct("TAHUNDAFTAR")->order("TAHUNDAFTAR", "DESC")->result_array('databerkas');
@@ -142,7 +134,7 @@ foreach ($data as $n => $d) {
           </div>
           
           <div class="input-group">
-            <label for="prodi">Prodi<span class="required" style="color: #ef4444; margin-left: 2px;">*</span></label>
+            <label for="prodi">Prodi<span class="required">*</span></label>
             <select name="prodi">
               <?php
               $dataAccess->reset();
@@ -179,8 +171,8 @@ foreach ($data as $n => $d) {
             <input name="npm" value="<?php echo htmlspecialchars($npm); ?>" placeholder="Masukkan NPM..." type="text" />
           </div>
           
-          <div class="input-group" style="align-items: flex-start; justify-content: flex-end;">
-            <button type="submit" value="Simpan" class="btn btn-medium btn-ok" style="width: 100%; height: 38px; display: flex; align-items: center; justify-content: center; background: #a805a8; border: none; border-radius: 6px; color: white; font-weight: 600; cursor: pointer;">Tampilkan</button>
+          <div class="input-group action-group">
+            <button type="submit" value="Simpan" class="btn btn-medium btn-ok btn-tampilkan">Tampilkan</button>
           </div>
         </div>
       </form>
@@ -194,23 +186,30 @@ foreach ($data as $n => $d) {
   ?>
   <div class="schedule-card">
     <div class="card-header">
-      <h1 class="card-title">Daftar Mahasiswa Tahun <?= $TAHUNDAFTAR ?><?= isset($PROGRAMSTUDI) && $PROGRAMSTUDI !== '*' ? ", Program studi " . htmlspecialchars($PROGRAMSTUDI) : "" ?></h1>
+      <h1 class="card-title">
+        <span>Daftar Mahasiswa Tahun <?= $TAHUNDAFTAR ?><?= isset($PROGRAMSTUDI) && $PROGRAMSTUDI !== '*' && $PROGRAMSTUDI !== 'Seluruh Program Studi' ? ", Program studi " . htmlspecialchars($PROGRAMSTUDI) : "" ?></span>
+        <?php if ($data !== FALSE && count($data) != 0) { ?>
+          <a href="?page=registration/export_excel&tahun=<?= urlencode($tahun ?? '') ?>&periode=<?= urlencode($periode ?? '') ?>&prodi=<?= urlencode($prodi ?? '') ?>&npm=<?= urlencode($npm ?? '') ?>&status=<?= urlencode($berkas ?? '') ?>" title="Export ke Excel">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+            Export
+          </a>
+        <?php } ?>
+      </h1>
       <p class="card-subtitle">Berikut adalah data pendaftar yang sesuai dengan kriteria yang dipilih.</p>
     </div>
-    
-    <div style="margin-top: 20px;">
+    <div class="card-content-wrapper">
       <?php
       if ($data !== FALSE && count($data) != 0) { ?>
         <div class="table-responsive">
           <table class="modern-table">
             <thead>
               <tr>
-                <th width="60px" style="text-align: center;">No</th>
+                <th width="60px" class="text-center">No</th>
                 <th>Mahasiswa</th>
                 <th>Program Studi</th>
                 <th>Kontak</th>
-                <th width="120px" style="text-align: center;">Status</th>
-                <th width="100px" style="text-align: center;">Action</th>
+                <th width="120px" class="text-center">Status</th>
+                <th width="100px" class="text-center">Action</th>
               </tr>
             </thead>
             <tbody>
@@ -227,23 +226,27 @@ foreach ($data as $n => $d) {
                 $statusBg = ($statusBadge == "Disetujui") ? "#dcfce7" : (($statusBadge == "Ditolak") ? "#fee2e2" : "#fef3c7");
                 ?>
                 <tr>
-                  <td style="text-align: center; color: #64748b; font-weight: 500;"><?= $n ?></td>
+                  <td class="text-center text-muted font-medium"><?= $n ?></td>
                   <td>
-                    <div style="font-weight: 700; color: #1e293b; font-size: 14px;"><?= htmlspecialchars($r["NAMA"]) ?></div>
-                    <div style="font-size: 12px; color: #64748b; margin-top: 2px;"><?= htmlspecialchars($r["NPM"]) ?></div>
+                    <div class="mahasiswa-info">
+                      <div class="name"><?= htmlspecialchars($r["NAMA"]) ?></div>
+                      <div class="npm"><?= htmlspecialchars($r["NPM"]) ?></div>
+                    </div>
                   </td>
-                  <td style="color: #475569; font-size: 13px;"><?= htmlspecialchars($r["PROGRAMSTUDI"]) ?></td>
+                  <td><div class="prodi-text"><?= htmlspecialchars($r["PROGRAMSTUDI"]) ?></div></td>
                   <td>
-                    <div style="font-size: 13px; color: #1e293b;"><?= htmlspecialchars($r["NOTELEPON"]) ?></div>
-                    <div style="font-size: 12px; color: #64748b;"><?= htmlspecialchars($r["JENISKELAMIN"]) ?></div>
+                    <div class="kontak-info">
+                      <div class="phone"><?= htmlspecialchars($r["NOTELEPON"]) ?></div>
+                      <div class="gender"><?= htmlspecialchars($r["JENISKELAMIN"]) ?></div>
+                    </div>
                   </td>
-                  <td style="text-align: center;">
-                    <span style="background: <?= $statusBg ?>; color: <?= $statusColor ?>; padding: 4px 10px; border-radius: 6px; font-size: 11px; font-weight: 700; border: 1px solid <?= $statusColor ?>33;">
+                  <td class="text-center">
+                    <span class="status-badge" style="background: <?= $statusBg ?>; color: <?= $statusColor ?>; border-color: <?= $statusColor ?>33;">
                       <?= strtoupper(htmlspecialchars($statusBadge)) ?>
                     </span>
                   </td>
-                  <td style="text-align: center;">
-                    <a class="btn btn-tiny btn-view" style="background: #a805a8; color: white; border: none; border-radius: 8px; padding: 6px 14px; text-decoration: none; font-size: 12px; font-weight: 600; display: inline-block;" href="?page=mahasiswa/data/<?= $r["USRKEY"] ?>&NPM=<?= $r["NPM"] ?>">Detail</a>
+                  <td class="text-center">
+                    <a class="btn btn-tiny btn-view btn-view-detail" href="?page=mahasiswa/data/<?= $r["USRKEY"] ?>&NPM=<?= $r["NPM"] ?>">Detail</a>
                   </td>
                 </tr>
                 <?php
@@ -253,12 +256,12 @@ foreach ($data as $n => $d) {
           </table>
         </div>
       <?php } else { ?>
-        <div class="empty-state" style="text-align: center; padding: 60px 20px;">
-          <div style="background: #f0e3fc; width: 80px; height: 80px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px;">
+        <div class="empty-state">
+          <div class="icon-box">
             <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#a805a8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
           </div>
-          <h3 style="color: #333; font-weight: 700; margin-bottom: 10px;">Data Tidak Ditemukan</h3>
-          <p style="color: #64748b; max-width: 400px; margin: 0 auto;">Belum ada pendaftar yang cocok dengan kriteria pencarian Anda.</p>
+          <h3>Data Tidak Ditemukan</h3>
+          <p>Belum ada pendaftar yang cocok dengan kriteria pencarian Anda.</p>
         </div>
       <?php } ?>
     </div>
@@ -266,16 +269,16 @@ foreach ($data as $n => $d) {
 </div>
 
 <div id="modal" class="modal">
-  <div class="modal-centered" style="max-width: 450px; width: 90%;">
-    <div class="content animate" style="border-radius: 16px; border: none; overflow: hidden;">
-      <div class="container" style="padding: 0;">
-        <div class="title" style="background: #a805a8; color: white; padding: 20px; border-radius: 16px 16px 0 0;">
-          <h1 style="font-size: 18px; font-weight: 600; margin: 0; display: flex; justify-content: space-between; align-items: center;">
+  <div class="modal-centered modal-detail">
+    <div class="content animate">
+      <div class="container">
+        <div class="title">
+          <h1>
             Detail Mahasiswa
-            <span onclick="document.getElementById('modal').style.display='none'" style="cursor: pointer; font-size: 24px; line-height: 1;">&times;</span>
+            <span class="close" onclick="document.getElementById('modal').style.display='none'">&times;</span>
           </h1>
         </div>
-        <div class="field" style="padding: 20px; background: white;">
+        <div class="field">
           View
         </div>
       </div>
@@ -285,41 +288,103 @@ foreach ($data as $n => $d) {
 <script type="text/javascript">
 
 </script>
-<script src="./assets/js/chartist.min.js" type="text/javascript"></script>
-<script src="./assets/js/chartist.bar.labels.js" type="text/javascript"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 <script language="javascript" type="text/javascript">
-  var data = {
-    labels: [<?php echo $label ?>],
-    series: [<?php echo $series ?>]
-  };
-  var options = {
-    distributeSeries: true,
-    axisX: {
-      offset: 60
+document.addEventListener('DOMContentLoaded', function() {
+  var labels = <?= $jsLabels ?>;
+  var values = <?= $jsValues ?>;
+
+  if (!labels.length) return;
+
+  var chartEl = document.getElementById('dataPendaftar');
+  if (!chartEl) return;
+  
+  var ctx = chartEl.getContext('2d');
+
+  var gradient = ctx.createLinearGradient(0, 0, 0, 350);
+  gradient.addColorStop(0, 'rgba(168, 5, 168, 0.85)');
+  gradient.addColorStop(1, 'rgba(189, 15, 193, 0.25)');
+
+  new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: labels,
+      datasets: [{
+        label: 'Jumlah Pendaftar',
+        data: values,
+        backgroundColor: gradient,
+        borderColor: '#a805a8',
+        borderWidth: 0,
+        borderRadius: 8,
+        borderSkipped: false,
+        hoverBackgroundColor: 'rgba(168, 5, 168, 1)',
+        maxBarThickness: 65,
+        barPercentage: 0.8,
+        categoryPercentage: 0.9
+      }]
     },
-    axisY: {
-      offset: 80,
-      labelInterpolationFnc: function(value) {
-        return value + ' Orang'
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      interaction: {
+        mode: 'index',
+        intersect: false,
       },
-      scaleMinSpace: 10
-    },
-    plugins: [
-      Chartist.plugins.ctBarLabels({
-        labelOffset: {
-          y: 7
+      layout: {
+        padding: { top: 15, bottom: 5, left: 10, right: 10 }
+      },
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          enabled: true,
+          position: 'average',
+          backgroundColor: '#fff',
+          titleColor: '#1e293b',
+          bodyColor: '#475569',
+          borderColor: '#e2e8f0',
+          borderWidth: 1,
+          padding: 12,
+          cornerRadius: 10,
+          displayColors: false,
+          callbacks: {
+            label: function(ctx) {
+              return ' ' + ctx.parsed.y + ' Orang';
+            }
+          }
         },
-        labelInterpolationFnc: function(text) {
-          return text
+        datalabels: false
+      },
+      scales: {
+        x: {
+          grid: { display: false },
+          ticks: {
+            color: '#64748b',
+            font: { size: 12, weight: '600' }
+          },
+          border: { display: false }
+        },
+        y: {
+          beginAtZero: true,
+          grid: {
+            color: 'rgba(100, 116, 139, 0.08)',
+            drawBorder: false
+          },
+          ticks: {
+            color: '#94a3b8',
+            font: { size: 11 },
+            stepSize: 1,
+            callback: function(value) {
+              if (Number.isInteger(value)) return value + ' Org';
+            }
+          },
+          border: { display: false, dash: [4,4] }
         }
-      })
-    ]
-  };
-  new Chartist.Bar('#dataPendaftar', data, options).on('draw', function(data) {
-    if (data.type === 'bar') {
-      data.element.attr({
-        style: 'stroke-width: 60px'
-      });
+      },
+      animation: {
+        duration: 800,
+        easing: 'easeOutQuart'
+      }
     }
   });
+});
 </script>

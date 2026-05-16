@@ -115,6 +115,71 @@ class registration extends gf_controller
 		$this->load->view("page/registrationlist", $this->data);
 		$this->load->view("footer", $this->data);
 	}
+	
+	public function export_excel()
+	{
+		require_level("Admin, Monitor, Operator");
+		
+		$tahun = $this->input->get('tahun');
+		$periode = $this->input->get('periode');
+		$npm = $this->input->get('npm');
+		$prodi = $this->input->get('prodi');
+		$berkas = $this->input->get('status');
+
+		$alltahun = $this->registrasi->register_year();
+		$tahun = !empty($tahun) ? $tahun : (!empty($alltahun) ? current($alltahun)['TAHUNDAFTAR'] : NULL);
+		
+		$allperiode = $this->registrasi->register_periode((int)$tahun);
+		$periode = !empty($periode) ? $periode : (!empty($allperiode) ? current($allperiode)['PERIODEDAFTAR'] : NULL);
+
+		$mahasiswa = $this->registrasi->list($tahun, $periode, NULL, $prodi, $npm);
+
+		require_once GF_BASE_PATH . '/system/plugins/autoload.php';
+		
+		$spreadsheet = new \PhpOffice\PhpSpreadsheet\Spreadsheet();
+		$sheet = $spreadsheet->getActiveSheet();
+		
+		$sheet->setCellValue('A1', 'NO');
+		$sheet->setCellValue('B1', 'NPM');
+		$sheet->setCellValue('C1', 'NAMA');
+		$sheet->setCellValue('D1', 'PROGRAM STUDI');
+		$sheet->setCellValue('E1', 'JENIS KELAMIN');
+		$sheet->setCellValue('F1', 'NO TELEPON');
+		$sheet->setCellValue('G1', 'STATUS BERKAS');
+
+		$sheet->getStyle('A1:G1')->getFont()->setBold(true);
+
+		$row = 2;
+		$no = 1;
+		if ($mahasiswa != FALSE) {
+			foreach ($mahasiswa as $r) {
+				$statusBadge = (isset($r["STATUSBERKAS"]) && $r["STATUSBERKAS"] != FALSE) ? $r["STATUSBERKAS"] : "Pengajuan";
+				if ($berkas !== NULL && $berkas !== "" && $statusBadge != $berkas) continue;
+				
+				$sheet->setCellValue('A' . $row, $no);
+				$sheet->setCellValueExplicit('B' . $row, $r['NPM'], \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_STRING);
+				$sheet->setCellValue('C' . $row, $r['NAMA']);
+				$sheet->setCellValue('D' . $row, $r['PROGRAMSTUDI']);
+				$sheet->setCellValue('E' . $row, $r['JENISKELAMIN']);
+				$sheet->setCellValueExplicit('F' . $row, $r['NOTELEPON'], \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_STRING);
+				$sheet->setCellValue('G' . $row, $statusBadge);
+				
+				$row++;
+				$no++;
+			}
+		}
+
+		$filename = "Data_Peserta_PLP_" . ($tahun ? $tahun : "All") . "_" . ($periode ? str_replace(' ', '', $periode) : "All") . ".xlsx";
+
+		header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+		header('Content-Disposition: attachment;filename="' . $filename . '"');
+		header('Cache-Control: max-age=0');
+		
+		$writer = new \PhpOffice\PhpSpreadsheet\Writer\Xlsx($spreadsheet);
+		$writer->save('php://output');
+		exit;
+	}
+
 	public function assignment()
 	{
 		require_level("Admin");

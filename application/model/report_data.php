@@ -64,21 +64,6 @@ class report_data extends gf_model
             ->update(["RESPONSE" => $response, "KRITIKSARAN" => $comment]);
         return $report;
     }
-    function save_response($npm, $filename, $response, $comment)
-    {
-        $report = $this->dbAccess->reset()
-            ->tabel('laporan')
-            ->where(["NPM" => $npm, "FILENAME" => $filename])
-            ->update(["RESPONSE" => $response, "KRITIKSARAN" => $comment]);
-        return $report;
-    }
-    function get_response_by_file($npm, $filename)
-    {
-        return $this->dbAccess->reset()
-            ->tabel('laporan')
-            ->where(["NPM" => $npm, "FILENAME" => $filename])
-            ->result_row_array();
-    }
     /**
      * get_report Give report by ID report
      *
@@ -108,7 +93,6 @@ class report_data extends gf_model
             ->where("`laporan`.`" . $col . "` = " . $id)
             ->order('`FILENAME`', FALSE);
         $data = $this->dbAccess->result_array();
-        // echo $this->dbAccess->last_query;
         return $data;
     }
     /**

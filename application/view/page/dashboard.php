@@ -48,18 +48,18 @@ defined('GF_BASE_PATH') or exit('No direct script access allowed');
                     $note = isset($regInfo["NOTEBERKAS"]) ? $regInfo["NOTEBERKAS"] : "";
                 }
                 ?>
-                <div class="dashboard-banner banner-status" style="background: <?php echo $statusBg; ?>; border-left: 4px solid <?php echo $statusColor; ?>; display: flex; flex-direction: column; align-items: flex-start;">
-                    <div style="display: flex; align-items: center; width: 100%;">
-                        <div class="banner-icon-wrapper" style="background: #ffffff; color: <?php echo $statusColor; ?>; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
+                <div class="dashboard-banner banner-status" style="background: <?php echo $statusBg; ?>; border-left: 4px solid <?php echo $statusColor; ?>;">
+                    <div class="banner-status-header">
+                        <div class="banner-icon-wrapper banner-icon-status" style="color: <?php echo $statusColor; ?>;">
                             <svg class="banner-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path><rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect><path d="M9 14l2 2 4-4"></path></svg>
                         </div>
                         <div class="banner-text">
-                            <span class="banner-title" style="color: #475569; font-weight: 600; text-transform: uppercase; font-size: 11px; letter-spacing: 0.5px;">Status Pendaftaran</span>
-                            <span class="banner-value" style="color: <?php echo $statusColor; ?>; font-weight: 700; font-size: 16px; margin-top: 2px;"><?php echo $statusText; ?></span>
+                            <span class="banner-title status-title">Status Pendaftaran</span>
+                            <span class="banner-value status-value" style="color: <?php echo $statusColor; ?>;"><?php echo $statusText; ?></span>
                         </div>
                     </div>
                     <?php if(!empty($note)) { ?>
-                        <div style="font-size: 12px; margin-top: 12px; width: 100%; opacity: 0.9; color: #1e293b; background: rgba(255,255,255,0.6); padding: 8px 12px; border-radius: 6px; border: 1px dashed <?php echo $statusColor; ?>;">
+                        <div class="status-note" style="border: 1px dashed <?php echo $statusColor; ?>;">
                             <strong>Catatan:</strong> <?php echo htmlspecialchars($note); ?>
                         </div>
                     <?php } ?>
@@ -82,45 +82,45 @@ defined('GF_BASE_PATH') or exit('No direct script access allowed');
         </div>
 
         <!-- JADWAL KEGIATAN -->
-        <div class="schedule-container" style="padding: 0; margin-top: 20px;">
+        <div class="schedule-container">
           <div class="schedule-card">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+            <div class="schedule-header">
                 <h1 class="card-title">Jadwal Kegiatan</h1>
-                <a href="<?php echo set_url('kegiatan/jadwal'); ?>" style="font-size: 13px; color: #a805a8; text-decoration: none; font-weight: 600;">Lihat Semua &rarr;</a>
+                <a href="<?php echo set_url('kegiatan/jadwal'); ?>" class="schedule-link">Lihat Semua &rarr;</a>
             </div>
 
             <?php if (!empty($jadwal_list)) { ?>
                 <div class="table-responsive">
-                  <table class="modern-table">
+                  <table class="modern-table schedule-table">
                     <thead>
                       <tr>
-                        <th style="width: 20%;">Kegiatan</th>
-                        <th style="width: 30%;">Deskripsi</th>
-                        <th style="width: 15%;">Mulai</th>
-                        <th style="width: 15%;">Selesai</th>
-                        <th style="width: 20%;">Pelaksana</th>
+                        <th class="col-kegiatan">Kegiatan</th>
+                        <th class="col-deskripsi">Deskripsi</th>
+                        <th class="col-mulai">Mulai</th>
+                        <th class="col-selesai">Selesai</th>
+                        <th class="col-pelaksana">Pelaksana</th>
                       </tr>
                     </thead>
                     <tbody>
                       <?php foreach ($jadwal_list as $jadwal) { ?>
                         <tr>
-                          <td style="font-weight: 600; color: #1e293b;"><?= htmlspecialchars($jadwal['JENISKEGIATAN']) ?></td>
-                          <td style="font-size: 13px; color: #64748b;"><?= nl2br(htmlspecialchars($jadwal['KETERANGAN'])) ?></td>
+                          <td class="td-kegiatan"><?= htmlspecialchars($jadwal['JENISKEGIATAN']) ?></td>
+                          <td class="td-deskripsi"><?= nl2br(htmlspecialchars($jadwal['KETERANGAN'])) ?></td>
                           <td><?= $jadwal['WAKTUAWAL_FORMATTED'] ?></td>
                           <td><?= $jadwal['WAKTUAKHIR_FORMATTED'] ?></td>
-                          <td><span style="display: inline-block; padding: 4px 12px; background: #f0e3fc; color: #a805a8; border-radius: 20px; font-size: 12px; font-weight: 500;"><?= htmlspecialchars($jadwal['PELAKSANA'] ?? 'Panitia') ?></span></td>
+                          <td><span class="badge-pelaksana"><?= htmlspecialchars($jadwal['PELAKSANA'] ?? 'Panitia') ?></span></td>
                         </tr>
                       <?php } ?>
                     </tbody>
                   </table>
                 </div>
             <?php } else { ?>
-                <div class="empty-state" style="text-align: center; padding: 60px 20px;">
-                    <div style="width: 80px; height: 80px; background: #f8fafc; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px;">
+                <div class="empty-state empty-schedule">
+                    <div class="empty-icon-wrapper">
                         <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#94a3b8" stroke-width="1.5"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
                     </div>
-                    <h3 style="color: #475569; font-size: 18px; margin: 0 0 8px;">Jadwal Belum Tersedia</h3>
-                    <p style="color: #94a3b8; font-size: 14px; margin: 0;">Jadwal kegiatan terbaru akan segera diumumkan.</p>
+                    <h3 class="empty-title">Jadwal Belum Tersedia</h3>
+                    <p class="empty-desc">Jadwal kegiatan terbaru akan segera diumumkan.</p>
                 </div>
             <?php } ?>
           </div>

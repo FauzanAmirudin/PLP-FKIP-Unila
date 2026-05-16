@@ -13,7 +13,7 @@ defined('GF_BASE_PATH') OR exit('No direct script access allowed');
     <div class="contact-wrapper">
         <div class="contact-container">
             
-            <!-- LEFT COLUMN: Contact Information -->
+            <!-- CENTER COLUMN: Contact Information -->
             <div class="contact-info-col">
                 <h2 class="contact-title">PLP FKIP Unila</h2>
                 <p class="contact-desc">
@@ -68,13 +68,6 @@ defined('GF_BASE_PATH') OR exit('No direct script access allowed');
                 </div>
 
                 <a href="#" class="btn-primary-contact">CONTACT US</a>
-            </div>
-
-            <!-- RIGHT COLUMN: Map Placeholder -->
-            <div class="contact-map-col">
-                <div class="map-placeholder">
-                    <!-- Embed Google Maps iframe here -->
-                </div>
             </div>
 
         </div>

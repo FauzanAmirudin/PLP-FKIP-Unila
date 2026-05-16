@@ -51,11 +51,6 @@ defined('GF_BASE_PATH') or exit('No direct script access allowed');
         
         <!-- Kolom 3: Newsletter & Contact -->
         <div class="footer-col">
-            <h4 class="footer-heading">NEWSLETTER</h4>
-            <p class="footer-text">
-                Subscribe us & receive our offers and updates your inbox directly.
-            </p>
-            <br />
             <h4 class="footer-heading">CONTACT</h4>
             <p class="footer-text">
                 Telp/Fax: (0721) 704624<br />
