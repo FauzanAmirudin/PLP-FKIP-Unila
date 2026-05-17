@@ -84,30 +84,41 @@ $status-yellow-text: #f29900;
 .dashboard-sidebar-wrapper {
   display: flex !important;
   flex-direction: column;
-  position: relative !important; // override any sticky behaviour to stretch
+  // Sticky: stays in place while the main content scrolls
+  position: sticky !important;
+  top: 0;
+  align-self: flex-start;
+  height: 100vh !important;
+  overflow: hidden; // Clip content; inner menu scrolls independently
   width: $sidebar-width !important; 
   flex-shrink: 0;
-  height: auto !important; // override any fixed height to match container stretch
-  margin-top: 0 !important; // Flush to navbar
-  margin-left: 0 !important; // Flush to left edge
-  padding-top: 25px; // Extra spacing between navbar and top menu
-  border-radius: 0 !important; // Removed radius for flush look
+  margin-top: 0 !important;
+  margin-left: 0 !important;
+  padding-top: 25px;
+  padding-bottom: 80px; // Offset for navbar so logout is visible immediately
+  border-radius: 0 !important;
   background: #ffffff;
   border-right: 1px solid #eaeaea;
   z-index: 10;
   box-shadow: 2px 0px 10px rgba(0,0,0,0.02);
+  font-family: 'Poppins', sans-serif;
 
   @media screen and (max-width: 768px) {
+    // On mobile: reset sticky, use fixed overlay instead
     position: fixed !important;
     top: 0;
     left: -100%;
-    width: 250px !important;
+    align-self: auto;
+    width: 260px !important;
     height: 100vh !important;
+    max-height: 100vh;
+    overflow: hidden;
     z-index: 100;
     background: #ffffff;
-    box-shadow: 2px 0 15px rgba(0,0,0,0.1);
+    box-shadow: 2px 0 20px rgba(0,0,0,0.15);
     transition: left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     margin-top: 0 !important;
+    padding-top: 0;
 
     &.open {
       left: 0;
@@ -135,6 +146,24 @@ $status-yellow-text: #f29900;
   padding: 15px 0;
   margin: 0;
   flex-grow: 1;
+  font-family: 'Poppins', sans-serif;
+  // Always scrollable independently — on both desktop and mobile
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  // Thin custom scrollbar
+  scrollbar-width: thin;
+  scrollbar-color: rgba($primary-purple, 0.25) transparent;
+
+  &::-webkit-scrollbar {
+    width: 4px;
+  }
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  &::-webkit-scrollbar-thumb {
+    background-color: rgba($primary-purple, 0.25);
+    border-radius: 4px;
+  }
 
   .sidebar-item {
     margin-bottom: 2px;
@@ -147,6 +176,7 @@ $status-yellow-text: #f29900;
       text-decoration: none;
       font-weight: 500;
       font-size: 14px;
+      font-family: 'Poppins', sans-serif;
       transition: all 0.2s ease;
 
       .sidebar-icon {
@@ -154,6 +184,7 @@ $status-yellow-text: #f29900;
         height: 18px;
         margin-right: 12px;
         color: #999999;
+        flex-shrink: 0;
         transition: color 0.2s ease;
       }
 
@@ -183,6 +214,9 @@ $status-yellow-text: #f29900;
 .dashboard-sidebar-footer {
   padding: 15px;
   border-top: 1px solid #eaeaea;
+  flex-shrink: 0; // Never collapse — always visible at bottom
+  font-family: 'Poppins', sans-serif;
+  background: #ffffff; // Ensure it stays opaque over scroll content
 
   .dashboard-logout-btn {
     display: flex;
@@ -191,11 +225,13 @@ $status-yellow-text: #f29900;
     text-decoration: none;
     font-weight: 500;
     font-size: 14px;
+    font-family: 'Poppins', sans-serif;
 
     .sidebar-icon {
       width: 18px;
       height: 18px;
       margin-right: 12px;
+      flex-shrink: 0;
     }
 
     &:hover {
@@ -381,45 +417,212 @@ $status-yellow-text: #f29900;
 }
 
 // Refactored from dashboard.php inline styles
-.dashboard-banner.banner-status {
+.dashboard-banner {
+  &.banner-status, &.banner-info {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+
+    .banner-status-header {
+      display: flex;
+      align-items: center;
+      width: 100%;
+    }
+
+    .banner-icon-wrapper {
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    }
+
+    .banner-text {
+      .banner-title {
+        color: #475569;
+        font-weight: 600;
+        text-transform: uppercase;
+        font-size: 11px;
+        letter-spacing: 0.5px;
+      }
+      .banner-value {
+        font-weight: 700;
+        font-size: 16px;
+        margin-top: 2px;
+      }
+    }
+
+    .status-note {
+      font-size: 12px;
+      margin-top: 12px;
+      width: 100%;
+      opacity: 0.9;
+      color: #1e293b;
+      background: rgba(255,255,255,0.6);
+      padding: 8px 12px;
+      border-radius: 6px;
+      line-height: 1.5;
+
+      .read-more-link {
+        display: inline-block;
+        margin-top: 6px;
+        color: $primary-purple;
+        font-weight: 600;
+        text-decoration: none;
+        
+        &:hover {
+          text-decoration: underline;
+        }
+      }
+    }
+  }
+}
+
+// Editorial Banners (High Craft Aesthetic)
+.dashboard-banner.banner-info-editorial,
+.dashboard-banner.banner-status-editorial {
+  position: relative;
+  overflow: hidden;
+  border-radius: 12px;
+  padding: 30px;
+  color: #ffffff;
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
+  justify-content: center;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 
-  .banner-status-header {
+  // Specific gradient only for info (status gets it inline)
+  &.banner-info-editorial {
+    background: linear-gradient(135deg, #2b1055, #7597de);
+    box-shadow: 0 15px 35px rgba(43, 16, 85, 0.2);
+
+    &:hover {
+      box-shadow: 0 20px 40px rgba(43, 16, 85, 0.3);
+    }
+  }
+
+  &.banner-status-editorial {
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    
+    &:hover {
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+    }
+
+    .banner-bg-text {
+      color: rgba(255, 255, 255, 0.1); // slightly more visible for status
+    }
+  }
+
+  &:hover {
+    transform: translateY(-5px);
+  }
+
+  .banner-bg-text {
+    position: absolute;
+    top: -20px;
+    right: -20px;
+    font-size: 120px;
+    font-weight: 900;
+    line-height: 1;
+    color: rgba(255, 255, 255, 0.04);
+    pointer-events: none;
+    user-select: none;
+    transform: rotate(-5deg);
+    z-index: 1;
+    letter-spacing: -2px;
+  }
+
+  .banner-content-wrapper {
+    position: relative;
+    z-index: 2;
     display: flex;
-    align-items: center;
+    flex-direction: column;
+    align-items: flex-start;
     width: 100%;
+    height: 100%;
   }
 
-  .banner-icon-wrapper.banner-icon-status {
-    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+  .banner-badge {
+    background-color: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(5px);
+    color: #fff;
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 6px 12px;
+    border-radius: 4px;
+    margin-bottom: 15px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
   }
 
-  .banner-text {
-    .banner-title.status-title {
-      color: #475569;
-      font-weight: 600;
+  .banner-editorial-title {
+    font-size: 22px;
+    font-weight: 800;
+    line-height: 1.2;
+    margin: 0 0 10px;
+    color: #ffffff;
+    letter-spacing: -0.5px;
+  }
+
+  .banner-editorial-desc {
+    font-size: 13px;
+    line-height: 1.6;
+    color: rgba(255, 255, 255, 0.8);
+    margin: 0 0 20px;
+    max-width: 90%;
+    
+    &:last-child {
+      margin-top: auto;
+      margin-bottom: 0;
+    }
+  }
+
+  .editorial-read-more {
+    display: inline-flex;
+    align-items: center;
+    background: #ffffff;
+    color: #2b1055;
+    font-size: 12px;
+    font-weight: 700;
+    padding: 8px 16px;
+    border-radius: 30px;
+    text-decoration: none;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    transition: all 0.3s ease;
+    margin-top: auto;
+
+    .arrow {
+      margin-left: 8px;
+      transition: transform 0.3s ease;
+    }
+
+    &:hover {
+      background: #f0f0f0;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+      
+      .arrow {
+        transform: translateX(4px);
+      }
+    }
+  }
+
+  .status-editorial-note {
+    background: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(5px);
+    border: 1px dashed rgba(255, 255, 255, 0.4);
+    border-radius: 6px;
+    padding: 10px 15px;
+    font-size: 13px;
+    line-height: 1.5;
+    width: 100%;
+    margin-top: auto;
+    
+    .note-label {
+      font-weight: 700;
+      letter-spacing: 0.5px;
       text-transform: uppercase;
       font-size: 11px;
-      letter-spacing: 0.5px;
+      margin-right: 5px;
+      opacity: 0.9;
     }
-    .banner-value.status-value {
-      font-weight: 700;
-      font-size: 16px;
-      margin-top: 2px;
-    }
-  }
-
-  .status-note {
-    font-size: 12px;
-    margin-top: 12px;
-    width: 100%;
-    opacity: 0.9;
-    color: #1e293b;
-    background: rgba(255,255,255,0.6);
-    padding: 8px 12px;
-    border-radius: 6px;
   }
 }
 

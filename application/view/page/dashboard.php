@@ -23,59 +23,74 @@ defined('GF_BASE_PATH') or exit('No direct script access allowed');
                     ->result_row_array();
 
                 $statusText = "Belum Mengajukan";
-                $statusColor = "#0f172a"; // Black/Dark slate
-                $statusBg = "#f8fafc";
+                $statusColor = "#64748b"; 
+                $statusBg = "linear-gradient(135deg, #1e293b, #475569)";
                 $note = "";
 
                 if (!empty($regInfo)) {
                     if (empty($regInfo['STATUSBERKAS'])) {
                         $statusText = "Pengajuan";
-                        $statusColor = "#f59e0b"; // Yellow
-                        $statusBg = "#fef3c7";
+                        $statusColor = "#f59e0b"; 
+                        $statusBg = "linear-gradient(135deg, #b45309, #f59e0b)";
                     } else {
                         $statusText = $regInfo['STATUSBERKAS'];
                         if ($statusText == "Disetujui") {
-                            $statusColor = "#10b981"; // Green
-                            $statusBg = "#dcfce7";
+                            $statusColor = "#10b981"; 
+                            $statusBg = "linear-gradient(135deg, #065f46, #10b981)";
                         } else if ($statusText == "Ditolak") {
-                            $statusColor = "#ef4444"; // Red
-                            $statusBg = "#fee2e2";
+                            $statusColor = "#ef4444"; 
+                            $statusBg = "linear-gradient(135deg, #991b1b, #ef4444)";
                         } else {
-                            $statusColor = "#f59e0b"; // Yellow
-                            $statusBg = "#fef3c7";
+                            $statusColor = "#f59e0b"; 
+                            $statusBg = "linear-gradient(135deg, #b45309, #f59e0b)";
                         }
                     }
                     $note = isset($regInfo["NOTEBERKAS"]) ? $regInfo["NOTEBERKAS"] : "";
                 }
                 ?>
-                <div class="dashboard-banner banner-status" style="background: <?php echo $statusBg; ?>; border-left: 4px solid <?php echo $statusColor; ?>;">
-                    <div class="banner-status-header">
-                        <div class="banner-icon-wrapper banner-icon-status" style="color: <?php echo $statusColor; ?>;">
-                            <svg class="banner-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path><rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect><path d="M9 14l2 2 4-4"></path></svg>
-                        </div>
-                        <div class="banner-text">
-                            <span class="banner-title status-title">Status Pendaftaran</span>
-                            <span class="banner-value status-value" style="color: <?php echo $statusColor; ?>;"><?php echo $statusText; ?></span>
-                        </div>
+                <div class="dashboard-banner banner-status-editorial" style="background: <?php echo $statusBg; ?>;">
+                    <div class="banner-bg-text">STATUS</div>
+                    <div class="banner-content-wrapper">
+                        <div class="banner-badge">PENDAFTARAN</div>
+                        <h3 class="banner-editorial-title"><?php echo $statusText; ?></h3>
+                        
+                        <?php if(!empty($note)) { ?>
+                            <div class="status-editorial-note">
+                                <span class="note-label">Catatan:</span> <?php echo htmlspecialchars($note); ?>
+                            </div>
+                        <?php } else { ?>
+                            <p class="banner-editorial-desc">
+                            <?php
+                                if ($statusText == 'Disetujui') {
+                                    echo 'Selamat! Pendaftaran Anda telah resmi disetujui.';
+                                } elseif ($statusText == 'Ditolak') {
+                                    echo 'Berkas Anda ditolak. Silakan hubungi operator untuk informasi lebih lanjut.';
+                                } elseif ($statusText == 'Pengajuan') {
+                                    echo 'Berkas Anda sedang dalam antrian verifikasi oleh operator.';
+                                } else {
+                                    echo 'Silakan ajukan berkas pendaftaran PLP Anda secepatnya.';
+                                }
+                            ?>
+                            </p>
+                        <?php } ?>
                     </div>
-                    <?php if(!empty($note)) { ?>
-                        <div class="status-note" style="border: 1px dashed <?php echo $statusColor; ?>;">
-                            <strong>Catatan:</strong> <?php echo htmlspecialchars($note); ?>
-                        </div>
-                    <?php } ?>
                 </div>
 
                 <?php
-                $info = $dbAccess->reset()->where("`TANGGAL` <= CURDATE() ORDER BY `TANGGAL` DESC")->result_row_array('informasi');
-                $infoData = ($info == FALSE) ? "-" : $info['INFORMASI']; 
+                $info = $dbAccess->reset()->tabel('informasi')->where("`TANGGAL` <= CURDATE()")->order("`TANGGAL`", "DESC")->order("`ID`", "DESC")->limit(1)->result_fetch_array();
+                $infoTitle = ($info == FALSE) ? "Belum ada informasi" : $info['JUDUL']; 
+                $infoData = ($info == FALSE) ? "Silakan periksa kembali nanti." : $info['INFORMASI']; 
+                $infoId = ($info == FALSE) ? "" : $info['ID'];
                 ?>
-                <div class="dashboard-banner banner-info">
-                    <div class="banner-icon-wrapper">
-                        <svg class="banner-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
-                    </div>
-                    <div class="banner-text">
-                        <span class="banner-title">Informasi</span>
-                        <span class="banner-value"><?php echo htmlspecialchars(substr($infoData, 0, 80)) . (strlen($infoData) > 80 ? '...' : ''); ?></span>
+                <div class="dashboard-banner banner-info-editorial">
+                    <div class="banner-bg-text">LATEST</div>
+                    <div class="banner-content-wrapper">
+                        <div class="banner-badge">INFORMASI TERBARU</div>
+                        <h3 class="banner-editorial-title"><?php echo htmlspecialchars(mb_strimwidth($infoTitle, 0, 50, '...')); ?></h3>
+                        <p class="banner-editorial-desc"><?php echo htmlspecialchars(mb_strimwidth($infoData, 0, 110, '...')); ?></p>
+                        <?php if($info != FALSE) { ?>
+                            <a href="?page=detailinformasi&id=<?php echo (int)$infoId; ?>" class="editorial-read-more">Baca Selengkapnya <span class="arrow">&rarr;</span></a>
+                        <?php } ?>
                     </div>
                 </div>
             <?php } ?>

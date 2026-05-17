@@ -29,3 +29,4 @@ application/log/
 # Web dependencies (jika ada)
 node_modules/
 vendor/
+bukupanduan/

@@ -20,7 +20,8 @@ html {
     scroll-behavior: smooth;
     
     // Matikan overflow x untuk menghilangkan scroll horisontal jika ada element berlebih
-    overflow-x: hidden;
+    // Gunakan clip alih-alih hidden agar tidak merusak position: sticky pada sidebar
+    overflow-x: clip;
 }
 
 // =============================================
@@ -51,7 +52,7 @@ html {
         left: 0;
         width: 100%;
         height: 95%; // Menutupi bagian atas secara penuh sebelum potongan
-        background-image: linear-gradient(rgba(0, 0, 0, 0.65), rgba(0, 0, 0, 0.7)), url('../images/unila.jpg');
+        background-image: linear-gradient(rgba(0, 0, 0, 0.65), rgba(0, 0, 0, 0.7)), url('../images/hero-image.png');
         background-size: cover;
         background-position: center;
         background-repeat: no-repeat;
@@ -86,7 +87,7 @@ html {
         }
 
         .hero-title-main {
-            font-size: 4rem;
+            font-size: 3rem;
             font-weight: 800;
             color: #ffffff;
             line-height: 1.15;
@@ -278,6 +279,8 @@ html {
             background: #ffffff;
             padding: 40px;
             transition: transform 0.3s ease, box-shadow 0.3s ease;
+            display: flex;
+            flex-direction: column;
             
             &:hover {
                 transform: translateY(-5px);
@@ -312,6 +315,8 @@ html {
                 border: 1px solid #e2e8f0;
                 padding: 10px 20px;
                 transition: all 0.2s ease;
+                margin-top: auto;
+                align-self: flex-start;
                 
                 &:hover {
                     background-color: $color-bg-light;
@@ -333,7 +338,7 @@ html {
             padding: 60px 20px;
             
             .hero-title-main {
-                font-size: 2.25rem;
+                font-size: 1.75rem;
             }
         }
         

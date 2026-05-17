@@ -19,10 +19,8 @@ defined('GF_BASE_PATH') OR exit('No direct script access allowed');
 		
 		<div class="hero-content">
 			<h1 class="hero-title-main">
-				PENGENALAN LAPANGAN<br/>
-				<span>PERSEKOLAHAN (PLP)
-					<br> FKIP Universitas Lampung
-				</span>
+				<span>PENGENALAN LAPANGAN PERSEKOLAHAN (PLP)</span>
+				<br/> FKIP UNIVERSITAS LAMPUNG
 			</h1>
 			
 			<!-- <div class="hero-actions">
