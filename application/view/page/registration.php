@@ -101,7 +101,7 @@ defined('GF_BASE_PATH') or exit('No direct script access allowed');
                             <div class="form-group">
                                 <label>Pilih file berkas (.zip)<span class="required">*</span></label>
                                 <input type="file" name="file" class="input-control" accept=".zip,application/zip" required style="padding: 6px; height: auto;">
-                                <span class="help-text" style="color:#ef4444; margin-top: 6px; display: block;">* Berkas harus ditandatangani dan dibundel ke dalam file .zip. Maksimum ukuran file 1 MB.</span>
+                                <span class="help-text" style="color:#ef4444; margin-top: 6px; display: block;">* Berkas harus ditandatangani and dibundel ke dalam file .zip. Maksimum ukuran file 1 MB.</span>
                             </div>
                             <div class="form-actions" style="margin-top: 20px;">
                                 <button type="submit" class="btn-save">Upload Berkas</button>
@@ -110,5 +110,63 @@ defined('GF_BASE_PATH') or exit('No direct script access allowed');
                     </div>
                 </div>
             <?php } ?>
+        <?php } ?>
+
+        <?php if (!empty($registration_history)) { ?>
+            <!-- Riwayat Pendaftaran -->
+            <div class="pendaftaran-container" style="margin-top: 24px; margin-bottom: 24px;">
+                <div class="card-header" style="border-bottom: 2px solid #f0e3fc; padding-bottom: 15px; margin-bottom: 20px;">
+                    <h1 class="card-title" style="color: #a805a8; font-weight: 700; font-size: 20px; margin: 0;">Riwayat Pendaftaran</h1>
+                    <p class="card-subtitle" style="color: #777777; font-size: 13px; margin: 5px 0 0 0;">Daftar riwayat pendaftaran Anda di berbagai periode akademik</p>
+                </div>
+                <div class="form-body">
+                    <div class="table-responsive" style="overflow-x: auto; border: 1px solid #eaeaea; border-radius: 6px; width: 100%;">
+                        <table style="width: 100%; border-collapse: collapse; text-align: left; font-size: 14px; white-space: nowrap;">
+                            <thead>
+                                <tr style="background-color: #fcfcfc; border-bottom: 2px solid #eee; color: #555; font-weight: 700;">
+                                    <th style="padding: 15px 16px;">Tahun / Periode</th>
+                                    <th style="padding: 15px 16px;">Tanggal Pengajuan</th>
+                                    <th style="padding: 15px 16px;">Berkas</th>
+                                    <th style="padding: 15px 16px;">Status</th>
+                                    <th style="padding: 15px 16px;">Catatan Validator</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php foreach ($registration_history as $hist) {
+                                    $statusHist = $hist['STATUSBERKAS'];
+                                    $badgeStyle = "background: #f3f4f6; color: #374151;"; // Default
+                                    if ($statusHist == 'Disetujui') {
+                                        $badgeStyle = "background: #dcfce7; color: #166534;";
+                                    } elseif ($statusHist == 'Ditolak') {
+                                        $badgeStyle = "background: #fee2e2; color: #991b1b;";
+                                    } elseif ($statusHist == 'Pengajuan') {
+                                        $badgeStyle = "background: #fef9c3; color: #854d0e;";
+                                    } elseif ($statusHist == 'Mengundurkan Diri') {
+                                        $badgeStyle = "background: #ffedd5; color: #9a3412;";
+                                    }
+                                ?>
+                                    <tr style="border-bottom: 1px solid #f0f0f0; transition: background-color 0.15s ease;">
+                                        <td style="padding: 15px 16px; font-weight: 600; color: #111827;"><?= htmlspecialchars($hist['TAHUNDAFTAR'] . ' / ' . $hist['PERIODEDAFTAR']) ?></td>
+                                        <td style="padding: 15px 16px;"><?= htmlspecialchars($hist['DATEREQUEST'] ?? '-') ?></td>
+                                        <td style="padding: 15px 16px;">
+                                            <?php if (!empty($hist['BERKASDAFTAR'])) { ?>
+                                                <a href="<?= htmlspecialchars($hist['BERKASDAFTAR']) ?>" style="color:#B33791; text-decoration:none; font-weight: 600;">Download ZIP</a>
+                                            <?php } else { echo '-'; } ?>
+                                        </td>
+                                        <td style="padding: 15px 16px;">
+                                            <span style="display: inline-block; padding: 5px 12px; border-radius: 20px; font-size: 12px; font-weight: 600; <?= $badgeStyle ?>">
+                                                <?= htmlspecialchars($statusHist) ?>
+                                            </span>
+                                        </td>
+                                        <td style="padding: 15px 16px; font-style: italic; font-size: 13px; max-width: 300px; white-space: normal; word-wrap: break-word;">
+                                            <?= !empty($hist['NOTEBERKAS']) ? htmlspecialchars($hist['NOTEBERKAS']) : '<span style="color:#9ca3af;">Tidak ada catatan.</span>' ?>
+                                        </td>
+                                    </tr>
+                                <?php } ?>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
         <?php } ?>
     </div>

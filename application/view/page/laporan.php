@@ -6,6 +6,20 @@ defined('GF_BASE_PATH') or exit('No direct script access allowed');
 
 require_level('Mahasiswa');
 ?>
+<style>
+.laporan-container .report-list .report-item .report-actions .btn-action-laporan.btn-response-success {
+    background: #16a34a;
+    color: white;
+}
+.laporan-container .report-list .report-item .report-actions .btn-action-laporan.btn-response-success:hover {
+    background: #15803d;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(22, 163, 74, 0.2);
+}
+.laporan-container .upload-panel-collapse select.input-control {
+    background-size: 12px !important;
+}
+</style>
 
 <div class="laporan-container">
 	<?php 
@@ -67,6 +81,8 @@ require_level('Mahasiswa');
 							<?php
 								$ming++;
 							} ?>
+							<option value="Laporan Akhir PLP 1">Laporan Akhir PLP 1</option>
+							<option value="Laporan Akhir PLP 2">Laporan Akhir PLP 2</option>
 						</select>
 					</div>
 					<div class="form-group-modern checkbox-group" style="padding-top: 30px;">
@@ -99,13 +115,27 @@ require_level('Mahasiswa');
 			<?php
 			// Use $report passed from controller (queried via report->direct())
 			$laporan = isset($report) ? $report : array();
+			if (!empty($laporan) && is_array($laporan)) {
+				usort($laporan, function($a, $b) {
+					$nameA = isset($a['FILENAME']) ? $a['FILENAME'] : '';
+					$nameB = isset($b['FILENAME']) ? $b['FILENAME'] : '';
+					
+					$isAkhirA = (stripos($nameA, 'Akhir') !== false);
+					$isAkhirB = (stripos($nameB, 'Akhir') !== false);
+					
+					if ($isAkhirA && !$isAkhirB) return 1;
+					if (!$isAkhirA && $isAkhirB) return -1;
+					
+					return strnatcasecmp($nameA, $nameB);
+				});
+			}
             if (!empty($laporan)) {
 			foreach ($laporan as $r) {
 				// Status Logic mapped from existing checks
 				$responAvailable = ($r['RESPONSE'] != NULL && $r['RESPONSE'] != "");
 				if ($responAvailable) {
 					if ($r['RESPONSE'] == "Cukup") {
-                        $responBtn = "btn-response-primary"; // Ungu Solid
+                        $responBtn = "btn-response-success"; // Green Solid
 						$statusBadge = '<span class="badge badge-read" style="background: #dcfce7; color: #16a34a;">Selesai (Cukup)</span>';
 					} else {
                         $responBtn = "btn-response-warning"; // Oranye/Kuning Outline

@@ -24,7 +24,7 @@ $existing_komentar = isset($res['KRITIKSARAN']) ? $res['KRITIKSARAN'] : '';
         echo '<div class="notif notif-primary-strong">' . $notification . '</div>';
     } ?>
 
-    <div class="schedule-card" style="max-width: 600px; margin: 0 auto;">
+    <div class="schedule-card">
         <div class="card-header" style="border-bottom: 1px solid #e2e8f0; margin-bottom: 20px; padding-bottom: 15px;">
             <h1 class="card-title">Respons Laporan Mingguan</h1>
             <p class="card-subtitle">Berikan evaluasi dan catatan untuk laporan mahasiswa.</p>

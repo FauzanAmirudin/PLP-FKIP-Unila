@@ -117,11 +117,56 @@ class registration_data extends gf_model
 	 */
 	function status_check(int $id, int $year = NULL, $periode = NULL)
 	{
+		$year = $year === NULL ? $this->year : $year;
+		$periode = $periode === NULL ? $this->period : $periode;
 		$this->dbAccess->reset();
 		$result = $this->get_status($id, $year, $periode, 'USRKEY');
 		if (!empty($result) && $result['STATUSBERKAS'] == 'Disetujui') {
 			return TRUE;
 		} else return FALSE;
+	}
+
+	/**
+	 * history
+	 *
+	 * Mengambil seluruh riwayat pendaftaran mahasiswa di semua tahun/periode akademik
+	 *
+	 * @param  int $usrkey
+	 * @return array
+	 */
+	function history(int $usrkey)
+	{
+		$this->dbAccess->reset(TRUE);
+		$berkas_list = $this->dbAccess
+			->tabel('databerkas')
+			->where('`databerkas`.`USRKEY` = ' . $usrkey)
+			->order('`databerkas`.`TAHUNDAFTAR`', 'DESC')
+			->order('`databerkas`.`PERIODEDAFTAR`', 'DESC')
+			->result_array();
+
+		$history = [];
+		if (!empty($berkas_list)) {
+			foreach ($berkas_list as $b) {
+				$status_list = $this->dbAccess->reset(TRUE)
+					->tabel('datastatus')
+					->where('`datastatus`.`BRKSKEY` = ' . $b['ID'])
+					->order('`datastatus`.`ID`', 'DESC')
+					->result_array();
+				
+				if (!empty($status_list)) {
+					$latest_status = $status_list[0];
+					$b['STATUSBERKAS'] = $latest_status['STATUSBERKAS'];
+					$b['NOTEBERKAS'] = $latest_status['NOTEBERKAS'];
+					$b['DATEVALID'] = $latest_status['DATEVALID'];
+				} else {
+					$b['STATUSBERKAS'] = 'Pengajuan';
+					$b['NOTEBERKAS'] = '';
+					$b['DATEVALID'] = '';
+				}
+				$history[] = $b;
+			}
+		}
+		return $history;
 	}
 	/**
 	 * check_by
@@ -150,7 +195,7 @@ class registration_data extends gf_model
 	 * @param  string $condition
 	 * @return array
 	 */
-	function list(int $year = NULL, string $periode = NULL, string $status = NULL, string $prodi = NULL, string $npm = NULL)
+	function list(int $year = NULL, ?string $periode = NULL, ?string $status = NULL, ?string $prodi = NULL, ?string $npm = NULL)
 	{
 		$condition = array();
 		if (!empty($year)) $condition["`databerkas`.`TAHUNDAFTAR`"] = $year;
@@ -317,7 +362,14 @@ class registration_data extends gf_model
 	{
 		$this->dbAccess->reset();
 		$suport = $this->dbAccess->suport_version('20.0.0');
-		if (empty($condition)) $condition = "`databerkas`.`TAHUNDAFTAR` = " . $this->year . " AND `databerkas`.`PERIODEDAFTAR` = '" . $this->period . "'";
+		
+		// Hanya gunakan fallback default jika $condition benar-benar string kosong
+		// (bukan array kosong []). Ketika array kosong dikirim, artinya tidak ada filter
+		// yang diterapkan — tampilkan semua data tanpa filter tahun/periode.
+		if (!is_array($condition) && empty($condition)) {
+			$condition = "`databerkas`.`TAHUNDAFTAR` = " . $this->year . " AND `databerkas`.`PERIODEDAFTAR` = '" . $this->period . "'";
+		}
+		
 		$this->dbAccess->tabel('datamahasiswa')
 			->column(array(
 				'`databerkas`.`ID`',

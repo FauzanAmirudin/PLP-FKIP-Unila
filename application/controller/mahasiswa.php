@@ -46,8 +46,12 @@ class mahasiswa extends gf_controller
 	public function pendaftaran($data)
 	{
 		$id = $this->getID($data);
-		$this->data['registration_process'] = $this->registrasi->data($this->data['user']["ID"]);
-		$this->data['registration_done'] = $this->registrasi->status_check($this->data['user']["ID"]);
+		$currentYear = get_dbconfig('CURENTYEAR');
+		$currentSemester = get_dbconfig('CURENTSEMESTER');
+		$this->data['registration_process'] = $this->registrasi->check($this->data['user']["ID"], $currentYear, $currentSemester);
+		$this->data['registration_done'] = $this->registrasi->status_check($this->data['user']["ID"], $currentYear, $currentSemester);
+		$this->data['registration_history'] = $this->registrasi->history($this->data['user']["ID"]);
+		
 		if (!$this->data['registration_done']) {
 			$this->data['enableregister'] = get_dbconfig('OPENREGISTER');
 			$this->data['biodata_done'] = $this->mahasiswa->data_check($this->data['user']["ID"]);

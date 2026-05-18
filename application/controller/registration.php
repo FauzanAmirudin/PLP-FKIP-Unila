@@ -46,20 +46,33 @@ class registration extends gf_controller
 		require_level("Admin, Operator");
 		$this->data['config'] = get_dbconfig();
 		$this->data['enableregister'] = get_dbconfig('OPENREGISTER');
-		$tahun  = $this->input->get('tahun');
-		$periode  = $this->input->get('periode');
-		$prodi  = $this->input->get('prodi');
-		$berkas = $this->input->get('status');
-		$npm    = $this->input->get('npm');
 
-		$this->data['tahun'] = !empty($tahun) ? $tahun : get_dbconfig('CURENTYEAR');
-		$this->data['periode'] = !empty($periode) ? $periode : get_dbconfig('CURENTSEMESTER');
+		$formSubmitted = isset($_GET['tahun']);
+		$tahun   = !empty($_GET['tahun'])   ? (int)$this->input->get('tahun')   : NULL;
+		$periode = $formSubmitted            ? (isset($_GET['periode']) && $_GET['periode'] !== '' ? $_GET['periode'] : NULL) : '__DEFAULT__';
+		$npm     = $this->input->get('npm');
+		$prodi   = $this->input->get('prodi');
+		$berkas  = $this->input->get('status');
+
+		$this->data['alltahun'] = $this->registrasi->register_year();
+
+		// Jika form belum disubmit, default ke tahun terbaru
+		if ($tahun === NULL && !$formSubmitted) {
+			$tahun = !empty($this->data['alltahun']) ? (int)current($this->data['alltahun'])['TAHUNDAFTAR'] : NULL;
+		}
+		$this->data['tahun'] = $tahun;
+
+		$this->data['allperiode'] = $this->registrasi->register_periode((int)$tahun);
+
+		// Jika form belum disubmit, default ke periode pertama dari tahun aktif
+		if ($periode === '__DEFAULT__') {
+			$periode = !empty($this->data['allperiode']) ? current($this->data['allperiode'])['PERIODEDAFTAR'] : NULL;
+		}
+		$this->data['periode'] = $periode;
 
 		$this->data['allprodi'] = $this->registrasi->register_prodi($this->data['tahun'], $this->data['periode']);
 		$this->data['prodi'] = !empty($prodi) ? $prodi : NULL;
-
 		$this->data['berkas'] = !empty($berkas) ? $berkas : NULL;
-
 		$this->data['npm'] = !empty($npm) ? $npm : NULL;
 
 		$this->data['registration_list'] = $this->registrasi->list($this->data['tahun'], $this->data['periode'], $this->data['berkas'], $this->data['prodi'], $this->data['npm']);
@@ -75,23 +88,47 @@ class registration extends gf_controller
 		require_level("Admin, Monitor, Operator");
 		$this->data['config'] = get_dbconfig();
 		$this->data['enableregister'] = get_dbconfig('OPENREGISTER');
-		$tahun = $this->input->get('tahun');
-		$periode = $this->input->get('periode');
-		$npm = $this->input->get('npm');
-		$prodi = $this->input->get('prodi');
+
+		// Gunakan $_GET langsung untuk mendeteksi apakah form sudah di-submit
+		// input->get() mengembalikan NULL baik ketika key tidak ada maupun ketika value kosong,
+		// sehingga tidak bisa membedakan 'belum filter' vs 'filter semua periode'
+		$formSubmitted = isset($_GET['tahun']); // form selalu kirim tahun jika sudah di-submit
+		$tahun   = !empty($_GET['tahun'])   ? (int)$this->input->get('tahun')   : NULL;
+		$periode = $formSubmitted            ? (isset($_GET['periode']) && $_GET['periode'] !== '' ? $_GET['periode'] : NULL) : '__DEFAULT__';
+		$npm     = $this->input->get('npm');
+		$prodi   = $this->input->get('prodi');
+		$berkas  = $this->input->get('status');
 
 		$this->data['alltahun'] = $this->registrasi->register_year();
-		$this->data['tahun'] = !empty($tahun) ? $tahun : (!empty($this->data['alltahun']) ? current($this->data['alltahun'])['TAHUNDAFTAR'] : NULL);
 
-		$this->data['allperiode'] = $this->registrasi->register_periode((int)$this->data['tahun']);
-		$this->data['periode'] = !empty($periode) ? $periode : (!empty($this->data['allperiode']) ? current($this->data['allperiode'])['PERIODEDAFTAR'] : NULL);
+		// Jika form belum disubmit, default ke tahun terbaru
+		if ($tahun === NULL && !$formSubmitted) {
+			$tahun = !empty($this->data['alltahun']) ? (int)current($this->data['alltahun'])['TAHUNDAFTAR'] : NULL;
+		}
+		$this->data['tahun'] = $tahun;
 
-		$this->data['allprodi'] = $this->registrasi->register_prodi((int)$this->data['tahun'], $this->data['periode']);
-		$this->data['prodi'] = !empty($prodi) ? $prodi : NULL;
+		$this->data['allperiode'] = $this->registrasi->register_periode((int)$tahun);
+
+		// Jika form belum disubmit, default ke periode pertama dari tahun aktif
+		if ($periode === '__DEFAULT__') {
+			$periode = !empty($this->data['allperiode']) ? current($this->data['allperiode'])['PERIODEDAFTAR'] : NULL;
+		}
+		$this->data['periode'] = $periode;
+
+		$this->data['allprodi'] = $this->registrasi->register_prodi((int)$tahun, $periode);
+		$this->data['prodi'] = $prodi;
 
 		$this->data['npm'] = $npm;
+		$this->data['berkas'] = !empty($berkas) ? $berkas : NULL;
 
-		$this->data['mahasiswa'] = $this->registrasi->list($this->data['tahun'], $this->data['periode'], NULL, $this->data['prodi'], $this->data['npm']);
+		// Kirim status berkas ke model list
+		$this->data['mahasiswa'] = $this->registrasi->list(
+			$tahun,
+			$periode,
+			$this->data['berkas'],
+			$prodi,
+			$npm
+		);
 
 		$data = $this->registrasi->statistic();
 
@@ -130,9 +167,9 @@ class registration extends gf_controller
 		$tahun = !empty($tahun) ? $tahun : (!empty($alltahun) ? current($alltahun)['TAHUNDAFTAR'] : NULL);
 		
 		$allperiode = $this->registrasi->register_periode((int)$tahun);
-		$periode = !empty($periode) ? $periode : (!empty($allperiode) ? current($allperiode)['PERIODEDAFTAR'] : NULL);
+		$periode = ($periode !== NULL) ? $periode : (!empty($allperiode) ? current($allperiode)['PERIODEDAFTAR'] : NULL);
 
-		$mahasiswa = $this->registrasi->list($tahun, $periode, NULL, $prodi, $npm);
+		$mahasiswa = $this->registrasi->list($tahun, $periode, $berkas, $prodi, $npm);
 
 		require_once GF_BASE_PATH . '/system/plugins/autoload.php';
 		

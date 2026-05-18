@@ -143,19 +143,34 @@ class laporan extends gf_controller
     public function data($data)
     {
         require_level("Admin, Monitor, Operator, DPL");
-        $tahun = $this->input->get('tahun');
-        $periode = $this->input->get('periode');
+        $formSubmitted = isset($_GET['tahun']); // form selalu kirim tahun jika sudah di-submit
+        $tahun = !empty($_GET['tahun']) ? (int)$this->input->get('tahun') : NULL;
         $npm = $this->input->get('npm');
 
         $this->data['config'] = get_dbconfig();
         $id = $this->getID($data, "Admin, Monitor, Operator");
 
         $this->data['alltahun'] = $this->registrasi->register_year();
-        $this->data['tahun'] = empty($tahun) ? (!empty($this->data['alltahun']) ? current($this->data['alltahun'])['TAHUNDAFTAR'] : NULL) : $tahun;
-        $this->data['allperiode'] = $this->registrasi->register_periode();
-        $this->data['periode'] = empty($periode) ? (!empty($this->data['allperiode']) ? current($this->data['allperiode'])['PERIODEDAFTAR'] : NULL) : $periode;
+        
+        // Jika form belum disubmit, default ke tahun terbaru dari db
+        if ($tahun === NULL && !$formSubmitted) {
+            $tahun = !empty($this->data['alltahun']) ? (int)current($this->data['alltahun'])['TAHUNDAFTAR'] : NULL;
+        }
+        $this->data['tahun'] = $tahun;
+
+        // Ambil periode dari tahun aktif
+        $this->data['allperiode'] = $this->registrasi->register_periode((int)$tahun);
+
+        // Jika disubmit, ambil periode apa adanya (bisa kosong untuk 'Semua Periode')
+        // Jika belum disubmit, default ke periode pertama dari tahun aktif
+        if ($formSubmitted) {
+            $periode = isset($_GET['periode']) && $_GET['periode'] !== '' ? $_GET['periode'] : NULL;
+        } else {
+            $periode = !empty($this->data['allperiode']) ? current($this->data['allperiode'])['PERIODEDAFTAR'] : NULL;
+        }
+        $this->data['periode'] = $periode;
         $this->data['npm'] = $npm;
-        $id = $this->getID($data, "Admin, Monitor, Operator");
+        
         $this->data['form_link'] = "laporan/data/" . $id;
 
         $dosenFilter = is_level("Admin, Monitor, Operator") ? NULL : $id;

@@ -6,6 +6,97 @@ defined('GF_BASE_PATH') or exit('No direct script access allowed');
 
 ?>
 <link rel="stylesheet" href="./assets/css/chartist.min.css">
+<style type="text/css">
+/* Crisp white borders between pie chart slices for modern clean UI */
+.ct-slice-pie {
+    stroke: #ffffff !important;
+    stroke-width: 2px !important;
+}
+
+/* Ensure flat bar ends for all series to prevent overflowing layout and maintain consistency */
+.ct-bar {
+    stroke-linecap: butt !important;
+}
+
+/* Custom Chartist Modern Palette (A-Z) to prevent purple dominance */
+.ct-series-a .ct-slice-pie, .ct-series-a .ct-area { fill: #6366f1 !important; }
+.ct-series-a .ct-bar, .ct-series-a .ct-line, .ct-series-a .ct-point { stroke: #6366f1 !important; }
+
+.ct-series-b .ct-slice-pie, .ct-series-b .ct-area { fill: #10b981 !important; }
+.ct-series-b .ct-bar, .ct-series-b .ct-line, .ct-series-b .ct-point { stroke: #10b981 !important; }
+
+.ct-series-c .ct-slice-pie, .ct-series-c .ct-area { fill: #f59e0b !important; }
+.ct-series-c .ct-bar, .ct-series-c .ct-line, .ct-series-c .ct-point { stroke: #f59e0b !important; }
+
+.ct-series-d .ct-slice-pie, .ct-series-d .ct-area { fill: #ef4444 !important; }
+.ct-series-d .ct-bar, .ct-series-d .ct-line, .ct-series-d .ct-point { stroke: #ef4444 !important; }
+
+.ct-series-e .ct-slice-pie, .ct-series-e .ct-area { fill: #06b6d4 !important; }
+.ct-series-e .ct-bar, .ct-series-e .ct-line, .ct-series-e .ct-point { stroke: #06b6d4 !important; }
+
+.ct-series-f .ct-slice-pie, .ct-series-f .ct-area { fill: #ec4899 !important; }
+.ct-series-f .ct-bar, .ct-series-f .ct-line, .ct-series-f .ct-point { stroke: #ec4899 !important; }
+
+.ct-series-g .ct-slice-pie, .ct-series-g .ct-area { fill: #8b5cf6 !important; }
+.ct-series-g .ct-bar, .ct-series-g .ct-line, .ct-series-g .ct-point { stroke: #8b5cf6 !important; }
+
+.ct-series-h .ct-slice-pie, .ct-series-h .ct-area { fill: #f97316 !important; }
+.ct-series-h .ct-bar, .ct-series-h .ct-line, .ct-series-h .ct-point { stroke: #f97316 !important; }
+
+.ct-series-i .ct-slice-pie, .ct-series-i .ct-area { fill: #14b8a6 !important; }
+.ct-series-i .ct-bar, .ct-series-i .ct-line, .ct-series-i .ct-point { stroke: #14b8a6 !important; }
+
+.ct-series-j .ct-slice-pie, .ct-series-j .ct-area { fill: #3b82f6 !important; }
+.ct-series-j .ct-bar, .ct-series-j .ct-line, .ct-series-j .ct-point { stroke: #3b82f6 !important; }
+
+.ct-series-k .ct-slice-pie, .ct-series-k .ct-area { fill: #a855f7 !important; }
+.ct-series-k .ct-bar, .ct-series-k .ct-line, .ct-series-k .ct-point { stroke: #a855f7 !important; }
+
+.ct-series-l .ct-slice-pie, .ct-series-l .ct-area { fill: #eab308 !important; }
+.ct-series-l .ct-bar, .ct-series-l .ct-line, .ct-series-l .ct-point { stroke: #eab308 !important; }
+
+.ct-series-m .ct-slice-pie, .ct-series-m .ct-area { fill: #d946ef !important; }
+.ct-series-m .ct-bar, .ct-series-m .ct-line, .ct-series-m .ct-point { stroke: #d946ef !important; }
+
+.ct-series-n .ct-slice-pie, .ct-series-n .ct-area { fill: #84cc16 !important; }
+.ct-series-n .ct-bar, .ct-series-n .ct-line, .ct-series-n .ct-point { stroke: #84cc16 !important; }
+
+.ct-series-o .ct-slice-pie, .ct-series-o .ct-area { fill: #22c55e !important; }
+.ct-series-o .ct-bar, .ct-series-o .ct-line, .ct-series-o .ct-point { stroke: #22c55e !important; }
+
+.ct-series-p .ct-slice-pie, .ct-series-p .ct-area { fill: #64748b !important; }
+.ct-series-p .ct-bar, .ct-series-p .ct-line, .ct-series-p .ct-point { stroke: #64748b !important; }
+
+.ct-series-q .ct-slice-pie, .ct-series-q .ct-area { fill: #a1a1aa !important; }
+.ct-series-q .ct-bar, .ct-series-q .ct-line, .ct-series-q .ct-point { stroke: #a1a1aa !important; }
+
+.ct-series-r .ct-slice-pie, .ct-series-r .ct-area { fill: #fb7185 !important; }
+.ct-series-r .ct-bar, .ct-series-r .ct-line, .ct-series-r .ct-point { stroke: #fb7185 !important; }
+
+.ct-series-s .ct-slice-pie, .ct-series-s .ct-area { fill: #38bdf8 !important; }
+.ct-series-s .ct-bar, .ct-series-s .ct-line, .ct-series-s .ct-point { stroke: #38bdf8 !important; }
+
+.ct-series-t .ct-slice-pie, .ct-series-t .ct-area { fill: #fb923c !important; }
+.ct-series-t .ct-bar, .ct-series-t .ct-line, .ct-series-t .ct-point { stroke: #fb923c !important; }
+
+.ct-series-u .ct-slice-pie, .ct-series-u .ct-area { fill: #2dd4bf !important; }
+.ct-series-u .ct-bar, .ct-series-u .ct-line, .ct-series-u .ct-point { stroke: #2dd4bf !important; }
+
+.ct-series-v .ct-slice-pie, .ct-series-v .ct-area { fill: #c084fc !important; }
+.ct-series-v .ct-bar, .ct-series-v .ct-line, .ct-series-v .ct-point { stroke: #c084fc !important; }
+
+.ct-series-w .ct-slice-pie, .ct-series-w .ct-area { fill: #818cf8 !important; }
+.ct-series-w .ct-bar, .ct-series-w .ct-line, .ct-series-w .ct-point { stroke: #818cf8 !important; }
+
+.ct-series-x .ct-slice-pie, .ct-series-x .ct-area { fill: #f472b6 !important; }
+.ct-series-x .ct-bar, .ct-series-x .ct-line, .ct-series-x .ct-point { stroke: #f472b6 !important; }
+
+.ct-series-y .ct-slice-pie, .ct-series-y .ct-area { fill: #fbbf24 !important; }
+.ct-series-y .ct-bar, .ct-series-y .ct-line, .ct-series-y .ct-point { stroke: #fbbf24 !important; }
+
+.ct-series-z .ct-slice-pie, .ct-series-z .ct-area { fill: #a3e635 !important; }
+.ct-series-z .ct-bar, .ct-series-z .ct-line, .ct-series-z .ct-point { stroke: #a3e635 !important; }
+</style>
 
 
 <div class="settings-container">

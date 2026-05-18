@@ -107,12 +107,33 @@ require_level('Admin, Operator');
                 
                 <div style="display: flex; gap: 20px; flex-wrap: wrap;">
                     <div style="flex: 1; min-width: 200px;">
-                        <input name="tahunPendaftaram" value="<?php echo htmlspecialchars(isset($config['CURENTYEAR']) ? $config['CURENTYEAR'] : ''); ?>" placeholder="Masukan tahun sekarang (Contoh: 2026)" type="text" required="required" style="width:100%;" />
+                        <select name="tahunPendaftaram" required="required" style="width: 100%; padding: 12px 16px; border: 1px solid #ddd; border-radius: 8px; font-size: 14px; background: #fcfcfc; cursor: pointer; appearance: none; background-image: url('data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' fill=\'none\' viewBox=\'0 0 24 24\' stroke=\'%2364748b\'%3E%3Cpath stroke-linecap=\'round\' stroke-linejoin=\'round\' stroke-width=\'2\' d=\'M19 9l-7 7-7-7\'%3E%3C/path%3E%3C/svg%3E'); background-repeat: no-repeat; background-position: right 12px center; background-size: 14px; transition: all 0.2s ease; outline:none;" onfocus="this.style.borderColor='#a805a8'; this.style.boxShadow='0 0 0 3px rgba(168, 5, 168, 0.1)';" onblur="this.style.borderColor='#ddd'; this.style.boxShadow='none';">
+                            <?php
+                            $selectedYear = isset($config['CURENTYEAR']) ? (int)$config['CURENTYEAR'] : (int)date('Y');
+                            $currentYear = (int)date('Y');
+                            for ($y = $currentYear - 5; $y <= $currentYear + 5; $y++) {
+                                $sel = ($y == $selectedYear) ? 'selected' : '';
+                                echo '<option value="' . $y . '" ' . $sel . '>' . $y . '</option>';
+                            }
+                            ?>
+                        </select>
                         <span style="font-size: 11px; color: #888; display: block; margin-top: 6px;">Tahun Akademik</span>
                     </div>
                     
                     <div style="flex: 1; min-width: 200px;">
-                        <input name="periodePendaftaran" value="<?php echo htmlspecialchars(isset($config['CURENTSEMESTER']) ? $config['CURENTSEMESTER'] : ''); ?>" placeholder="Masukan semester (ganjil/genap)" type="text" required="required" style="width:100%;" />
+                        <select name="periodePendaftaran" required="required" style="width: 100%; padding: 12px 16px; border: 1px solid #ddd; border-radius: 8px; font-size: 14px; background: #fcfcfc; cursor: pointer; appearance: none; background-image: url('data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' fill=\'none\' viewBox=\'0 0 24 24\' stroke=\'%2364748b\'%3E%3Cpath stroke-linecap=\'round\' stroke-linejoin=\'round\' stroke-width=\'2\' d=\'M19 9l-7 7-7-7\'%3E%3C/path%3E%3C/svg%3E'); background-repeat: no-repeat; background-position: right 12px center; background-size: 14px; transition: all 0.2s ease; outline:none;" onfocus="this.style.borderColor='#a805a8'; this.style.boxShadow='0 0 0 3px rgba(168, 5, 168, 0.1)';" onblur="this.style.borderColor='#ddd'; this.style.boxShadow='none';">
+                            <?php
+                            $curentSemester = isset($config['CURENTSEMESTER']) ? $config['CURENTSEMESTER'] : '';
+                            $options = ['Periode 1', 'Periode 2'];
+                            if (!empty($curentSemester) && !in_array($curentSemester, $options)) {
+                                array_unshift($options, $curentSemester);
+                            }
+                            foreach ($options as $opt) {
+                                $sel = ($opt == $curentSemester) ? 'selected' : '';
+                                echo '<option value="' . htmlspecialchars($opt) . '" ' . $sel . '>' . htmlspecialchars($opt) . '</option>';
+                            }
+                            ?>
+                        </select>
                         <span style="font-size: 11px; color: #888; display: block; margin-top: 6px;">Semester</span>
                     </div>
                 </div>

@@ -84,18 +84,13 @@ $status-yellow-text: #f29900;
 .dashboard-sidebar-wrapper {
   display: flex !important;
   flex-direction: column;
-  // Sticky: stays in place while the main content scrolls
-  position: sticky !important;
-  top: 0;
-  align-self: flex-start;
-  height: 100vh !important;
-  overflow: hidden; // Clip content; inner menu scrolls independently
+  position: relative !important; // Normal flow
   width: $sidebar-width !important; 
   flex-shrink: 0;
+  height: auto !important; // Stretches to match container height
   margin-top: 0 !important;
   margin-left: 0 !important;
   padding-top: 25px;
-  padding-bottom: 80px; // Offset for navbar so logout is visible immediately
   border-radius: 0 !important;
   background: #ffffff;
   border-right: 1px solid #eaeaea;
@@ -104,20 +99,11 @@ $status-yellow-text: #f29900;
   font-family: 'Poppins', sans-serif;
 
   @media screen and (max-width: 768px) {
-    // On mobile: reset sticky, use fixed overlay instead
-    position: fixed !important;
-    top: 0;
+    // On mobile: hidden off-screen by default, slides in as overlay
     left: -100%;
-    align-self: auto;
-    width: 260px !important;
-    height: 100vh !important;
-    max-height: 100vh;
-    overflow: hidden;
     z-index: 100;
-    background: #ffffff;
     box-shadow: 2px 0 20px rgba(0,0,0,0.15);
     transition: left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    margin-top: 0 !important;
     padding-top: 0;
 
     &.open {
@@ -127,15 +113,13 @@ $status-yellow-text: #f29900;
 }
 
 .dashboard-main-content {
-  flex-grow: 1;
-  width: auto !important; // overriding floats
+  // No margin-left needed: handled by padding-left on .dashboard-container
+  min-height: 100vh;
   background-color: $dashboard-bg;
-  margin-top: 0 !important; // Flush with top boundaries seamlessly
   padding: 30px;
-  border-radius: 0; // Seamless body background
+  border-radius: 0;
 
   @media screen and (max-width: 768px) {
-    width: 100% !important;
     padding: 15px;
   }
 }

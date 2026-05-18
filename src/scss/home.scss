@@ -20,8 +20,7 @@ html {
     scroll-behavior: smooth;
     
     // Matikan overflow x untuk menghilangkan scroll horisontal jika ada element berlebih
-    // Gunakan clip alih-alih hidden agar tidak merusak position: sticky pada sidebar
-    overflow-x: clip;
+    overflow-x: hidden;
 }
 
 // =============================================
