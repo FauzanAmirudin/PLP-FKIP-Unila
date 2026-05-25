@@ -186,12 +186,6 @@ defined('GF_BASE_PATH') or exit('No direct script access allowed');
 					</a>
 				</li>
 			</ul>
-			<div class="dashboard-sidebar-footer">
-				<a href="<?php echo set_url(session_get('IMPERSONATE') ? "admin/restore_impersonate" : "user/logout"); ?>" class="dashboard-logout-btn" title="Keluar">
-					<svg class="sidebar-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
-					<span class="sidebar-label">Logout</span>
-				</a>
-			</div>
 		</section>
 		<script>
 		document.addEventListener("DOMContentLoaded", function() {

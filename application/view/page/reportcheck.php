@@ -7,6 +7,17 @@ defined('GF_BASE_PATH') or exit('No direct script access allowed');
 is_level("Admin, Monitor, DPL");
 ?>
 
+<style type="text/css">
+.schedule-container .filter-section form .filter-group.period-group {
+    width: 150px;
+}
+@media screen and (max-width: 768px) {
+    .schedule-container .filter-section form .filter-group.period-group {
+        width: 100% !important;
+    }
+}
+</style>
+
 <div class="schedule-container">
     <?php if (isset($notification) && $notification != null) {
         echo '<div class="notif notif-primary-strong">' . $notification . '</div>';
@@ -14,7 +25,7 @@ is_level("Admin, Monitor, DPL");
 
     <div class="schedule-card">
         <div class="card-header">
-            <h1 class="card-title">Data Laporan Mingguan <?= isset($config['CURENTYEAR']) ? htmlspecialchars($config['CURENTYEAR']) : '' ?></h1>
+            <h1 class="card-title">Data Laporan Mingguan <?= isset($tahun) ? htmlspecialchars($tahun) : '' ?><?= !empty($periode) ? ' (' . htmlspecialchars($periode) . ')' : ' (Semua Periode)' ?></h1>
             <p class="card-subtitle">Manajemen dan verifikasi laporan aktivitas mingguan mahasiswa PLT.</p>
         </div>
 
@@ -31,11 +42,28 @@ is_level("Admin, Monitor, DPL");
                 <div class="filter-group year-group">
                     <label>Tahun</label>
                     <select name="tahun">
-                        <?php if(isset($alltahun) && !empty($alltahun)) { foreach($alltahun as $t) { ?>
-                            <option value="<?= $t['TAHUNDAFTAR'] ?>" <?= (isset($tahun) && $tahun == $t['TAHUNDAFTAR']) ? 'selected' : '' ?>><?= $t['TAHUNDAFTAR'] ?></option>
+                        <?php if(isset($alltahun) && !empty($alltahun)) { 
+                            foreach($alltahun as $t) { 
+                                if (empty($t['TAHUNDAFTAR'])) continue; // Lewati jika tahun kosong/null
+                                ?>
+                                <option value="<?= $t['TAHUNDAFTAR'] ?>" <?= (isset($tahun) && $tahun == $t['TAHUNDAFTAR']) ? 'selected' : '' ?>><?= $t['TAHUNDAFTAR'] ?></option>
                         <?php } } else { ?>
                             <option value="">-</option>
                         <?php } ?>
+                    </select>
+                </div>
+
+                <div class="filter-group period-group">
+                    <label>Periode</label>
+                    <select name="periode">
+                        <option value="" <?= empty($periode) ? 'selected' : '' ?>>Semua Periode</option>
+                        <?php if (isset($allperiode) && !empty($allperiode)) {
+                            foreach ($allperiode as $p) {
+                                if (empty($p['PERIODEDAFTAR'])) continue; // Lewati jika periode kosong/null
+                                $isSelected = (isset($periode) && $periode == $p['PERIODEDAFTAR']) ? 'selected' : '';
+                                echo '<option value="' . htmlspecialchars($p['PERIODEDAFTAR']) . '" ' . $isSelected . '>' . htmlspecialchars($p['PERIODEDAFTAR']) . '</option>';
+                            }
+                        } ?>
                     </select>
                 </div>
 
@@ -93,6 +121,20 @@ is_level("Admin, Monitor, DPL");
                 $berkasId = null;
                 $item = $r["NPM"];
                 $file = $dbAccess->reset()->where("`NPM`='" . $item . "'")->order('`FILENAME`')->result_array('laporan');
+                if (!empty($file) && is_array($file)) {
+                    usort($file, function($a, $b) {
+                        $nameA = isset($a['FILENAME']) ? $a['FILENAME'] : '';
+                        $nameB = isset($b['FILENAME']) ? $b['FILENAME'] : '';
+                        
+                        $isAkhirA = (stripos($nameA, 'Akhir') !== false);
+                        $isAkhirB = (stripos($nameB, 'Akhir') !== false);
+                        
+                        if ($isAkhirA && !$isAkhirB) return 1;
+                        if (!$isAkhirA && $isAkhirB) return -1;
+                        
+                        return strnatcasecmp($nameA, $nameB);
+                    });
+                }
                 
                 if ($file) {
                     foreach ($file as $l) {
@@ -117,18 +159,30 @@ is_level("Admin, Monitor, DPL");
                         $relativeFilePath = str_replace(['/', '\\'], DIRECTORY_SEPARATOR, $l["FILELINK"]);
                         $fullFilePath = GF_BASE_PATH . DIRECTORY_SEPARATOR . $relativeFilePath;
                         
-                        if (isset($l['FILENAME']) && file_exists($fullFilePath)) {
+                         if (isset($l['FILENAME']) && file_exists($fullFilePath)) {
                             $qw++;
+                            
+                            // Parse dynamic label for the button
+                            $label = '';
+                            if (stripos($namaLaporan, 'Akhir PLP 1') !== false || stripos($namaLaporan, 'Akhir I') !== false) {
+                                $label = 'A1';
+                            } elseif (stripos($namaLaporan, 'Akhir PLP 2') !== false || stripos($namaLaporan, 'Akhir II') !== false) {
+                                $label = 'A2';
+                            } else {
+                                preg_match('/\d+/', $namaLaporan, $matches);
+                                $label = !empty($matches) ? $matches[0] : '?';
+                            }
+                            
                             // Link menuju halaman form review
                             $urlReview = set_url('laporan/review_form/' . $l['ID'] . '/' . urlencode($r["NAMA"]));
                             
                             echo '
                             <div class="report-item">
-                                <a href="' . $l['FILELINK'] . '" target="_blank" class="btn-download-small" title="Download Laporan ' . $qw . '">' . $qw . '</a>
+                                <a href="' . $l['FILELINK'] . '" target="_blank" class="btn-download-small" title="' . htmlspecialchars($namaLaporan) . '">' . htmlspecialchars($label) . '</a>
                                 <a href="' . $urlReview . '"
                                    class="btn-respond-small btn-give-response"
                                    style="background: ' . $statusBg . '; color: ' . $statusColor . '; border-color: ' . $statusColor . '33; text-decoration: none; display: inline-flex; align-items: center; justify-content: center;"
-                                   title="Beri Respons">R</a>
+                                   title="Beri Respons Untuk ' . htmlspecialchars($namaLaporan) . '">R</a>
                             </div>';
                         }
                     }

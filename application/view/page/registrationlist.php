@@ -7,6 +7,7 @@ defined('GF_BASE_PATH') or exit('No direct script access allowed');
 require_level('Admin, Monitor, Operator');
 /* Use data from controller as primary source */
 $tahun  = isset($tahun) ? $tahun : NULL;
+$periode = isset($periode) ? $periode : NULL;
 $npm    = isset($npm) ? $npm : NULL;
 $prodi  = isset($prodi) ? $prodi : NULL;
 $berkas = isset($berkas) ? $berkas : NULL;
@@ -44,6 +45,108 @@ $rataRata = $totalTahun > 0 ? round($totalAll / $totalTahun) : 0;
 $jsLabels = json_encode($chartLabels);
 $jsValues = json_encode($chartValues);
 ?>
+
+<style type="text/css">
+/* Container styling to match validate-container and laporan-container */
+.schedule-container {
+  padding: 10px 0 !important;
+  max-width: 1200px !important;
+  margin: 0 auto !important;
+  width: 100% !important;
+  box-sizing: border-box !important;
+  overflow-x: hidden !important;
+}
+
+/* Card layout safety */
+.schedule-container .schedule-card {
+  width: 100% !important;
+  box-sizing: border-box !important;
+  margin-bottom: 25px !important;
+  background: #ffffff !important;
+  border-radius: 12px !important;
+  padding: 30px !important;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03) !important;
+  border: 1px solid #f1f5f9 !important;
+}
+
+@media screen and (max-width: 768px) {
+  .schedule-container .schedule-card {
+    padding: 20px !important;
+  }
+}
+
+/* Stat Summary Grid - fully responsive */
+.schedule-container .stat-summary-grid {
+  display: grid !important;
+  grid-template-columns: repeat(4, 1fr) !important;
+  gap: 16px !important;
+  margin-bottom: 24px !important;
+  width: 100% !important;
+  box-sizing: border-box !important;
+}
+
+@media screen and (max-width: 992px) {
+  .schedule-container .stat-summary-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+}
+
+@media screen and (max-width: 576px) {
+  .schedule-container .stat-summary-grid {
+    grid-template-columns: 1fr !important;
+    gap: 12px !important;
+  }
+}
+
+/* Filter Form Grid - fully responsive */
+.schedule-container .filter-form-grid {
+  display: grid !important;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)) !important;
+  gap: 15px !important;
+  align-items: end !important;
+  margin-top: 20px !important;
+  width: 100% !important;
+  box-sizing: border-box !important;
+}
+
+@media screen and (max-width: 576px) {
+  .schedule-container .filter-form-grid {
+    grid-template-columns: 1fr !important;
+    gap: 12px !important;
+  }
+}
+
+/* Table Responsiveness - completely eliminates horizontal scroll of the body */
+.schedule-container .table-responsive {
+  width: 100% !important;
+  overflow-x: auto !important;
+  -webkit-overflow-scrolling: touch !important;
+  border-radius: 8px !important;
+  border: 1px solid #e2e8f0 !important;
+  margin-top: 15px !important;
+  box-sizing: border-box !important;
+}
+
+.schedule-container .modern-table {
+  width: 100% !important;
+  min-width: 850px !important; /* ensures the table scrolls nicely inside the wrapper, rather than squishing layout */
+  border-collapse: collapse !important;
+}
+
+/* Chart container responsive design */
+.schedule-container .chart-canvas-wrapper {
+  position: relative !important;
+  width: 100% !important;
+  height: 320px !important;
+  max-width: 100% !important;
+  box-sizing: border-box !important;
+}
+
+.schedule-container #dataPendaftar {
+  width: 100% !important;
+  height: 100% !important;
+}
+</style>
 
 <div class="schedule-container">
   
@@ -123,11 +226,32 @@ $jsValues = json_encode($chartValues);
                   return $a["TAHUNDAFTAR"];
                 }, $alltahun);
                 foreach ($alltahun as $key => $TAHUNDAFTAR_VAL) {
+                  if (empty($TAHUNDAFTAR_VAL)) continue; // Lewati jika kosong/null
                   $isSelected = ($TAHUNDAFTAR_VAL == $tahun) ? 'selected' : '';
                   echo '<option value="' . $TAHUNDAFTAR_VAL . '" ' . $isSelected . '>' . $TAHUNDAFTAR_VAL . '</option>';
                 }
               } else {
                 echo '<option>Belum ada pendaftar</option>';
+              }
+              ?>
+            </select>
+          </div>
+          
+          <div class="input-group">
+            <label for="periode">Periode</label>
+            <select name="periode" id="periode">
+              <?php
+              $formSubmittedView = isset($_GET['tahun']);
+              if (!empty($allperiode)) {
+                $semuaSelected = ($formSubmittedView && $periode === NULL) ? 'selected' : '';
+                echo '<option value="" ' . $semuaSelected . '>Semua Periode</option>';
+                foreach ($allperiode as $p) {
+                  if (empty($p['PERIODEDAFTAR'])) continue; // Lewati jika kosong/null
+                  $isSelected = ($p['PERIODEDAFTAR'] === $periode) ? 'selected' : '';
+                  echo '<option value="' . htmlspecialchars($p['PERIODEDAFTAR']) . '" ' . $isSelected . '>' . htmlspecialchars($p['PERIODEDAFTAR']) . '</option>';
+                }
+              } else {
+                echo '<option>Belum ada periode</option>';
               }
               ?>
             </select>
@@ -181,13 +305,14 @@ $jsValues = json_encode($chartValues);
   <?php
   /* Use data prepared by controller */
   $data = isset($mahasiswa) ? $mahasiswa : [];
-  $TAHUNDAFTAR = !empty($tahun) ? $tahun : "Seluruh Tahun";
-  $PROGRAMSTUDI = !empty($prodi) ? $prodi : "Seluruh Program Studi";
+  $TAHUNDAFTAR  = !empty($tahun)   ? $tahun   : "Seluruh Tahun";
+  $PERIODEDAFTAR = ($periode !== NULL) ? " ($periode)" : " (Semua Periode)";
+  $PROGRAMSTUDI = !empty($prodi)   ? $prodi   : "Seluruh Program Studi";
   ?>
   <div class="schedule-card">
     <div class="card-header">
       <h1 class="card-title">
-        <span>Daftar Mahasiswa Tahun <?= $TAHUNDAFTAR ?><?= isset($PROGRAMSTUDI) && $PROGRAMSTUDI !== '*' && $PROGRAMSTUDI !== 'Seluruh Program Studi' ? ", Program studi " . htmlspecialchars($PROGRAMSTUDI) : "" ?></span>
+        <span>Daftar Mahasiswa Tahun <?= $TAHUNDAFTAR ?><?= $PERIODEDAFTAR ?><?= isset($PROGRAMSTUDI) && $PROGRAMSTUDI !== '*' && $PROGRAMSTUDI !== 'Seluruh Program Studi' ? ", Program studi " . htmlspecialchars($PROGRAMSTUDI) : "" ?></span>
         <?php if ($data !== FALSE && count($data) != 0) { ?>
           <a href="?page=registration/export_excel&tahun=<?= urlencode($tahun ?? '') ?>&periode=<?= urlencode($periode ?? '') ?>&prodi=<?= urlencode($prodi ?? '') ?>&npm=<?= urlencode($npm ?? '') ?>&status=<?= urlencode($berkas ?? '') ?>" title="Export ke Excel">
             <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
@@ -286,7 +411,56 @@ $jsValues = json_encode($chartValues);
   </div>
 </div>
 <script type="text/javascript">
+function bindFilterForm() {
+  const form = document.querySelector('.schedule-container form.form');
+  if (!form) return;
+  
+  form.addEventListener('submit', function(e) {
+    e.preventDefault();
+    const formData = new FormData(this);
+    const params = new URLSearchParams(formData).toString();
+    const url = '?' + params;
+    
+    const cards = document.querySelectorAll('.schedule-container .schedule-card');
+    if (cards.length >= 3) {
+      cards[1].style.opacity = '0.5';
+      cards[2].style.opacity = '0.5';
+      cards[1].style.transition = 'opacity 0.2s';
+      cards[2].style.transition = 'opacity 0.2s';
+    }
+    
+    fetch(url)
+      .then(response => response.text())
+      .then(html => {
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(html, 'text/html');
+        
+        const currentCards = document.querySelectorAll('.schedule-container .schedule-card');
+        const newCards = doc.querySelectorAll('.schedule-container .schedule-card');
+        
+        if (currentCards.length >= 3 && newCards.length >= 3) {
+          currentCards[1].innerHTML = newCards[1].innerHTML;
+          currentCards[2].innerHTML = newCards[2].innerHTML;
+          
+          currentCards[1].style.opacity = '1';
+          currentCards[2].style.opacity = '1';
+          
+          bindFilterForm();
+        }
+        
+        history.pushState(null, '', url);
+      })
+      .catch(err => {
+        console.error(err);
+        if (cards.length >= 3) {
+          cards[1].style.opacity = '1';
+          cards[2].style.opacity = '1';
+        }
+      });
+  });
+}
 
+document.addEventListener('DOMContentLoaded', bindFilterForm);
 </script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 <script language="javascript" type="text/javascript">

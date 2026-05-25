@@ -4,6 +4,127 @@ defined('GF_BASE_PATH') or exit('No direct script access allowed');
  *	
  */
 ?>
+<style>
+.nav-profile-dropdown-container {
+    position: relative;
+    display: inline-block;
+}
+.nav-profile-trigger {
+    background: none;
+    border: 2px solid #fff;
+    padding: 0;
+    cursor: pointer;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    transition: transform 0.2s ease, border-color 0.2s ease;
+}
+.nav-profile-trigger:hover {
+    transform: scale(1.05);
+    border-color: #fec5f6;
+}
+.nav-profile-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+.nav-profile-initials {
+    width: 100%;
+    height: 100%;
+    background-color: #a805a8;
+    color: #fff;
+    font-weight: 700;
+    font-size: 16px;
+    font-family: 'Poppins', sans-serif;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.nav-profile-dropdown {
+    position: absolute;
+    right: 0;
+    top: calc(100% + 10px);
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+    width: 200px;
+    padding: 8px 0;
+    display: none;
+    flex-direction: column;
+    z-index: 1000;
+    border: 1px solid #eaeaea;
+    animation: dropdownFadeIn 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.nav-profile-dropdown.show {
+    display: flex;
+}
+@keyframes dropdownFadeIn {
+    from { opacity: 0; transform: translateY(-8px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+.dropdown-header {
+    padding: 12px 16px;
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+}
+.dropdown-name {
+    font-weight: 600;
+    font-size: 14px;
+    color: #1e293b;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-family: 'Poppins', sans-serif;
+}
+.dropdown-role {
+    font-size: 11px;
+    color: #64748b;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-top: 2px;
+    font-weight: 500;
+    font-family: 'Poppins', sans-serif;
+}
+.dropdown-divider {
+    height: 1px;
+    background-color: #f1f5f9;
+    margin: 6px 0;
+}
+.dropdown-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 16px;
+    color: #334155;
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 500;
+    font-family: 'Poppins', sans-serif;
+    transition: background-color 0.15s ease, color 0.15s ease;
+    text-align: left;
+}
+.dropdown-item:hover {
+    background-color: #f8fafc;
+    color: #a805a8;
+}
+.dropdown-item.logout {
+    color: #d93025;
+}
+.dropdown-item.logout:hover {
+    background-color: #fce8e6;
+    color: #d93025;
+}
+.dropdown-icon {
+    width: 16px;
+    height: 16px;
+    color: currentColor;
+}
+</style>
 <nav id="navbar">
 	<!-- ===================== MODAL LOGIN & REGISTER (logika tidak diubah) ===================== -->
 	<?php if (!is_login()) { ?>
@@ -167,8 +288,41 @@ defined('GF_BASE_PATH') or exit('No direct script access allowed');
 		<div class="nav-actions">
 			<?php if (!is_login()) { ?>
 				<a onclick="openModal('login', 460)" title="Login" class="nav-btn-login">LOGIN &nbsp;&#8594;</a>
-			<?php } else { ?>
-				<a href="?page=user/dashboard" class="nav-btn-login">HALAMAN ANDA &nbsp;&#8594;</a>
+			<?php } else { 
+				$avatarUrl = '';
+				if (strtolower(session_get('LEVEL')) == 'mahasiswa') {
+					$dbAccess = clone $this->database('default', 'dbconfig', TRUE);
+					$mahasiswa = $dbAccess->reset()->where("`USRKEY` = " . session_get('ID'))->result_row_array('datamahasiswa');
+					if (!empty($mahasiswa['FTPROFIL'])) {
+						$avatarUrl = $mahasiswa['FTPROFIL'];
+					}
+				}
+				$initials = strtoupper(substr(session_get('NAME') ?: session_get('FULLNAME') ?: 'U', 0, 1));
+			?>
+				<div class="nav-profile-dropdown-container">
+					<button class="nav-profile-trigger" id="profileDropdownTrigger" onclick="toggleProfileDropdown(event)" aria-haspopup="true" aria-expanded="false">
+						<?php if (!empty($avatarUrl)) { ?>
+							<img src="<?= $avatarUrl ?>" alt="Profile" class="nav-profile-img">
+						<?php } else { ?>
+							<div class="nav-profile-initials"><?= $initials ?></div>
+						<?php } ?>
+					</button>
+					<div class="nav-profile-dropdown" id="profileDropdown">
+						<div class="dropdown-header">
+							<span class="dropdown-name"><?= htmlspecialchars(session_get('NAME') ?: session_get('FULLNAME')) ?></span>
+							<span class="dropdown-role"><?= htmlspecialchars(session_get('LEVEL')) ?></span>
+						</div>
+						<div class="dropdown-divider"></div>
+						<a href="?page=user/dashboard" class="dropdown-item">
+							<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="dropdown-icon"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+							Dashboard
+						</a>
+						<a href="<?php echo set_url(session_get('IMPERSONATE') ? "admin/restore_impersonate" : "user/logout"); ?>" class="dropdown-item logout">
+							<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="dropdown-icon"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
+							Logout
+						</a>
+					</div>
+				</div>
 			<?php } ?>
 		</div>
 
@@ -195,7 +349,8 @@ defined('GF_BASE_PATH') or exit('No direct script access allowed');
 				<a onclick="closeMobileMenu(); openModal('login', 460)" class="mobile-btn login-btn">LOGIN</a>
 				<a onclick="closeMobileMenu(); openModal('register', 460)" class="mobile-btn register-btn">DAFTAR AKUN</a>
 			<?php } else { ?>
-				<a href="?page=user/dashboard" class="mobile-btn login-btn">HALAMAN ANDA &rarr;</a>
+				<a href="?page=user/dashboard" class="mobile-btn login-btn">DASHBOARD &rarr;</a>
+				<a href="<?php echo set_url(session_get('IMPERSONATE') ? "admin/restore_impersonate" : "user/logout"); ?>" class="mobile-btn logout-btn" style="background-color: #fce8e6; color: #d93025; margin-top: 10px;">LOGOUT</a>
 			<?php } ?>
 		</div>
 	</div>
@@ -203,6 +358,33 @@ defined('GF_BASE_PATH') or exit('No direct script access allowed');
 </nav>
 
 <script>
+function toggleProfileDropdown(event) {
+    event.stopPropagation();
+    const dropdown = document.getElementById('profileDropdown');
+    const trigger = document.getElementById('profileDropdownTrigger');
+    if (!dropdown || !trigger) return;
+    const isShown = dropdown.classList.contains('show');
+    
+    if (isShown) {
+        dropdown.classList.remove('show');
+        trigger.setAttribute('aria-expanded', 'false');
+    } else {
+        dropdown.classList.add('show');
+        trigger.setAttribute('aria-expanded', 'true');
+    }
+}
+
+window.addEventListener('click', function(event) {
+    const dropdown = document.getElementById('profileDropdown');
+    const trigger = document.getElementById('profileDropdownTrigger');
+    if (dropdown && dropdown.classList.contains('show')) {
+        if (!trigger.contains(event.target) && !dropdown.contains(event.target)) {
+            dropdown.classList.remove('show');
+            trigger.setAttribute('aria-expanded', 'false');
+        }
+    }
+});
+
 function resetCaptcha(imgId) {
     document.getElementById(imgId).src = "?page=captcha&t=" + new Date().getTime();
 }

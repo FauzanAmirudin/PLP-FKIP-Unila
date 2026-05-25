@@ -56,7 +56,9 @@ class registration extends gf_controller
 						break;
 
 					case 'delete':
-						$response .= "Maaf, fitur delete belum tersedia.";
+						$state = 'Mengundurkan Diri';
+						$result = $this->registrasi->status_update($berkasid, $state, $catatan, session_get('USERID'), NULL, NULL);
+						if ($result) $response .= "Status berkas " . $mahasiswa["NAMA"] . " telah diubah menjadi <b>" . $result["STATUSBERKAS"] . "</b>.";
 						break;
 
 					default:

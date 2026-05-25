@@ -9,6 +9,39 @@ require_level('Admin, Operator');
 // Data is already prepared and filtered by the Controller
 $dataAccess = clone $this->database('default', 'dbconfig', TRUE);
 ?>
+<style type="text/css">
+/* Sizing and responsive alignment for filter dropdowns on registration validate page */
+.validate-container .filter-form .form-row .form-group-modern.col-tahun,
+.validate-container .filter-form .form-row .form-group-modern.col-periode {
+    flex: 0 0 110px !important;
+}
+.validate-container .filter-form .form-row .form-group-modern.col-prodi {
+    flex: 1 1 200px !important;
+}
+.validate-container .filter-form .form-row .form-group-modern.col-status {
+    flex: 0 0 140px !important;
+}
+.validate-container .filter-form .form-row .form-group-modern.col-search {
+    flex: 1 1 180px !important;
+}
+.validate-container .filter-form .form-row .form-group-modern.col-btn {
+    flex: 0 0 auto !important;
+}
+.validate-container .badge.badge-secondary {
+    background: #ffedd5 !important;
+    color: #9a3412 !important;
+}
+@media screen and (max-width: 768px) {
+    .validate-container .filter-form .form-row .form-group-modern.col-tahun,
+    .validate-container .filter-form .form-row .form-group-modern.col-periode,
+    .validate-container .filter-form .form-row .form-group-modern.col-prodi,
+    .validate-container .filter-form .form-row .form-group-modern.col-status,
+    .validate-container .filter-form .form-row .form-group-modern.col-search,
+    .validate-container .filter-form .form-row .form-group-modern.col-btn {
+        flex: 1 1 100% !important;
+    }
+}
+</style>
 <div class="validate-container">
   <?php if (isset($response) && $response != null) {
     echo '<div class="notif notif-primary-strong">' . $response . '</div>';
@@ -21,7 +54,34 @@ $dataAccess = clone $this->database('default', 'dbconfig', TRUE);
     <form class="filter-form" method="get" action="">
       <input type="hidden" name="page" value="registration/validate">
       <div class="form-row">
-        <div class="form-group-modern col-md-5">
+        <div class="form-group-modern col-tahun">
+          <label for="tahun">Tahun</label>
+          <select name="tahun" class="input-control" onchange="this.form.submit()">
+            <?php if (!empty($alltahun)) {
+              foreach ($alltahun as $t) {
+                if (empty($t['TAHUNDAFTAR'])) continue;
+                $sel = ($t['TAHUNDAFTAR'] == $tahun) ? 'selected' : '';
+                echo '<option value="' . htmlspecialchars($t['TAHUNDAFTAR']) . '" ' . $sel . '>' . htmlspecialchars($t['TAHUNDAFTAR']) . '</option>';
+              }
+            } else {
+              echo '<option value="">-</option>';
+            } ?>
+          </select>
+        </div>
+        <div class="form-group-modern col-periode">
+          <label for="periode">Periode</label>
+          <select name="periode" class="input-control" onchange="this.form.submit()">
+            <option value="" <?= empty($periode) ? 'selected' : '' ?>>Semua Periode</option>
+            <?php if (!empty($allperiode)) {
+              foreach ($allperiode as $p) {
+                if (empty($p['PERIODEDAFTAR'])) continue;
+                $sel = ($p['PERIODEDAFTAR'] == $periode) ? 'selected' : '';
+                echo '<option value="' . htmlspecialchars($p['PERIODEDAFTAR']) . '" ' . $sel . '>' . htmlspecialchars($p['PERIODEDAFTAR']) . '</option>';
+              }
+            } ?>
+          </select>
+        </div>
+        <div class="form-group-modern col-prodi">
           <label for="prodi">Prodi</label>
           <select name="prodi" class="input-control">
             <?php
@@ -38,20 +98,21 @@ $dataAccess = clone $this->database('default', 'dbconfig', TRUE);
             ?>
           </select>
         </div>
-        <div class="form-group-modern col-md-3">
+        <div class="form-group-modern col-status">
           <label for="status">Status Berkas</label>
           <select name="status" class="input-control">
             <option value="">Semua</option>
             <option value="Disetujui" <?php echo ($berkas == "Disetujui" ? "selected" : "") ?>>Disetujui</option>
             <option value="Ditolak" <?php echo ($berkas == "Ditolak" ? "selected" : "") ?>>Ditolak</option>
             <option value="Pengajuan" <?php echo ($berkas == "Pengajuan" ? "selected" : "") ?>>Pengajuan</option>
+            <option value="Mengundurkan Diri" <?php echo ($berkas == "Mengundurkan Diri" ? "selected" : "") ?>>Mengundurkan Diri</option>
           </select>
         </div>
-        <div class="form-group-modern col-md-3">
+        <div class="form-group-modern col-search">
           <label for="npm">Cari NPM / Nama</label>
           <input name="npm" value="<?php echo htmlspecialchars($npm ?? ''); ?>" placeholder="Masukan NPM atau Nama" class="input-control" type="text" />
         </div>
-        <div class="form-group-modern col-md-2 align-end">
+        <div class="form-group-modern col-btn align-end">
           <button type="submit" class="btn-save">Filter</button>
         </div>
       </div>
@@ -92,6 +153,7 @@ $dataAccess = clone $this->database('default', 'dbconfig', TRUE);
               if ($statusTeks == 'Disetujui') $badgeClass = 'badge-success';
               elseif ($statusTeks == 'Ditolak') $badgeClass = 'badge-danger';
               elseif ($statusTeks == 'Pengajuan') $badgeClass = 'badge-warning';
+              elseif ($statusTeks == 'Mengundurkan Diri') $badgeClass = 'badge-secondary';
               $berkasId = isset($r["ID"]) ? $r["ID"] : (isset($r["BERKASID"]) ? $r["BERKASID"] : $r["USRKEY"]);
               $namaSafe = str_replace("'", "\\'", html_entity_decode($r["NAMA"], ENT_QUOTES | ENT_HTML5));
               $berkasSafe = empty($r["BERKASDAFTAR"]) ? '' : htmlspecialchars($r["BERKASDAFTAR"]);
@@ -225,7 +287,7 @@ $dataAccess = clone $this->database('default', 'dbconfig', TRUE);
             <div class="modal-action-row">
               <button id="mhs-approve" type="submit" value="Simpan" class="btn-val-approve">Setujui</button>
               <button id="mhs-reject" type="submit" value="Simpan" class="btn-val-reject">Tolak</button>
-              <button id="mhs-delete" type="submit" value="Simpan" class="btn-val-delete">Hapus Data</button>
+              <button id="mhs-delete" type="submit" value="Simpan" class="btn-val-delete">Mengundurkan Diri</button>
             </div>
           </form>
       </div>
