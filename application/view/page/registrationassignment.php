@@ -69,36 +69,49 @@ document.getElementById('fileAssignment').addEventListener('change', function(e)
       }, false);
 
       function ajaxPOST(form, button, force) {
-        let aj_data = new gcAjax(form, "<?= set_url('api/upload/assignment') ?>");
-        aj_data.addValue("force=" + force)
-          .setLoading(function(state, element) {
-            if (state) {
-              document.getElementById('modal').style.display = "block";
-            } else {
-              document.getElementById('modal').style.display = "none";
-            }
-          })
-          .setCallback(function(text, element) {
-            try {
-              if (text != null) {
-                element.style.display = "block";
-                let html = '';
-                var response = JSON.parse(text);
-                if (response.messege != 'undefined' && response.messege != null) {
-                  html += response.messege;
-                }
-                if (response.data != 'undefined' && response.data != null) {
-                  html += '<div id="" class="table-view" style="overflow-x:auto; max-height: 90vh;">' + response.data + '</div>';
-                }
-                element.innerHTML = html;
-              } else {
+        let formData = new FormData(form);
+        formData.append("force", force);
+        
+        document.getElementById('modal').style.display = "block";
+        let originalBtnText = button.innerHTML;
+        button.innerHTML = 'Uploading...';
+        button.disabled = true;
 
+        fetch("<?= set_url('api/upload/assignment') ?>", {
+          method: 'POST',
+          body: formData
+        })
+        .then(response => response.text())
+        .then(text => {
+          document.getElementById('modal').style.display = "none";
+          let element = document.getElementById('ajaxDiv');
+          try {
+            if (text != null) {
+              element.style.display = "block";
+              let html = '';
+              var response = JSON.parse(text);
+              if (response.messege != 'undefined' && response.messege != null) {
+                html += response.messege;
               }
-            } catch (error) {
-              element.innerHTML = text;
+              if (response.data != 'undefined' && response.data != null) {
+                html += '<div id="" class="table-view" style="overflow-x:auto; max-height: 90vh;">' + response.data + '</div>';
+              }
+              element.innerHTML = html;
             }
-          })
-          .send('ajaxDiv', button, '#FFFFFF');
+          } catch (error) {
+            element.innerHTML = text;
+            element.style.display = "block";
+          }
+          button.innerHTML = originalBtnText;
+          button.disabled = false;
+        })
+        .catch(error => {
+          document.getElementById('modal').style.display = "none";
+          console.error('Error:', error);
+          button.innerHTML = originalBtnText;
+          button.disabled = false;
+          alert("Terjadi kesalahan saat mengunggah file.");
+        });
       }
     </script>
 

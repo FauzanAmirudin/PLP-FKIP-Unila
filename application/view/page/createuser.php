@@ -120,12 +120,31 @@ document.getElementById('fileBulkUser').addEventListener('change', function(e) {
       }, false);
 
       function ajaxPOST(form, button, force) {
-        let aj_data = new gcAjax(form, "<?= set_url('api/upload/users') ?>");
-        aj_data.setMethod('post').addValue("force=" + force).setCallback(function(text, element) {
-          let relodBtn = '<button class="btn btn-ok" onClick="location.reload()">Perbaharui Daftar</button></div>';
+        let formData = new FormData(form);
+        formData.append("force", force);
+        
+        let originalBtnText = button.innerHTML;
+        button.innerHTML = 'Uploading...';
+        button.disabled = true;
+
+        fetch("<?= set_url('api/upload/users') ?>", {
+          method: 'POST',
+          body: formData
+        })
+        .then(response => response.text())
+        .then(text => {
+          let element = document.getElementById('ajaxDiv');
           element.innerHTML = text;
           document.getElementById('modal').style.display = "block";
-        }).send('ajaxDiv', button, '#FFFFFF');
+          button.innerHTML = originalBtnText;
+          button.disabled = false;
+        })
+        .catch(error => {
+          console.error('Error:', error);
+          button.innerHTML = originalBtnText;
+          button.disabled = false;
+          alert("Terjadi kesalahan saat mengunggah file.");
+        });
       }
     </script>
 
