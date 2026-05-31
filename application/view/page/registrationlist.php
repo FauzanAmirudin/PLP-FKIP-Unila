@@ -248,7 +248,7 @@ $jsValues = json_encode($chartValues);
                 foreach ($allperiode as $p) {
                   if (empty($p['PERIODEDAFTAR'])) continue; // Lewati jika kosong/null
                   $isSelected = ($p['PERIODEDAFTAR'] === $periode) ? 'selected' : '';
-                  echo '<option value="' . htmlspecialchars($p['PERIODEDAFTAR']) . '" ' . $isSelected . '>' . htmlspecialchars($p['PERIODEDAFTAR']) . '</option>';
+                  echo '<option value="' . htmlspecialchars($p['PERIODEDAFTAR'] ?? '') . '" ' . $isSelected . '>' . htmlspecialchars($p['PERIODEDAFTAR'] ?? '') . '</option>';
                 }
               } else {
                 echo '<option>Belum ada periode</option>';
@@ -292,7 +292,7 @@ $jsValues = json_encode($chartValues);
           
           <div class="input-group">
             <label for="NPM">NPM / Keyword</label>
-            <input name="npm" value="<?php echo htmlspecialchars($npm); ?>" placeholder="Masukkan NPM..." type="text" />
+            <input name="npm" value="<?php echo htmlspecialchars($npm ?? ''); ?>" placeholder="Masukkan NPM..." type="text" />
           </div>
           
           <div class="input-group action-group">
@@ -312,7 +312,7 @@ $jsValues = json_encode($chartValues);
   <div class="schedule-card">
     <div class="card-header">
       <h1 class="card-title">
-        <span>Daftar Mahasiswa Tahun <?= $TAHUNDAFTAR ?><?= $PERIODEDAFTAR ?><?= isset($PROGRAMSTUDI) && $PROGRAMSTUDI !== '*' && $PROGRAMSTUDI !== 'Seluruh Program Studi' ? ", Program studi " . htmlspecialchars($PROGRAMSTUDI) : "" ?></span>
+        <span>Daftar Mahasiswa Tahun <?= $TAHUNDAFTAR ?><?= $PERIODEDAFTAR ?><?= isset($PROGRAMSTUDI) && $PROGRAMSTUDI !== '*' && $PROGRAMSTUDI !== 'Seluruh Program Studi' ? ", Program studi " . htmlspecialchars($PROGRAMSTUDI ?? '') : "" ?></span>
         <?php if ($data !== FALSE && count($data) != 0) { ?>
           <a href="?page=registration/export_excel&tahun=<?= urlencode($tahun ?? '') ?>&periode=<?= urlencode($periode ?? '') ?>&prodi=<?= urlencode($prodi ?? '') ?>&npm=<?= urlencode($npm ?? '') ?>&status=<?= urlencode($berkas ?? '') ?>" title="Export ke Excel">
             <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
@@ -354,20 +354,20 @@ $jsValues = json_encode($chartValues);
                   <td class="text-center text-muted font-medium"><?= $n ?></td>
                   <td>
                     <div class="mahasiswa-info">
-                      <div class="name"><?= htmlspecialchars($r["NAMA"]) ?></div>
-                      <div class="npm"><?= htmlspecialchars($r["NPM"]) ?></div>
+                      <div class="name"><?= htmlspecialchars($r["NAMA"] ?? '') ?></div>
+                      <div class="npm"><?= htmlspecialchars($r["NPM"] ?? '') ?></div>
                     </div>
                   </td>
-                  <td><div class="prodi-text"><?= htmlspecialchars($r["PROGRAMSTUDI"]) ?></div></td>
+                  <td><div class="prodi-text"><?= htmlspecialchars($r["PROGRAMSTUDI"] ?? '') ?></div></td>
                   <td>
                     <div class="kontak-info">
-                      <div class="phone"><?= htmlspecialchars($r["NOTELEPON"]) ?></div>
-                      <div class="gender"><?= htmlspecialchars($r["JENISKELAMIN"]) ?></div>
+                      <div class="phone"><?= htmlspecialchars($r["NOTELEPON"] ?? '') ?></div>
+                      <div class="gender"><?= htmlspecialchars($r["JENISKELAMIN"] ?? '') ?></div>
                     </div>
                   </td>
                   <td class="text-center">
                     <span class="status-badge" style="background: <?= $statusBg ?>; color: <?= $statusColor ?>; border-color: <?= $statusColor ?>33;">
-                      <?= strtoupper(htmlspecialchars($statusBadge)) ?>
+                      <?= strtoupper(htmlspecialchars($statusBadge ?? '')) ?>
                     </span>
                   </td>
                   <td class="text-center">
