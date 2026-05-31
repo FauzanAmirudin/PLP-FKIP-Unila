@@ -90,17 +90,25 @@ document.getElementById('fileAssignment').addEventListener('change', function(e)
           try {
             if (text != null) {
               let html = '';
-              var response = JSON.parse(text);
-              if (response.messege != 'undefined' && response.messege != null) {
-                html += response.messege;
+              let jsonStart = text.indexOf('{');
+              let jsonEnd = text.lastIndexOf('}');
+              if (jsonStart !== -1 && jsonEnd !== -1) {
+                let jsonStr = text.substring(jsonStart, jsonEnd + 1);
+                var response = JSON.parse(jsonStr);
+                if (response.messege != 'undefined' && response.messege != null) {
+                  html += response.messege;
+                }
+                if (response.data != 'undefined' && response.data != null) {
+                  html += '<div class="table-view" style="overflow-x:auto; max-height: 90vh;">' + response.data + '</div>';
+                }
+                element.innerHTML = html;
+              } else {
+                element.innerHTML = text; // Fallback if no JSON found
               }
-              if (response.data != 'undefined' && response.data != null) {
-                html += response.data;
-              }
-              element.innerHTML = html;
             }
           } catch (error) {
-            element.innerHTML = text;
+            console.error("JSON Parse Error: ", error);
+            element.innerHTML = "<div style='color:red; padding: 20px;'><strong>Error parsing response:</strong><br><pre>" + text + "</pre></div>";
           }
           document.getElementById('modal').style.display = "block";
           button.innerHTML = originalBtnText;
