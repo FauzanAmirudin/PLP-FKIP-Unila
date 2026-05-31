@@ -35,11 +35,6 @@ require_level('Admin, Operator');
                 <button type="reset" class="btn-save" style="background: #64748b; margin-left: 10px;" onclick="document.getElementById('fileNameDisplay').innerText=''">Reset</button>
             </div>
         </form>
-    </div>
-
-    <div id="ajaxDiv" style="margin-top: 30px; display: none;">
-        <!-- Hasil AJAX akan muncul di sini -->
-    </div>
 </div>
 
 <script>
@@ -50,10 +45,19 @@ document.getElementById('fileAssignment').addEventListener('change', function(e)
 </script>
 
     <div id="modal" class="modal">
-      <div class="modal-centered" style="max-width: 10rem; width: 90%;">
+      <div class="modal-centered" style="max-width: 60rem; width: 90%;">
         <div class="content animate">
           <div class="container">
-            <h1 style="padding: .2rem 1rem; text-align: center; font-size: 1.3rem; color: #8806D4;">Loading...</h1>
+            <div class="title title__color">
+              <h1>Result
+                <span class="action-right">
+                  <a onclick="document.getElementById('modal').style.display='none'" class="btn btn-tiny btn-danger btn-close" title="Close Modal" style="float: right;"></a>
+                </span>
+              </h1>
+            </div>
+            <div class="field">
+              <div id="ajaxDiv" class="table-view" style="overflow-x:scroll; max-height: 90vh;"></div>
+            </div>
           </div>
         </div>
       </div>
@@ -72,7 +76,6 @@ document.getElementById('fileAssignment').addEventListener('change', function(e)
         let formData = new FormData(form);
         formData.append("force", force);
         
-        document.getElementById('modal').style.display = "block";
         let originalBtnText = button.innerHTML;
         button.innerHTML = 'Uploading...';
         button.disabled = true;
@@ -83,25 +86,23 @@ document.getElementById('fileAssignment').addEventListener('change', function(e)
         })
         .then(response => response.text())
         .then(text => {
-          document.getElementById('modal').style.display = "none";
           let element = document.getElementById('ajaxDiv');
           try {
             if (text != null) {
-              element.style.display = "block";
               let html = '';
               var response = JSON.parse(text);
               if (response.messege != 'undefined' && response.messege != null) {
                 html += response.messege;
               }
               if (response.data != 'undefined' && response.data != null) {
-                html += '<div id="" class="table-view" style="overflow-x:auto; max-height: 90vh;">' + response.data + '</div>';
+                html += response.data;
               }
               element.innerHTML = html;
             }
           } catch (error) {
             element.innerHTML = text;
-            element.style.display = "block";
           }
+          document.getElementById('modal').style.display = "block";
           button.innerHTML = originalBtnText;
           button.disabled = false;
         })
