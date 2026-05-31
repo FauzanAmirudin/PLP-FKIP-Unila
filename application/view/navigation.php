@@ -294,7 +294,7 @@ defined('GF_BASE_PATH') or exit('No direct script access allowed');
 					$dbAccess = clone $this->database('default', 'dbconfig', TRUE);
 					$mahasiswa = $dbAccess->reset()->where("`USRKEY` = " . session_get('ID'))->result_row_array('datamahasiswa');
 					if (!empty($mahasiswa['FTPROFIL'])) {
-						$avatarUrl = $mahasiswa['FTPROFIL'];
+						$avatarUrl = str_replace('\\', '/', $mahasiswa['FTPROFIL']);
 					}
 				}
 				$initials = strtoupper(substr(session_get('NAME') ?: session_get('FULLNAME') ?: 'U', 0, 1));

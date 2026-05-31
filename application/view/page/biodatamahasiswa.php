@@ -132,7 +132,7 @@ $r = $dbAccess->reset()->where("`NPM` = '$dataID'")->result_row_array('datamahas
 		<div class="profile-left-pane">
 			<div class="avatar-interactive" onclick="toggleUploadPanel()">
 				<?php if ($r['FTPROFIL'] != "") { ?>
-					<img src="<?= $r['FTPROFIL'] ?>" alt="Profile Photo">
+					<img src="<?= str_replace('\\', '/', $r['FTPROFIL']) ?>" alt="Profile Photo">
 				<?php } else { ?>
 					<div class="fallback-avatar">Upload Foto</div>
 				<?php } ?>
