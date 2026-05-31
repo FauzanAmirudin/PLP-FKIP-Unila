@@ -511,7 +511,7 @@ class  gf_sql
 	}
 	public function suport_version(string $version)
 	{
-		$db_version = $this->info('innodb_version');
-		return version_compare($version, $db_version, "<=");
+		$db_version = $this->info('innodb_version') ?? '0';
+		return version_compare($version, (string)$db_version, "<=");
 	}
 }
