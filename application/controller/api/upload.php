@@ -265,6 +265,11 @@ class upload extends gf_controller
         if (file_exists($xlsxFile)) {
             try {
                 $error = '';
+                // Simpan pengaturan error saat ini
+                $previous_error_reporting = error_reporting();
+                // Matikan peringatan Deprecated untuk library usang ini
+                error_reporting($previous_error_reporting & ~E_DEPRECATED & ~E_USER_DEPRECATED);
+
                 switch (strtolower($EXT)) {
                     case 'xls':
                         $reader = new \PhpOffice\PhpSpreadsheet\Reader\Xls();
@@ -346,6 +351,7 @@ class upload extends gf_controller
                     }
                     $num++;
                 }
+                error_reporting($previous_error_reporting);
                 return array(
                     'status' => $error == '', TRUE, FALSE,
                     'messege' =>  $error,
@@ -356,6 +362,7 @@ class upload extends gf_controller
                     'raw' => $data
                 );
             } catch (Exception $e) {
+                error_reporting($previous_error_reporting);
                 $this->exel_load_report .= $e->getMessage();
                 exit;
             }
