@@ -8,6 +8,7 @@ defined('GF_BASE_PATH') or exit('No direct script access allowed');
 |  
 |  
 */
+#[AllowDynamicProperties]
 class gf_clock
 {
 	protected $Clock;

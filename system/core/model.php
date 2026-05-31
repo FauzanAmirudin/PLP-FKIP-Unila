@@ -8,6 +8,7 @@ defined('GF_BASE_PATH') or exit('No direct script access allowed');
 | Initial Model aplications
 |
 */
+#[AllowDynamicProperties]
 class gf_model
 {
 	public $load;

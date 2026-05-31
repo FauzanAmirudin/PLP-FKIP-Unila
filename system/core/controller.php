@@ -8,6 +8,7 @@ defined('GF_BASE_PATH') or exit('No direct script access allowed');
 | Initial Controller aplications
 |
 */
+#[AllowDynamicProperties]
 class gf_controller
 {
 	public $load;

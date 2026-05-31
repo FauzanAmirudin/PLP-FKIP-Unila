@@ -12,6 +12,7 @@ defined('GF_BASE_PATH') or exit('No direct script access allowed');
  *
  * @return object
  */
+#[AllowDynamicProperties]
 class  gf_sql
 {
 	private $sql;
