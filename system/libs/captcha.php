@@ -10,6 +10,8 @@ defined('GF_BASE_PATH') or exit('No direct script access allowed');
 */
 if (!defined('_CAPTHA_PATH')) define('_CAPTHA_PATH', dirname(preg_replace('/\\\\/', '/', __FILE__)) . '/');
 if (!defined('_CAPTHA_URI')) define('_CAPTHA_URI', _CAPTHA_PATH);
+
+#[AllowDynamicProperties]
 class gf_captcha
 {
 
