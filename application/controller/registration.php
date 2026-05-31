@@ -219,6 +219,10 @@ class registration extends gf_controller
 
 		$filename = "Data_Peserta_PLP_" . ($tahun ? $tahun : "All") . "_" . ($periode ? str_replace(' ', '', $periode) : "All") . ".xlsx";
 
+		while (ob_get_level() > 0) {
+			ob_end_clean();
+		}
+
 		header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
 		header('Content-Disposition: attachment;filename="' . $filename . '"');
 		header('Cache-Control: max-age=0');
