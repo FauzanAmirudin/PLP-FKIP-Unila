@@ -26,7 +26,7 @@ class registration_data extends gf_model
 	 * @param  string $validator
 	 * @return array
 	 */
-	function save(int $id, string $berkas, string $validator, int $year = NULL, string $periode = NULL)
+	function save(int $id, string $berkas, string $validator, ?int $year = NULL, ?string $periode = NULL)
 	{
 		$year = $year === NULL ? $this->year : $year;
 		$periode = $periode === NULL ? $this->period : $periode;
@@ -49,7 +49,7 @@ class registration_data extends gf_model
 	 * @param  string $key
 	 * @return array
 	 */
-	function status_update(int $id, string $state, string $note, string $validator, int $year = NULL, string $periode = NULL, string $key = NULL)
+	function status_update(int $id, string $state, string $note, string $validator, ?int $year = NULL, ?string $periode = NULL, ?string $key = NULL)
 	{
 		$year = $year === NULL ? $this->year : $year;
 		$periode = $periode === NULL ? $this->period : $year;
@@ -97,7 +97,7 @@ class registration_data extends gf_model
 	 * @param  string $period optional
 	 * @return array
 	 */
-	function check(int $id, int $year = NULL, string $period = NULL)
+	function check(int $id, ?int $year = NULL, ?string $period = NULL)
 	{
 		$year = $year === NULL ? $this->year : $year;
 		$period = $period === NULL ? $this->period : $year;
@@ -115,7 +115,7 @@ class registration_data extends gf_model
 	 * @param  string $period optional
 	 * @return array
 	 */
-	function status_check(int $id, int $year = NULL, $periode = NULL)
+	function status_check(int $id, ?int $year = NULL, ?string $periode = NULL)
 	{
 		$year = $year === NULL ? $this->year : $year;
 		$periode = $periode === NULL ? $this->period : $periode;
@@ -195,7 +195,7 @@ class registration_data extends gf_model
 	 * @param  string $condition
 	 * @return array
 	 */
-	function list(int $year = NULL, ?string $periode = NULL, ?string $status = NULL, ?string $prodi = NULL, ?string $npm = NULL)
+	function list(?int $year = NULL, ?string $periode = NULL, ?string $status = NULL, ?string $prodi = NULL, ?string $npm = NULL)
 	{
 		$condition = array();
 		if (!empty($year)) $condition["`databerkas`.`TAHUNDAFTAR`"] = $year;
@@ -243,11 +243,11 @@ class registration_data extends gf_model
 	{
 		return $this->parameter("`databerkas`.`TAHUNDAFTAR`");
 	}
-	function register_periode(int $year = NULL)
+	function register_periode(?int $year = NULL)
 	{
 		return $this->parameter("`databerkas`.`PERIODEDAFTAR`", $year);
 	}
-	function register_prodi(int $year = NULL, string $periode = NULL)
+	function register_prodi(?int $year = NULL, ?string $periode = NULL)
 	{
 		return $this->parameter("`datamahasiswa`.`PROGRAMSTUDI`", $year, $periode);
 	}
@@ -431,7 +431,7 @@ class registration_data extends gf_model
 		// echo ($this->dbAccess->last_query);
 		return $result;
 	}
-	public function parameter($key, int $year = NULL, string $periode = NULL)
+	public function parameter($key, ?int $year = NULL, ?string $periode = NULL)
 	{
 		$this->dbAccess->reset(TRUE);
 		// Validasi numerik sebelum dipakai dalam query

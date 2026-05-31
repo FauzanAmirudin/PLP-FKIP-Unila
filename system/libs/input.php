@@ -28,7 +28,7 @@ class gf_input
 	}
 	function post($name = NULL)
 	{
-		if (!$name == NULL) {
+		if ($name !== NULL) {
 			return isset($_POST[$name]) && !empty($_POST[$name]) ? $this->filter_string($_POST[$name]) : NULL;
 		} else {
 			if (isset($_POST) && count($_POST) > 0) {
@@ -41,7 +41,7 @@ class gf_input
 	}
 	function get($name = NULL)
 	{
-		if (!$name == NULL) {
+		if ($name !== NULL) {
 			return isset($_GET[$name]) && !empty($_GET[$name]) ? $this->filter_string($_GET[$name]) : NULL;
 		} else {
 			if (isset($_GET) && count($_GET) > 0) {
@@ -182,6 +182,7 @@ class gf_input
 	}
 	private function filter_string(string $str)
 	{
-		return filter_var(strip_tags(stripslashes(trim($str))), FILTER_SANITIZE_STRING, FILTER_FLAG_STRIP_HIGH | FILTER_FLAG_STRIP_LOW);
+		// FILTER_SANITIZE_STRING dihapus di PHP 8.1+, diganti dengan htmlspecialchars yang setara.
+		return htmlspecialchars(strip_tags(stripslashes(trim($str))), ENT_QUOTES, 'UTF-8');
 	}
 }

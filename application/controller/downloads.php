@@ -39,8 +39,8 @@ class downloads extends gf_controller
             $kaprodiID = strip_tags(urldecode($_GET['ketuaProdi']));
             if (empty($this->extra->data($id))) {
                 $result = $this->extra->insert([
-                    'USRKEY'                 => $_SESSION['ID'],
-                    'USRID'                  => $_SESSION['USERID'],
+                    'USRKEY'                 => $this->data['user']['ID'],
+                    'USRID'                  => $this->data['user']['USERID'],
                     'KAPRODI'                => $kaprodiID,
                     'PEMBIMBINGAKADEMIK'     => $pembimbingakademik,
                     'NIPPEMBIMBINGAKADEMIK'  => $nippembimbingakademik,
@@ -63,7 +63,7 @@ class downloads extends gf_controller
             // $data['KETUAPRODI'] = ".....................................";
             // $data['NIPKETUAPRODI'] = " ";
 
-            printtoPDF($downloadfile, "tempelatePDF/Form Pendaftaran " . $_SESSION['USERID'], $data_berkas);
+            printtoPDF($downloadfile, "tempelatePDF/Form Pendaftaran " . $this->data['user']['USERID'], $data_berkas);
         } else {
             echo "Maaf tidak ada file yang dapat anda downloads";
             exit;

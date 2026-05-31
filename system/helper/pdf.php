@@ -40,8 +40,8 @@ if (!function_exists("printtoPDF")) {
 		//penulisan output selesai, sekarang menutup mpdf dan generate kedalam format pdf
 		$html = ob_get_contents(); //Proses untuk mengambil hasil dari OB..
 		ob_end_clean();
-		//Disini dimulai proses convert UTF-8, kalau ingin ISO-8859-1 cukup dengan mengganti $mpdf->WriteHTML($html);
-		$mpdf->WriteHTML(utf8_encode($html));
+		// utf8_encode() dihapus di PHP 8.2+. Template sudah UTF-8 sehingga tidak diperlukan.
+		$mpdf->WriteHTML($html);
 		$mpdf->SetProtection(array('copy', 'print'), '', 'itsMyDocument');
 		$mpdf->Output($nama_dokumen . '.pdf', 'I');
 		exit;

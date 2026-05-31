@@ -5,6 +5,9 @@ defined('GF_BASE_PATH') or exit('No direct script access allowed');
  */
 class upload extends gf_controller
 {
+	// PHP 8.2+ membutuhkan deklarasi properti eksplisit
+	private $exel_load_report = '';
+	private $exel_load_memory = '';
     function __construct()
     {
         require_login();

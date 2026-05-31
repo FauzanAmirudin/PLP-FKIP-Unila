@@ -76,7 +76,8 @@ switch (GF_ENVIRONMENT) {
 }
 if (GF_ERROR_LV > 0) {
     // user defined error handling function
-    function GF_ERROR_HANDLER($errno, $errmsg, $filename, $linenum, $vars)
+    // PHP 8.0+ tidak lagi mengirim parameter $context ke-5 ke error handler
+    function GF_ERROR_HANDLER($errno, $errmsg, $filename, $linenum)
     {
         static $index = 0;
         static $layer = 999999;
@@ -190,7 +191,7 @@ if (GF_ERROR_LV > 0) {
 session_start([
     'cookie_lifetime' => 86400
 ]);
-if (isset($_SESSION['LAST_ACTIVITY']) && (TIME() - $_SESSION['LAST_ACTIVITY'] > 1800)) {
+if (isset($_SESSION['LAST_ACTIVITY']) && (time() - $_SESSION['LAST_ACTIVITY'] > 1800)) {
     session_destroy();
     session_unset();
     session_start([

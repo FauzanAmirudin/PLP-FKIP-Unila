@@ -28,7 +28,16 @@ class  gf_sql
 	private $ALTER = "";
 	private $ADDCOL = "";
 	private $DROPCOL = "";
-	public $result;
+	// PHP 8.2+ membutuhkan deklarasi properti eksplisit
+	public  $result;
+	public  $mysql;
+	public  $last_query  = '';
+	public  $last_result = null;
+	public  $last_error  = '';
+	private $SQL_DB_SERVER   = '';
+	private $SQL_DB_USERNAME = '';
+	private $SQL_DB_PASSWORD = '';
+	private $SQL_DB_DATABASE = '';
 	function __construct($db = FALSE)
 	{
 		if ($db == FALSE) return $this;
@@ -37,6 +46,9 @@ class  gf_sql
 		$this->SQL_DB_PASSWORD = trim($db['password']);
 		$this->SQL_DB_DATABASE = trim($db['database']);
 		//Connection between a database and php
+		// mysqli_report(MYSQLI_REPORT_OFF): Mencegah mysqli melempar exception di PHP 8.1+
+		// sehingga error ditangani oleh sistem framework sendiri.
+		mysqli_report(MYSQLI_REPORT_OFF);
 		$this->mysql = new mysqli($this->SQL_DB_SERVER, $this->SQL_DB_USERNAME, $this->SQL_DB_PASSWORD, $this->SQL_DB_DATABASE);
 
 		/* check connection */

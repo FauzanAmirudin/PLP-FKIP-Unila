@@ -13,6 +13,11 @@ class gf_controller
 	public $load;
 	public $libs;
 	public $system;
+	// PHP 8.2+ melarang dynamic properties — deklarasikan secara eksplisit
+	public $data          = [];
+	public $permision     = FALSE;
+	public $alert         = '';
+	public $controler_name = '';
 	function __construct()
 	{
 		$this->load = new GF_LOADER;
