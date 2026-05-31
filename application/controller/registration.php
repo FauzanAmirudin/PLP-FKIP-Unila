@@ -30,14 +30,25 @@ class registration extends gf_controller
 	{
 		$id = $this->getID($data);
 		if ($this->permision) {
-			$file = $this->data['user']['USERID'] . "(" . $this->data['user']['ID'] . ")";
-			$folder = 'uploads/berkas-pendaftaran/' . get_dbconfig("CURENTYEAR") . '-files/' . str_replace(" ", "_", get_dbconfig("CURENTSEMESTER")) . "/" . $file;
-			$upload = $this->input->upload('file', $file, $folder, array("type" => 'zip', "sizelimit" => '1000', "update" => TRUE));
-			if ($upload['status']) {
-				$this->registrasi->save($id, $upload['data']["FILELINK"], $this->data['user']['USERID']);
+			$enableregister = get_dbconfig('OPENREGISTER');
+			$registration_done = $this->registrasi->status_check($id);
+
+			if (!$enableregister) {
+				$report = "Upload Gagal: Pendaftaran saat ini sedang ditutup.";
+			} else if ($registration_done) {
+				$report = "Upload Gagal: Pendaftaran Anda telah disetujui, Anda tidak dapat merubah berkas pendaftaran lagi.";
+			} else {
+				$file = $this->data['user']['USERID'] . "(" . $this->data['user']['ID'] . ")";
+				$folder = 'uploads/berkas-pendaftaran/' . get_dbconfig("CURENTYEAR") . '-files/' . str_replace(" ", "_", get_dbconfig("CURENTSEMESTER")) . "/" . $file;
+				$upload = $this->input->upload('file', $file, $folder, array("type" => 'zip', "sizelimit" => '1000', "update" => TRUE));
+				if ($upload['status']) {
+					$this->registrasi->save($id, $upload['data']["FILELINK"], $this->data['user']['USERID']);
+				}
+				$report = $upload['report'];
 			}
-			$report = $upload['report'];
-		} else $report = "Anda tidak memeiliki izin untuk meng upload file ini.";
+		} else {
+			$report = "Anda tidak memeiliki izin untuk meng upload file ini.";
+		}
 		save_notification($report);
 		redirect("mahasiswa/pendaftaran/" . $id);
 	}
