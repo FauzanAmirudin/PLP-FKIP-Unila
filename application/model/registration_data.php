@@ -284,7 +284,7 @@ class registration_data extends gf_model
 	 * @param  string $key
 	 * @return bool
 	 */
-	private function update_berkas(int $key, string $col = "USRKEY", string $berkas, int $year, string $periode)
+	private function update_berkas(int $key, string $col, string $berkas, int $year, string $periode)
 	{
 		$this->dbAccess->reset();
 		$data = array(
