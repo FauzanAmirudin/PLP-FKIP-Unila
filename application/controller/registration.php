@@ -182,6 +182,10 @@ class registration extends gf_controller
 
 		$mahasiswa = $this->registrasi->list($tahun, $periode, $berkas, $prodi, $npm);
 
+		// Suppress all PHP warnings/notices so they don't corrupt the binary file
+		error_reporting(0);
+		ini_set('display_errors', '0');
+
 		require_once GF_BASE_PATH . '/system/plugins/autoload.php';
 		
 		$spreadsheet = new \PhpOffice\PhpSpreadsheet\Spreadsheet();
@@ -219,18 +223,26 @@ class registration extends gf_controller
 
 		$filename = "Data_Peserta_PLP_" . ($tahun ? $tahun : "All") . "_" . ($periode ? str_replace(' ', '', $periode) : "All") . ".xlsx";
 
+		// Write to a temp file first — this guarantees the binary is clean
+		// with absolutely no PHP notices/HTML contaminating it
+		$tempFile = tempnam(sys_get_temp_dir(), 'plp_excel_');
+		$writer = new \PhpOffice\PhpSpreadsheet\Writer\Xlsx($spreadsheet);
+		$writer->save($tempFile);
+		$filesize = filesize($tempFile);
+
+		// Wipe every output buffer before sending the binary
 		while (ob_get_level() > 0) {
 			ob_end_clean();
 		}
 
 		header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-		header('Content-Disposition: attachment;filename="' . $filename . '"');
-		header('Cache-Control: max-age=0');
-		error_reporting(0);
-		ini_set('display_errors', '0');
+		header('Content-Disposition: attachment; filename="' . $filename . '"');
+		header('Content-Length: ' . $filesize);
+		header('Cache-Control: max-age=0, no-store, no-cache, must-revalidate');
+		header('Pragma: no-cache');
 
-		$writer = new \PhpOffice\PhpSpreadsheet\Writer\Xlsx($spreadsheet);
-		$writer->save('php://output');
+		readfile($tempFile);
+		unlink($tempFile);
 		exit;
 	}
 
