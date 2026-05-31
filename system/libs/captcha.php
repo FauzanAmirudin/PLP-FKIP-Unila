@@ -136,42 +136,86 @@ class gf_captcha
     {
         $ini = microtime(true);
 
-        /** Initialization */
-        $this->ImageAllocate();
+        try {
+            if (!function_exists('imagecreatetruecolor')) {
+                throw new Exception("GD library is not installed or enabled.");
+            }
+            if (!function_exists('imagettftext')) {
+                throw new Exception("FreeType support in GD is not enabled.");
+            }
 
-        /** Text insertion */
-        $text = $this->GetCaptchaText();
-        $fontcfg  = $this->fonts[array_rand($this->fonts)];
-        $this->WriteText($text, $fontcfg);
+            /** Initialization */
+            $this->ImageAllocate();
 
-        $_SESSION[$this->session_var] = $text;
+            /** Text insertion */
+            $text = $this->GetCaptchaText();
+            $fontcfg  = $this->fonts[array_rand($this->fonts)];
+            
+            $fontfile = $this->resourcesPath . '/fonts/' . $fontcfg['font'];
+            if (!file_exists($fontfile)) {
+                throw new Exception("Font file missing: " . $fontcfg['font']);
+            }
 
-        /** Transformations */
-        if (!empty($this->lineWidth)) {
-            $this->WriteLine();
+            $this->WriteText($text, $fontcfg);
+
+            $_SESSION[$this->session_var] = $text;
+
+            /** Transformations */
+            if (!empty($this->lineWidth)) {
+                $this->WriteLine();
+            }
+            $this->WaveImage();
+            if ($this->blur && function_exists('imagefilter')) {
+                imagefilter($this->im, IMG_FILTER_GAUSSIAN_BLUR);
+            }
+            $this->ReduceImage();
+
+            if ($this->debug) {
+                imagestring(
+                    $this->im,
+                    1,
+                    1,
+                    $this->height - 8,
+                    "$text {$fontcfg['font']} " . round((microtime(true) - $ini) * 1000) . "ms",
+                    $this->GdFgColor
+                );
+            }
+
+            /** Output */
+            $this->WriteImage();
+            $this->Cleanup();
+            
+        } catch (Throwable $e) {
+            if (ob_get_length()) ob_clean();
+            header('X-Captcha-Error: ' . rawurlencode($e->getMessage()));
+            
+            // Create a simple fallback error image
+            $im = @imagecreatetruecolor(300, 100);
+            if ($im) {
+                $bg = imagecolorallocate($im, 255, 200, 200); // Light red
+                $fg = imagecolorallocate($im, 200, 0, 0); // Dark red
+                imagefilledrectangle($im, 0, 0, 300, 100, $bg);
+                imagestring($im, 3, 10, 10, "CAPTCHA ERROR:", $fg);
+                
+                // Wrap text if too long
+                $msg = $e->getMessage();
+                $lines = explode("\n", wordwrap($msg, 40, "\n"));
+                $y = 30;
+                foreach ($lines as $line) {
+                    imagestring($im, 2, 10, $y, $line, $fg);
+                    $y += 15;
+                }
+                
+                header("Content-type: image/png");
+                imagepng($im);
+                imagedestroy($im);
+            } else {
+                // If even basic GD fails, return 500
+                header("HTTP/1.1 500 Internal Server Error");
+                echo "Captcha Error: " . $e->getMessage();
+            }
+            exit;
         }
-        $this->WaveImage();
-        if ($this->blur && function_exists('imagefilter')) {
-            imagefilter($this->im, IMG_FILTER_GAUSSIAN_BLUR);
-        }
-        $this->ReduceImage();
-
-
-        if ($this->debug) {
-            imagestring(
-                $this->im,
-                1,
-                1,
-                $this->height - 8,
-                "$text {$fontcfg['font']} " . round((microtime(true) - $ini) * 1000) . "ms",
-                $this->GdFgColor
-            );
-        }
-
-
-        /** Output */
-        $this->WriteImage();
-        $this->Cleanup();
     }
 
     /**
