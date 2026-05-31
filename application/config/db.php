@@ -1,13 +1,25 @@
+<!-- // defined('GF_BASE_PATH') OR exit('No direct script access allowed');
+// /**
+// * 	Databse setting for aplications
+// */
+// 	$gf_db['default'] = array(
+// 		'server' 	=> 'localhost',
+// 		'username' 	=> 'root',
+// 		'password'	=> '',
+// 		'database'	=> 'test_fkip_plt',
+// 		'baseUser' 	=> 'userplt'
+// 	); -->
+
 <?php
 defined('GF_BASE_PATH') OR exit('No direct script access allowed');
 /**
 * 	Databse setting for aplications
 */
 	$gf_db['default'] = array(
-		'server' 	=> 'localhost',
-		'username' 	=> 'root',
-		'password'	=> '',
-		'database'	=> 'test_fkip_plt',
+		'server' 	=> '127.0.0.1',
+		'username' 	=> 'u141095167_root',
+		'password'	=> 'Plpfkip2026',
+		'database'	=> 'u141095167_test_fkip_plt',
 		'baseUser' 	=> 'userplt'
 	);
 	$gf_db['backups'] = array(

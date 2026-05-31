@@ -470,6 +470,9 @@ class gf_captcha
      */
     protected function WriteImage()
     {
+        if (ob_get_length()) {
+            ob_clean();
+        }
         if ($this->imageFormat == 'png' && function_exists('imagepng')) {
             header("Content-type: image/png");
             imagepng($this->im);

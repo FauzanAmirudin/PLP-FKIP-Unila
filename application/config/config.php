@@ -22,7 +22,10 @@ defined('GF_BASE_PATH') OR exit('No direct script access allowed');
 
 	$config["libs"] 				= ["captcha", "clock", "sessions"];
 	$config["helper"] 				= ["response", "notification", "encrypter", "url", "form", "zip", "pdf", "time", "login", "nameProcessor"];
-	$config['base_url'] 			= 'http://localhost:8080/FKIP_PPL2';
+	$protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off' || isset($_SERVER['SERVER_PORT']) && $_SERVER['SERVER_PORT'] == 443) ? "https://" : "http://";
+	$host = isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : 'localhost';
+	$base_dir = str_replace(basename($_SERVER['SCRIPT_NAME']), '', $_SERVER['SCRIPT_NAME']);
+	$config['base_url'] = rtrim($protocol . $host . $base_dir, '/');
 	$config['site_language'] 	    = 'id';
 	$config['site_title'] 		    = 'PLP FKIP UNILA';
 	$config['site_description']	    = 'Aplikasi pengiriman laporan kegiatan PLP FKIP UNILA';
