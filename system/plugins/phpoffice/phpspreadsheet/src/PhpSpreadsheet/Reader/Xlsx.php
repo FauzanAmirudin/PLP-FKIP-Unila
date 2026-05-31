@@ -200,8 +200,8 @@ class Xlsx extends BaseReader
 
                         $xml = new XMLReader();
                         $xml->xml(
-                            $this->securityScanner->scanFile(
-                                'zip://' . File::realpath($pFilename) . '#' . "$dir/$fileWorksheet"
+                            $this->securityScanner->scan(
+                                $this->getFromZipArchive($zip, "$dir/$fileWorksheet")
                             ),
                             null,
                             Settings::getLibXmlLoaderOptions()
@@ -335,7 +335,7 @@ class Xlsx extends BaseReader
         //~ http://schemas.openxmlformats.org/package/2006/relationships"
         $workbookBasename = $this->getWorkbookBaseName($zip);
         $wbRels = simplexml_load_string(
-            $this->securityScanner->scan($this->getFromZipArchive($zip, "xl/_rels/${workbookBasename}.rels")),
+            $this->securityScanner->scan($this->getFromZipArchive($zip, "xl/_rels/{$workbookBasename}.rels")),
             'SimpleXMLElement',
             Settings::getLibXmlLoaderOptions()
         );

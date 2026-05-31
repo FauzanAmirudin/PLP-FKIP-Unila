@@ -79,6 +79,12 @@ if (GF_ERROR_LV > 0) {
     // PHP 8.0+ tidak lagi mengirim parameter $context ke-5 ke error handler
     function GF_ERROR_HANDLER($errno, $errmsg, $filename, $linenum)
     {
+        // This error code is not included in error_reporting, so let it fall
+        // through to the standard PHP error handler
+        if (!(error_reporting() & $errno)) {
+            return false;
+        }
+
         static $index = 0;
         static $layer = 999999;
         $index++;
