@@ -21,8 +21,8 @@ defined('GF_BASE_PATH') OR exit('No direct script access allowed');
 
     <div class="gallery-grid">
         <?php foreach ($photos as $photo) { ?>
-        <div class="gallery-item-wrapper clickable-gallery-item" onclick="openLightbox('<?php echo $photo['GAMBAR']; ?>', '<?php echo htmlspecialchars(addslashes($photo['KETERANGAN']), ENT_QUOTES); ?>')">
-            <img src="<?php echo $photo['GAMBAR']; ?>" alt="<?php echo htmlspecialchars($photo['KETERANGAN']); ?>" class="gallery-real-img" onerror="this.closest('.gallery-item-wrapper').style.display='none'" />
+        <div class="gallery-item-wrapper clickable-gallery-item" onclick="openLightbox('<?php echo $photo['GAMBAR']; ?>', '<?php echo htmlspecialchars(addslashes((string)$photo['KETERANGAN']), ENT_QUOTES); ?>')">
+            <img src="<?php echo $photo['GAMBAR']; ?>" alt="<?php echo htmlspecialchars((string)$photo['KETERANGAN']); ?>" class="gallery-real-img" onerror="this.closest('.gallery-item-wrapper').style.display='none'" />
             <div class="gallery-overlay">
                 <span class="view-btn">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
