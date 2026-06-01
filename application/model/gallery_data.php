@@ -88,8 +88,7 @@ class gallery_data extends gf_model
 	function delete(int $id)
 	{
 		$this->dbAccess->reset();
-		return $this->dbAccess->tabel('gallery')
-			->where(["ID" => $id])
-			->delete();
+		$sql = "DELETE FROM `gallery` WHERE `ID` = " . (int)$id;
+		return $this->dbAccess->run($sql);
 	}
 }

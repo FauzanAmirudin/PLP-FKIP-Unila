@@ -107,8 +107,7 @@ class informasi_data extends gf_model
 	function delete(int $id)
 	{
 		$this->dbAccess->reset();
-		return $this->dbAccess->tabel('informasi')
-			->where(["ID" => $id])
-			->delete();
+		$sql = "DELETE FROM `informasi` WHERE `ID` = " . (int)$id;
+		return $this->dbAccess->run($sql);
 	}
 }
