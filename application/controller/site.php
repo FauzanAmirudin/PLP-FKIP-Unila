@@ -202,9 +202,9 @@ class site extends gf_controller
 	public function informasi_delete()
 	{
 		require_level("Admin, Operator");
-		$id = isset($_GET['id']) ? (int)$_GET['id'] : 0;
-		if ($id > 0) {
-			$result = $this->informasi->delete($id);
+		$id = isset($_GET['id']) ? $_GET['id'] : '';
+		if ($id !== '') {
+			$result = $this->informasi->delete((int)$id);
 			if ($result) {
 				save_notification("Informasi berhasil dihapus.");
 			} else {
@@ -307,8 +307,9 @@ class site extends gf_controller
 	public function gallery_delete()
 	{
 		require_level("Admin, Operator");
-		$id = isset($_GET['id']) ? (int)$_GET['id'] : 0;
-		if ($id > 0) {
+		$id = isset($_GET['id']) ? $_GET['id'] : '';
+		if ($id !== '') {
+			$id = (int)$id;
 			$photo = $this->gallery->get($id);
 			if (!empty($photo)) {
 				// Hapus file fisik dari server
@@ -391,7 +392,7 @@ class site extends gf_controller
 	public function kelola_jadwal_delete()
 	{
 		require_level("Admin, Operator");
-		$id = isset($_GET['id']) ? (int)$_GET['id'] : 0;
+		$id = isset($_GET['id']) ? $_GET['id'] : '';
 		$csrf = isset($_GET['csrf']) ? $_GET['csrf'] : '';
 		
 		if ($csrf !== session_get('csrf_token') || empty($csrf)) {
@@ -399,10 +400,15 @@ class site extends gf_controller
 			redirect("site/kelola_jadwal");
 			return;
 		}
-		
-		if ($id > 0) {
+
+		if ($id !== '') {
+			$id = (int)$id;
 			$result = $this->jadwal->delete($id);
-			save_notification($result ? "Jadwal berhasil dihapus." : "Gagal menghapus jadwal.");
+			if ($result) {
+				save_notification("Jadwal berhasil dihapus.");
+			} else {
+				save_notification("Gagal menghapus jadwal.");
+			}
 		}
 		redirect("site/kelola_jadwal");
 	}
