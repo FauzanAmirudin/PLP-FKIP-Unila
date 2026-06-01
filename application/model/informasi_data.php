@@ -87,6 +87,14 @@ class informasi_data extends gf_model
 	function insert($data)
 	{
 		$this->dbAccess->reset();
+		$max = $this->dbAccess
+			->column("MAX(ID) AS MAXID", FALSE)
+			->result_row_array('informasi');
+		$nextId = ($max && isset($max['MAXID'])) ? (int)$max['MAXID'] + 1 : 1;
+		if ($nextId <= 0) $nextId = 1;
+		$data['ID'] = $nextId;
+
+		$this->dbAccess->reset();
 		return $this->dbAccess->tabel('informasi')->insert($data);
 	}
 

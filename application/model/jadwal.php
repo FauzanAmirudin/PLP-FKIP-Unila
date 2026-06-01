@@ -55,6 +55,14 @@ class jadwal extends gf_model
 	function insert($data)
 	{
 		$this->dbAccess->reset();
+		$max = $this->dbAccess
+			->column("MAX(ID) AS MAXID", FALSE)
+			->result_row_array('jadwal');
+		$nextId = ($max && isset($max['MAXID'])) ? (int)$max['MAXID'] + 1 : 1;
+		if ($nextId <= 0) $nextId = 1;
+		$data['ID'] = $nextId;
+
+		$this->dbAccess->reset();
 		$result = $this->dbAccess->tabel('jadwal')->insert($data);
 		return $result;
 	}
