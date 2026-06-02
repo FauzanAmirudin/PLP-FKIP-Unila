@@ -124,6 +124,149 @@ defined('GF_BASE_PATH') or exit('No direct script access allowed');
     height: 16px;
     color: currentColor;
 }
+
+/* ===== DESKTOP DROPDOWN (TENTANG) ===== */
+.nav-menu-center .nav-dropdown {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+}
+.nav-menu-center .nav-dropdown-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  cursor: pointer;
+  color: rgba(255, 255, 255, 0.85);
+  text-decoration: none;
+  font-size: 10px;
+  font-family: "Poppins", sans-serif;
+  font-weight: 600;
+  letter-spacing: 1.4px;
+  text-transform: uppercase;
+  padding: 7px 12px;
+  border-radius: 3px;
+  transition: color 0.2s ease, background-color 0.2s ease;
+}
+.nav-menu-center .nav-dropdown-toggle:hover,
+.nav-menu-center .nav-dropdown-toggle.nav-link-active {
+  color: #ffffff;
+  background-color: #C562AF;
+}
+.nav-menu-center .nav-dropdown-arrow {
+  transition: transform 0.25s ease;
+  flex-shrink: 0;
+}
+.nav-menu-center .nav-dropdown:hover .nav-dropdown-arrow {
+  transform: rotate(180deg);
+}
+.nav-menu-center .nav-dropdown-content {
+  display: none;
+  position: absolute;
+  top: calc(100% + 10px);
+  left: 50%;
+  transform: translateX(-50%);
+  min-width: 230px;
+  background: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+  overflow: hidden;
+  z-index: 9999;
+  border: 1px solid #eaeaea;
+  animation: dropdownFadeIn 0.2s ease;
+}
+.nav-menu-center .nav-dropdown:hover .nav-dropdown-content {
+  display: block;
+}
+.nav-menu-center .nav-dropdown-content .nav-dropdown-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 18px;
+  color: #374151;
+  text-decoration: none;
+  font-size: 13px;
+  font-family: "Poppins", sans-serif;
+  font-weight: 500;
+  letter-spacing: 0.3px;
+  transition: background 0.15s ease, color 0.15s ease;
+  border-bottom: 1px solid #f3f4f6;
+  text-transform: none;
+}
+.nav-menu-center .nav-dropdown-content .nav-dropdown-item:last-child {
+  border-bottom: none;
+}
+.nav-menu-center .nav-dropdown-content .nav-dropdown-item:hover,
+.nav-menu-center .nav-dropdown-content .nav-dropdown-item.active {
+  background: #fdf0fa;
+  color: #B33791;
+}
+.nav-menu-center .nav-dropdown-content .nav-dropdown-item svg {
+  flex-shrink: 0;
+  color: #C562AF;
+}
+
+/* ===== MOBILE DROPDOWN (TENTANG) ===== */
+.mobile-dropdown {
+  width: 100%;
+}
+.mobile-dropdown-toggle {
+  width: 100%;
+  background: none;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  text-align: left;
+  font-family: "Poppins", sans-serif;
+  font-weight: 600;
+  font-size: 14px;
+  letter-spacing: 0.5px;
+  padding: 14px 20px;
+  color: rgba(255,255,255,0.9);
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+  text-transform: uppercase;
+}
+.mobile-dropdown-toggle:hover,
+.mobile-dropdown-toggle.active {
+  color: #ffffff;
+}
+.mobile-dropdown-arrow {
+  transition: transform 0.25s ease;
+  flex-shrink: 0;
+}
+.mobile-dropdown-arrow.rotated {
+  transform: rotate(180deg);
+}
+.mobile-dropdown-content {
+  display: none;
+  flex-direction: column;
+  background: rgba(0,0,0,0.15);
+  overflow: hidden;
+}
+.mobile-dropdown-content.open {
+  display: flex;
+}
+.mobile-sub-link {
+  display: block;
+  padding: 12px 20px 12px 35px;
+  color: rgba(255,255,255,0.8);
+  text-decoration: none;
+  font-size: 13px;
+  font-family: "Poppins", sans-serif;
+  font-weight: 500;
+  letter-spacing: 0.3px;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+  transition: background 0.15s ease, color 0.15s ease;
+}
+.mobile-sub-link:last-child {
+  border-bottom: none;
+}
+.mobile-sub-link:hover,
+.mobile-sub-link.active {
+  background: rgba(255,255,255,0.1);
+  color: #ffffff;
+}
 </style>
 <nav id="navbar">
 	<!-- ===================== MODAL LOGIN & REGISTER (logika tidak diubah) ===================== -->
