@@ -279,7 +279,7 @@ defined('GF_BASE_PATH') or exit('No direct script access allowed');
 		<div class="nav-menu-center">
 			<a href="?page=frontpage" class="nav-link <?php echo (!isset($_GET['page']) || $_GET['page'] == 'frontpage') ? 'nav-link-active' : ''; ?>">BERANDA</a>
 			<div class="nav-dropdown">
-				<a href="?page=about" class="nav-link nav-dropdown-toggle <?php echo (isset($page) && in_array($page, ['about','visimisi','strukturorganisasi','profilunit'])) ? 'nav-link-active' : ''; ?>">
+				<a href="javascript:void(0);" onclick="toggleDesktopDropdown(event, this)" class="nav-link nav-dropdown-toggle <?php echo (isset($page) && in_array($page, ['about','visimisi','strukturorganisasi','profilunit'])) ? 'nav-link-active' : ''; ?>">
 					TENTANG
 					<svg class="nav-dropdown-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="12" height="12"><polyline points="6 9 12 15 18 9"></polyline></svg>
 				</a>
@@ -491,6 +491,31 @@ function toggleMobileDropdown(btn) {
         if (arrow) arrow.classList.add('rotated');
     }
 }
+
+function toggleDesktopDropdown(e, btn) {
+    e.preventDefault();
+    e.stopPropagation();
+    var dropdown = btn.closest('.nav-dropdown');
+    var isOpen = dropdown.classList.contains('open');
+    
+    // Close other open desktop dropdowns if any
+    document.querySelectorAll('.nav-dropdown.open').forEach(function(el) {
+        el.classList.remove('open');
+    });
+    
+    if (!isOpen) {
+        dropdown.classList.add('open');
+    }
+}
+
+// Close desktop dropdowns when clicking outside
+document.addEventListener('click', function(e) {
+    document.querySelectorAll('.nav-dropdown.open').forEach(function(dd) {
+        if (!dd.contains(e.target)) {
+            dd.classList.remove('open');
+        }
+    });
+});
 
 /* Auto-open the TENTANG mobile dropdown if a sub-page is active */
 document.addEventListener('DOMContentLoaded', function() {

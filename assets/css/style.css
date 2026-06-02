@@ -91,7 +91,7 @@ nav .mobileMenu {
   transition: transform 0.25s ease;
   flex-shrink: 0;
 }
-.nav-menu-center .nav-dropdown:hover .nav-dropdown-arrow {
+.nav-menu-center .nav-dropdown.open .nav-dropdown-arrow {
   transform: rotate(180deg);
 }
 .nav-menu-center .nav-dropdown-content {
@@ -112,7 +112,7 @@ nav .mobileMenu {
   from { opacity: 0; transform: translateX(-50%) translateY(-8px); }
   to   { opacity: 1; transform: translateX(-50%) translateY(0); }
 }
-.nav-menu-center .nav-dropdown:hover .nav-dropdown-content {
+.nav-menu-center .nav-dropdown.open .nav-dropdown-content {
   display: block;
 }
 .nav-menu-center .nav-dropdown-content .nav-dropdown-item {
