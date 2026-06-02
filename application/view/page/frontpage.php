@@ -31,10 +31,10 @@ defined('GF_BASE_PATH') OR exit('No direct script access allowed');
 
 	<div class="welcome-section">
 		<div class="welcome-visual">
-			<img src="assets/images/hero-asset.jpg" alt="Welcome to PLP" onerror="this.src='https://placehold.co/600x800/e2e8f0/64748b?text=Welcome+Image'" />
+			<img src="assets/images/hero-asset.jpg" alt="Selamat Datang di PLP" onerror="this.src='https://placehold.co/600x800/e2e8f0/64748b?text=Gambar+Selamat+Datang'" />
 		</div>
 		<div class="welcome-content">
-			<span class="welcome-badge">Welcome</span>
+			<span class="welcome-badge">Selamat Datang</span>
 			<h3 class="welcome-title">Selamat Datang di PLP FKIP<br />Universitas Lampung</h3>
 			<p class="welcome-desc">
 				Praktik Lapangan Terpadu (PLT) Fakultas Keguruan dan Ilmu Pendidikan Universitas Lampung memiliki tanggung jawab yang besar dalam pelaksanaan tridharma perguruan tinggi baik unsur pendidikan, penelitian, maupun pengabdian kepada masyarakat yang diwujudkan secara profesional dan berkarakter.
@@ -57,7 +57,7 @@ defined('GF_BASE_PATH') OR exit('No direct script access allowed');
 				<div class="info-card">
 					<h4 class="card-title"><?php echo htmlspecialchars(mb_strimwidth($info['JUDUL'], 0, 40, '...')); ?></h4>
 					<p class="card-desc"><?php echo htmlspecialchars(mb_strimwidth($info['INFORMASI'], 0, 100, '...')); ?></p>
-					<a href="?page=detailinformasi&id=<?php echo (int)$info['ID']; ?>" class="card-link">READ MORE &mdash; &rarr;</a>
+					<a href="?page=detailinformasi&id=<?php echo (int)$info['ID']; ?>" class="card-link">BACA SELENGKAPNYA &mdash; &rarr;</a>
 				</div>
 				<?php } ?>
 			<?php } else { ?>

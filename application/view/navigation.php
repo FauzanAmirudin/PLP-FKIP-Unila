@@ -159,7 +159,7 @@ defined('GF_BASE_PATH') or exit('No direct script access allowed');
 					<div class="login-input-group">
 						<div class="login-input-wrapper">
 							<svg class="login-input-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
-							<input type="password" name="password" class="login-input" placeholder="Password" required />
+							<input type="password" name="password" class="login-input" placeholder="Kata Sandi" required />
 						</div>
 					</div>
 
@@ -224,11 +224,11 @@ defined('GF_BASE_PATH') or exit('No direct script access allowed');
 					<div class="login-input-group login-row">
 						<div class="login-input-wrapper">
 							<svg class="login-input-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
-							<input type="password" name="pass" class="login-input" placeholder="Password" required />
+							<input type="password" name="pass" class="login-input" placeholder="Kata Sandi" required />
 						</div>
 						<div class="login-input-wrapper">
 							<svg class="login-input-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
-							<input type="password" name="npass" class="login-input" placeholder="Ulangi Password" required />
+							<input type="password" name="npass" class="login-input" placeholder="Ulangi Kata Sandi" required />
 						</div>
 					</div>
 
@@ -277,17 +277,17 @@ defined('GF_BASE_PATH') or exit('No direct script access allowed');
 
 		<!-- TENGAH: Menu Desktop -->
 		<div class="nav-menu-center">
-			<a href="?page=frontpage" class="nav-link <?php echo (!isset($_GET['page']) || $_GET['page'] == 'frontpage') ? 'nav-link-active' : ''; ?>">HOME</a>
-			<a href="?page=about" class="nav-link <?php echo (isset($page) && $page == 'about') ? 'nav-link-active' : ''; ?>">ABOUT</a>
+			<a href="?page=frontpage" class="nav-link <?php echo (!isset($_GET['page']) || $_GET['page'] == 'frontpage') ? 'nav-link-active' : ''; ?>">BERANDA</a>
+			<a href="?page=about" class="nav-link <?php echo (isset($page) && $page == 'about') ? 'nav-link-active' : ''; ?>">TENTANG</a>
 			<a href="?page=informasi" class="nav-link <?php echo (isset($page) && in_array($page, ['informasi', 'detailinformasi'])) ? 'nav-link-active' : ''; ?>">INFORMASI</a>
-			<a href="?page=gallery" class="nav-link <?php echo (isset($page) && $page == 'gallery') ? 'nav-link-active' : ''; ?>">GALLERY</a>
-			<a href="?page=contact" class="nav-link <?php echo (isset($page) && $page == 'contact') ? 'nav-link-active' : ''; ?>">CONTACT</a>
+			<a href="?page=gallery" class="nav-link <?php echo (isset($page) && $page == 'gallery') ? 'nav-link-active' : ''; ?>">GALERI</a>
+			<a href="?page=contact" class="nav-link <?php echo (isset($page) && $page == 'contact') ? 'nav-link-active' : ''; ?>">KONTAK</a>
 		</div>
 
 		<!-- KANAN: Tombol Login / User -->
 		<div class="nav-actions">
 			<?php if (!is_login()) { ?>
-				<a onclick="openModal('login', 460)" title="Login" class="nav-btn-login">LOGIN &nbsp;&#8594;</a>
+				<a onclick="openModal('login', 460)" title="Masuk" class="nav-btn-login">MASUK &nbsp;&#8594;</a>
 			<?php } else { 
 				$avatarUrl = '';
 				if (strtolower(session_get('LEVEL')) == 'mahasiswa') {
@@ -319,7 +319,7 @@ defined('GF_BASE_PATH') or exit('No direct script access allowed');
 						</a>
 						<a href="<?php echo set_url(session_get('IMPERSONATE') ? "admin/restore_impersonate" : "user/logout"); ?>" class="dropdown-item logout">
 							<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="dropdown-icon"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
-							Logout
+							Keluar
 						</a>
 					</div>
 				</div>
@@ -329,7 +329,7 @@ defined('GF_BASE_PATH') or exit('No direct script access allowed');
 		<!-- Mobile Toggle -->
 		<div class="nav-mobile-toggle">
 			<button id="navMobileMenuON" onclick="openMobileMenu()" class="nav-mobile-btn">&#9776; MENU</button>
-			<button id="navMobileMenuOFF" onclick="closeMobileMenu()" style="display:none;" class="nav-mobile-btn">&#10005; CLOSE</button>
+			<button id="navMobileMenuOFF" onclick="closeMobileMenu()" style="display:none;" class="nav-mobile-btn">&#10005; TUTUP</button>
 		</div>
 
 	</div><!-- /nav-inner -->
@@ -337,20 +337,20 @@ defined('GF_BASE_PATH') or exit('No direct script access allowed');
 	<!-- ===================== MOBILE NAV OVERLAY ===================== -->
 	<div id="mobile-menu-overlay" class="mobile-menu-overlay">
 		<div class="mobile-menu-content">
-			<a href="?page=frontpage" class="mobile-link <?php echo (!isset($_GET['page']) || $_GET['page'] == 'frontpage') ? 'active' : ''; ?>">HOME</a>
-			<a href="?page=about" class="mobile-link <?php echo (isset($page) && $page == 'about') ? 'active' : ''; ?>">ABOUT</a>
+			<a href="?page=frontpage" class="mobile-link <?php echo (!isset($_GET['page']) || $_GET['page'] == 'frontpage') ? 'active' : ''; ?>">BERANDA</a>
+			<a href="?page=about" class="mobile-link <?php echo (isset($page) && $page == 'about') ? 'active' : ''; ?>">TENTANG</a>
 			<a href="?page=informasi" class="mobile-link <?php echo (isset($page) && in_array($page, ['informasi', 'detailinformasi'])) ? 'active' : ''; ?>">INFORMASI</a>
-			<a href="?page=gallery" class="mobile-link <?php echo (isset($page) && $page == 'gallery') ? 'active' : ''; ?>">GALLERY</a>
-			<a href="?page=contact" class="mobile-link <?php echo (isset($page) && $page == 'contact') ? 'active' : ''; ?>">CONTACT</a>
+			<a href="?page=gallery" class="mobile-link <?php echo (isset($page) && $page == 'gallery') ? 'active' : ''; ?>">GALERI</a>
+			<a href="?page=contact" class="mobile-link <?php echo (isset($page) && $page == 'contact') ? 'active' : ''; ?>">KONTAK</a>
 			
 			<div class="mobile-menu-divider"></div>
 
 			<?php if (!is_login()) { ?>
-				<a onclick="closeMobileMenu(); openModal('login', 460)" class="mobile-btn login-btn">LOGIN</a>
+				<a onclick="closeMobileMenu(); openModal('login', 460)" class="mobile-btn login-btn">MASUK</a>
 				<a onclick="closeMobileMenu(); openModal('register', 460)" class="mobile-btn register-btn">DAFTAR AKUN</a>
 			<?php } else { ?>
 				<a href="?page=user/dashboard" class="mobile-btn login-btn">DASHBOARD &rarr;</a>
-				<a href="<?php echo set_url(session_get('IMPERSONATE') ? "admin/restore_impersonate" : "user/logout"); ?>" class="mobile-btn logout-btn" style="background-color: #fce8e6; color: #d93025; margin-top: 10px;">LOGOUT</a>
+				<a href="<?php echo set_url(session_get('IMPERSONATE') ? "admin/restore_impersonate" : "user/logout"); ?>" class="mobile-btn logout-btn" style="background-color: #fce8e6; color: #d93025; margin-top: 10px;">KELUAR</a>
 			<?php } ?>
 		</div>
 	</div>

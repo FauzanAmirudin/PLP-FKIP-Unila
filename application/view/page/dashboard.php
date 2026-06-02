@@ -83,7 +83,7 @@ defined('GF_BASE_PATH') or exit('No direct script access allowed');
                 $infoId = ($info == FALSE) ? "" : $info['ID'];
                 ?>
                 <div class="dashboard-banner banner-info-editorial">
-                    <div class="banner-bg-text">LATEST</div>
+                    <div class="banner-bg-text">TERBARU</div>
                     <div class="banner-content-wrapper">
                         <div class="banner-badge">INFORMASI TERBARU</div>
                         <h3 class="banner-editorial-title"><?php echo htmlspecialchars(mb_strimwidth($infoTitle, 0, 50, '...')); ?></h3>

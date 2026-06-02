@@ -4,14 +4,14 @@ defined('GF_BASE_PATH') OR exit('No direct script access allowed');
 
 <div class="gallery-hero-section">
     <div class="hero-content">
-        <h1 class="hero-title">GALLERY PAGE</h1>
+        <h1 class="hero-title">HALAMAN GALERI</h1>
     </div>
 </div>
 
 <div class="gallery-main-section">
     <div class="section-header">
         <span class="badge">GALERI KEGIATAN</span>
-        <h2 class="title">GALLERY POSTS</h2>
+        <h2 class="title">POSTINGAN GALERI</h2>
         <div class="dots-separator">
             <span></span><span></span><span></span><span></span>
         </div>

@@ -21,7 +21,7 @@ defined('GF_BASE_PATH') OR exit('No direct script access allowed');
                         </span>
                         <span class="meta-item">
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="meta-icon"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
-                            by <?php echo htmlspecialchars($article['PENULIS']); ?>
+                            oleh <?php echo htmlspecialchars($article['PENULIS']); ?>
                         </span>
                         <?php if (!empty($article['TAG'])) { ?>
                         <span class="meta-item meta-tag">
@@ -36,7 +36,7 @@ defined('GF_BASE_PATH') OR exit('No direct script access allowed');
                         <?php echo htmlspecialchars(mb_strimwidth($article['INFORMASI'], 0, 200, '...')); ?>
                     </p>
                     
-                    <a href="?page=detailinformasi&id=<?php echo $article['ID']; ?>" class="post-read-more">READ DETAILS &raquo;</a>
+                    <a href="?page=detailinformasi&id=<?php echo $article['ID']; ?>" class="post-read-more">BACA SELENGKAPNYA &raquo;</a>
                 </article>
                 <?php } ?>
 
@@ -70,7 +70,7 @@ defined('GF_BASE_PATH') OR exit('No direct script access allowed');
         <aside class="info-sidebar-right">
             
             <div class="sidebar-widget">
-                <h3 class="widget-title">RECENT POSTS</h3>
+                <h3 class="widget-title">POSTINGAN TERBARU</h3>
                 <div class="recent-posts-list">
                     <?php if (!empty($recent)) { ?>
                         <?php foreach ($recent as $rec) { ?>

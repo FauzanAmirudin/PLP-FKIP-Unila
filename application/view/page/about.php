@@ -3,7 +3,7 @@ defined('GF_BASE_PATH') OR exit('No direct script access allowed');
 ?>
 <div class="about-hero-section">
     <div class="hero-content">
-        <h1 class="hero-title">ABOUT PLP FKIP UNILA</h1>
+        <h1 class="hero-title">TENTANG PLP FKIP UNILA</h1>
     </div>
 </div>
 
@@ -70,18 +70,70 @@ defined('GF_BASE_PATH') OR exit('No direct script access allowed');
 
         <div class="org-connector"></div>
 
-        <div class="org-card secondary">
-            <div class="org-avatar">
-                <img src="data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23C562AF'%3E%3Cpath d='M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z'/%3E%3C/svg%3E" alt="Tim Pengarah">
+        <style>
+        .org-pengarah-group {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+            width: 100%;
+            padding: 20px 0;
+            position: relative;
+        }
+        .org-pengarah-group .org-card {
+            flex: 1 1 calc(25% - 20px);
+            min-width: 200px;
+            max-width: 250px;
+            margin: 0;
+        }
+        @media screen and (max-width: 768px) {
+            .org-pengarah-group .org-card {
+                flex: 1 1 calc(50% - 20px);
+            }
+        }
+        @media screen and (max-width: 480px) {
+            .org-pengarah-group .org-card {
+                flex: 1 1 100%;
+            }
+        }
+        </style>
+        
+        <div class="org-pengarah-group">
+            <div class="org-card secondary">
+                <div class="org-avatar-small">
+                    <img src="data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23C562AF'%3E%3Cpath d='M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z'/%3E%3C/svg%3E" alt="Tim Pengarah">
+                </div>
+                <div class="org-details">
+                    <h4 class="org-name" style="font-size: 1rem;">Dr. Riswandi, M.Pd.</h4>
+                    <span class="org-role" style="background: rgba(197, 98, 175, 0.1); color: #C562AF;">Tim Pengarah</span>
+                </div>
             </div>
-            <div class="org-details">
-                <h4 class="org-name">Tim Pengarah</h4>
-                <ul class="org-list">
-                    <li>Dr. Riswandi, M.Pd.</li>
-                    <li>Bambang Riandi, S.Pd., M.Pd.</li>
-                    <li>Hermi Yanzi, S.Pd., M.Pd.</li>
-                    <li>Didi Sudarmasyah, S.Pd., M.Pd.</li>
-                </ul>
+            <div class="org-card secondary">
+                <div class="org-avatar-small">
+                    <img src="data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23C562AF'%3E%3Cpath d='M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z'/%3E%3C/svg%3E" alt="Tim Pengarah">
+                </div>
+                <div class="org-details">
+                    <h4 class="org-name" style="font-size: 1rem;">Bambang Riandi, S.Pd., M.Pd.</h4>
+                    <span class="org-role" style="background: rgba(197, 98, 175, 0.1); color: #C562AF;">Tim Pengarah</span>
+                </div>
+            </div>
+            <div class="org-card secondary">
+                <div class="org-avatar-small">
+                    <img src="data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23C562AF'%3E%3Cpath d='M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z'/%3E%3C/svg%3E" alt="Tim Pengarah">
+                </div>
+                <div class="org-details">
+                    <h4 class="org-name" style="font-size: 1rem;">Hermi Yanzi, S.Pd., M.Pd.</h4>
+                    <span class="org-role" style="background: rgba(197, 98, 175, 0.1); color: #C562AF;">Tim Pengarah</span>
+                </div>
+            </div>
+            <div class="org-card secondary">
+                <div class="org-avatar-small">
+                    <img src="data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23C562AF'%3E%3Cpath d='M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z'/%3E%3C/svg%3E" alt="Tim Pengarah">
+                </div>
+                <div class="org-details">
+                    <h4 class="org-name" style="font-size: 1rem;">Didi Sudarmasyah, S.Pd., M.Pd.</h4>
+                    <span class="org-role" style="background: rgba(197, 98, 175, 0.1); color: #C562AF;">Tim Pengarah</span>
+                </div>
             </div>
         </div>
 
@@ -152,7 +204,13 @@ defined('GF_BASE_PATH') OR exit('No direct script access allowed');
         <div class="info-grid">
             <div class="info-card">
                 <div class="card-icon">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="m11 17 2 2a1 1 0 1 0 3-3"/>
+                        <path d="m14 14 2.5 2.5a1 1 0 1 0 3-3l-3.88-3.88a3 3 0 0 0-4.24 0l-.88.88a1 1 0 1 1-3-3l2.81-2.81a5.79 5.79 0 0 1 7.06-.87l.47.28a2 2 0 0 0 1.42.25L21 4"/>
+                        <path d="m21 3-6 6"/>
+                        <path d="M21 21v-4a2 2 0 0 0-2-2h-2.46a4.11 4.11 0 0 1-2.92-1.2l-3-3a1 1 0 1 0-1.42 1.42l3 3a2 2 0 0 1 .58 1.42V19a2 2 0 0 0 2 2h3.41"/>
+                        <path d="m8 16-3.88-3.88a3 3 0 0 0-4.24 0l-.88.88a1 1 0 1 0 3 3l.88-.88"/>
+                    </svg>
                 </div>
                 <h3>Koordinasi Kegiatan</h3>
                 <p>PLT mengkoordinasikan semua kegiatan akademik dan nonakademik yang berkaitan dengan praktik lapangan, termasuk Program Pengalaman Lapangan (PPL), Praktik Kerja Lapangan (PKL) mahasiswa FKIP Unila.</p>
@@ -160,7 +218,12 @@ defined('GF_BASE_PATH') OR exit('No direct script access allowed');
             
             <div class="info-card">
                 <div class="card-icon">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path></svg>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M14 9c.2-.8.6-1.4 1.2-2.1.8-.7 1.3-1.8 1.3-2.9A4.5 4.5 0 0 0 7.5 4c0 1.1.5 2.2 1.3 2.9.6.7 1 1.3 1.2 2.1" />
+                        <path d="M9.5 12h5" />
+                        <path d="M10.5 15h3" />
+                        <path d="M4 22h14c1.1 0 2-.9 2-2v-2c0-1.1-.9-2-2-2h-3.5l-2.5-3H8L3.5 16.5c-.8.8-.8 2.1 0 2.9l.5.6Z" />
+                    </svg>
                 </div>
                 <h3>Pengembangan Program</h3>
                 <p>Unit ini bertanggung jawab dalam merumuskan dan melaksanakan program-program yang mendukung pengembangan ilmu dan teknologi di luar kampus.</p>
@@ -168,7 +231,14 @@ defined('GF_BASE_PATH') OR exit('No direct script access allowed');
 
             <div class="info-card">
                 <div class="card-icon">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="m4 6 8-4 8 4" />
+                        <path d="m18 10 4 2v8a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2v-8l4-2" />
+                        <path d="M14 22v-4a2 2 0 0 0-2-2v0a2 2 0 0 0-2 2v4" />
+                        <path d="M18 5v17" />
+                        <path d="M6 5v17" />
+                        <circle cx="12" cy="9" r="2" />
+                    </svg>
                 </div>
                 <h3>Pelaksanaan PPG</h3>
                 <p>PLT juga mengelola program sertifikasi guru, baik untuk guru dalam jabatan maupun prajabatan, termasuk penyusunan jadwal dan tempat kegiatan PPG.</p>

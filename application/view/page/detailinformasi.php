@@ -7,7 +7,7 @@ if (empty($art)) return;
 
 <div class="detail-hero-section">
     <div class="hero-content">
-        <h1 class="hero-title">DETAILS</h1>
+        <h1 class="hero-title">DETAIL</h1>
     </div>
 </div>
 
@@ -29,7 +29,7 @@ if (empty($art)) return;
                     </span>
                     <span class="meta-item">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="meta-icon"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
-                        by <?php echo htmlspecialchars($art['PENULIS']); ?>
+                        oleh <?php echo htmlspecialchars($art['PENULIS']); ?>
                     </span>
                     <?php if (!empty($art['TAG'])) { ?>
                     <span class="meta-item meta-tag">
@@ -63,7 +63,7 @@ if (empty($art)) return;
         
         <aside class="detail-sidebar-right">
             <div class="sidebar-widget">
-                <h3 class="widget-title">RECENT POSTS</h3>
+                <h3 class="widget-title">POSTINGAN TERBARU</h3>
                 <div class="recent-posts-list">
                     <?php if (!empty($recent)) { ?>
                         <?php foreach ($recent as $rec) { ?>

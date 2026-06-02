@@ -214,19 +214,19 @@ defined('GF_BASE_PATH') or exit('No direct script access allowed');
         
         <!-- Kolom 2: Links -->
         <div class="footer-col">
-            <h4 class="footer-heading">LINKS</h4>
+            <h4 class="footer-heading">TAUTAN</h4>
             <ul class="footer-links">
-                <li><a href="?page=frontpage">HOME</a></li>
-                <li><a href="?page=about">ABOUT</a></li>
+                <li><a href="?page=frontpage">BERANDA</a></li>
+                <li><a href="?page=about">TENTANG</a></li>
                 <li><a href="?page=informasi">INFORMASI</a></li>
-                <li><a href="?page=gallery">GALLERY</a></li>
-                <li><a href="?page=contact">CONTACT</a></li>
+                <li><a href="?page=gallery">GALERI</a></li>
+                <li><a href="?page=contact">KONTAK</a></li>
             </ul>
         </div>
         
         <!-- Kolom 3: Newsletter & Contact -->
         <div class="footer-col">
-            <h4 class="footer-heading">CONTACT</h4>
+            <h4 class="footer-heading">KONTAK</h4>
             <p class="footer-text">
                 Telp/Fax: (0721) 704624<br />
                 Email: pltunila@gmail.com
@@ -238,12 +238,12 @@ defined('GF_BASE_PATH') or exit('No direct script access allowed');
     <!-- Bagian Bawah: Copyright & Nav tambahan -->
     <div class="footer-bottom">
         <div class="footer-copyright">
-            All rights received <?php echo date('Y'); ?>. Universitas Lampung
+            Hak Cipta Dilindungi <?php echo date('Y'); ?>. Universitas Lampung
             | <a href="?page=versionhistory" style="color:inherit; text-decoration:none;">v2.3</a>
         </div>
         <div class="footer-policies">
-            <a href="#">Terms Of Use</a>
-            <a href="#">Privacy Policy</a>
+            <a href="#">Syarat Penggunaan</a>
+            <a href="#">Kebijakan Privasi</a>
         </div>
     </div>
 </footer>
