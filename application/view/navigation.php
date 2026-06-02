@@ -278,7 +278,30 @@ defined('GF_BASE_PATH') or exit('No direct script access allowed');
 		<!-- TENGAH: Menu Desktop -->
 		<div class="nav-menu-center">
 			<a href="?page=frontpage" class="nav-link <?php echo (!isset($_GET['page']) || $_GET['page'] == 'frontpage') ? 'nav-link-active' : ''; ?>">BERANDA</a>
-			<a href="?page=about" class="nav-link <?php echo (isset($page) && $page == 'about') ? 'nav-link-active' : ''; ?>">TENTANG</a>
+			<div class="nav-dropdown">
+				<a href="?page=about" class="nav-link nav-dropdown-toggle <?php echo (isset($page) && in_array($page, ['about','visimisi','strukturorganisasi','profilunit'])) ? 'nav-link-active' : ''; ?>">
+					TENTANG
+					<svg class="nav-dropdown-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="12" height="12"><polyline points="6 9 12 15 18 9"></polyline></svg>
+				</a>
+				<div class="nav-dropdown-content">
+					<a href="?page=about" class="nav-dropdown-item <?php echo (isset($page) && $page == 'about') ? 'active' : ''; ?>">
+						<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+						Profil Singkat
+					</a>
+					<a href="?page=visimisi" class="nav-dropdown-item <?php echo (isset($page) && $page == 'visimisi') ? 'active' : ''; ?>">
+						<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+						Visi &amp; Misi
+					</a>
+					<a href="?page=strukturorganisasi" class="nav-dropdown-item <?php echo (isset($page) && $page == 'strukturorganisasi') ? 'active' : ''; ?>">
+						<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+						Struktur Organisasi
+					</a>
+					<a href="?page=profilunit" class="nav-dropdown-item <?php echo (isset($page) && $page == 'profilunit') ? 'active' : ''; ?>">
+						<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><path d="m4 6 8-4 8 4"/><path d="m18 10 4 2v8a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2v-8l4-2"/><path d="M14 22v-4a2 2 0 0 0-4 0v4"/></svg>
+						Profil Unit
+					</a>
+				</div>
+			</div>
 			<a href="?page=informasi" class="nav-link <?php echo (isset($page) && in_array($page, ['informasi', 'detailinformasi'])) ? 'nav-link-active' : ''; ?>">INFORMASI</a>
 			<a href="?page=gallery" class="nav-link <?php echo (isset($page) && $page == 'gallery') ? 'nav-link-active' : ''; ?>">GALERI</a>
 			<a href="?page=contact" class="nav-link <?php echo (isset($page) && $page == 'contact') ? 'nav-link-active' : ''; ?>">KONTAK</a>
@@ -338,7 +361,18 @@ defined('GF_BASE_PATH') or exit('No direct script access allowed');
 	<div id="mobile-menu-overlay" class="mobile-menu-overlay">
 		<div class="mobile-menu-content">
 			<a href="?page=frontpage" class="mobile-link <?php echo (!isset($_GET['page']) || $_GET['page'] == 'frontpage') ? 'active' : ''; ?>">BERANDA</a>
-			<a href="?page=about" class="mobile-link <?php echo (isset($page) && $page == 'about') ? 'active' : ''; ?>">TENTANG</a>
+			<div class="mobile-dropdown">
+				<button class="mobile-link mobile-dropdown-toggle <?php echo (isset($page) && in_array($page, ['about','visimisi','strukturorganisasi','profilunit'])) ? 'active' : ''; ?>" onclick="toggleMobileDropdown(this)">
+					TENTANG
+					<svg class="mobile-dropdown-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="12" height="12"><polyline points="6 9 12 15 18 9"></polyline></svg>
+				</button>
+				<div class="mobile-dropdown-content">
+					<a href="?page=about" class="mobile-sub-link <?php echo (isset($page) && $page == 'about') ? 'active' : ''; ?>">Profil Singkat</a>
+					<a href="?page=visimisi" class="mobile-sub-link <?php echo (isset($page) && $page == 'visimisi') ? 'active' : ''; ?>">Visi &amp; Misi</a>
+					<a href="?page=strukturorganisasi" class="mobile-sub-link <?php echo (isset($page) && $page == 'strukturorganisasi') ? 'active' : ''; ?>">Struktur Organisasi</a>
+					<a href="?page=profilunit" class="mobile-sub-link <?php echo (isset($page) && $page == 'profilunit') ? 'active' : ''; ?>">Profil Unit</a>
+				</div>
+			</div>
 			<a href="?page=informasi" class="mobile-link <?php echo (isset($page) && in_array($page, ['informasi', 'detailinformasi'])) ? 'active' : ''; ?>">INFORMASI</a>
 			<a href="?page=gallery" class="mobile-link <?php echo (isset($page) && $page == 'gallery') ? 'active' : ''; ?>">GALERI</a>
 			<a href="?page=contact" class="mobile-link <?php echo (isset($page) && $page == 'contact') ? 'active' : ''; ?>">KONTAK</a>
@@ -439,5 +473,36 @@ window.addEventListener('scroll', function() {
     }
     
     lastScrollTop = scrollTop;
+});
+
+function toggleMobileDropdown(btn) {
+    var content = btn.nextElementSibling;
+    var arrow = btn.querySelector('.mobile-dropdown-arrow');
+    var isOpen = content.classList.contains('open');
+    /* close all other dropdowns */
+    document.querySelectorAll('.mobile-dropdown-content.open').forEach(function(el) {
+        el.classList.remove('open');
+    });
+    document.querySelectorAll('.mobile-dropdown-arrow.rotated').forEach(function(el) {
+        el.classList.remove('rotated');
+    });
+    if (!isOpen) {
+        content.classList.add('open');
+        if (arrow) arrow.classList.add('rotated');
+    }
+}
+
+/* Auto-open the TENTANG mobile dropdown if a sub-page is active */
+document.addEventListener('DOMContentLoaded', function() {
+    var activeSubLink = document.querySelector('.mobile-sub-link.active');
+    if (activeSubLink) {
+        var content = activeSubLink.closest('.mobile-dropdown-content');
+        var btn = content ? content.previousElementSibling : null;
+        if (content) content.classList.add('open');
+        if (btn) {
+            var arrow = btn.querySelector('.mobile-dropdown-arrow');
+            if (arrow) arrow.classList.add('rotated');
+        }
+    }
 });
 </script>
