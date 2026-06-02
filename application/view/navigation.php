@@ -278,8 +278,8 @@ defined('GF_BASE_PATH') or exit('No direct script access allowed');
 		<!-- TENGAH: Menu Desktop -->
 		<div class="nav-menu-center">
 			<a href="?page=frontpage" class="nav-link <?php echo (!isset($_GET['page']) || $_GET['page'] == 'frontpage') ? 'nav-link-active' : ''; ?>">BERANDA</a>
-			<div class="nav-dropdown" id="desktop-tentang-dropdown">
-				<a href="#" onclick="toggleDesktopDropdown(event, this)" class="nav-link nav-dropdown-toggle <?php echo (isset($page) && in_array($page, ['about','visimisi','strukturorganisasi','profilunit'])) ? 'nav-link-active' : ''; ?>">
+			<div class="nav-dropdown">
+				<a href="?page=about" class="nav-link nav-dropdown-toggle <?php echo (isset($page) && in_array($page, ['about','visimisi','strukturorganisasi','profilunit'])) ? 'nav-link-active' : ''; ?>">
 					TENTANG
 					<svg class="nav-dropdown-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="12" height="12"><polyline points="6 9 12 15 18 9"></polyline></svg>
 				</a>
@@ -491,22 +491,6 @@ function toggleMobileDropdown(btn) {
         if (arrow) arrow.classList.add('rotated');
     }
 }
-
-function toggleDesktopDropdown(e, btn) {
-    e.preventDefault();
-    var dropdown = btn.closest('.nav-dropdown');
-    dropdown.classList.toggle('open');
-}
-
-document.addEventListener('click', function(e) {
-    var dropdowns = document.querySelectorAll('.nav-dropdown.open');
-    dropdowns.forEach(function(dropdown) {
-        if (!dropdown.contains(e.target)) {
-            dropdown.classList.remove('open');
-        }
-    });
-});
-
 
 /* Auto-open the TENTANG mobile dropdown if a sub-page is active */
 document.addEventListener('DOMContentLoaded', function() {
