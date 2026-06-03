@@ -215,9 +215,10 @@ defined('GF_BASE_PATH') or exit('No direct script access allowed');
   border: none;
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
+  position: relative;
   cursor: pointer;
-  text-align: left;
+  text-align: center;
   font-family: "Poppins", sans-serif;
   font-weight: 600;
   font-size: 14px;
@@ -234,6 +235,8 @@ defined('GF_BASE_PATH') or exit('No direct script access allowed');
 .mobile-dropdown-arrow {
   transition: transform 0.25s ease;
   flex-shrink: 0;
+  position: absolute;
+  right: 20px;
 }
 .mobile-dropdown-arrow.rotated {
   transform: rotate(180deg);
@@ -249,7 +252,8 @@ defined('GF_BASE_PATH') or exit('No direct script access allowed');
 }
 .mobile-sub-link {
   display: block;
-  padding: 12px 20px 12px 35px;
+  padding: 12px 20px;
+  text-align: center;
   color: rgba(255,255,255,0.8);
   text-decoration: none;
   font-size: 13px;
