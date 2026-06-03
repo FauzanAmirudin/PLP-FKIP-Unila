@@ -50,7 +50,7 @@ defined('GF_BASE_PATH') OR exit('No direct script access allowed');
 		<meta name="msapplication-TileImage" content="'. $config['base_url'] .'/assets/assets/images/ms-icon-144x144.png">
 	';
 	$config['site_css'] 			= Array(
-		'css/style.min.css?v='.time()
+		'css/style.min.css'
 	);
 	$config['site_js'] 					= Array(
 		'js/script.min.js'
