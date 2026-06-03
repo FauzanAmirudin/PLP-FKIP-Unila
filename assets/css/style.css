@@ -4408,6 +4408,7 @@ html {
   background-image: linear-gradient(rgba(0, 0, 0, 0.65), rgba(0, 0, 0, 0.7)), url("../images/hero-image.png");
   background-size: cover;
   background-position: center;
+  background-attachment: fixed;
   background-repeat: no-repeat;
   clip-path: polygon(0 0, 100% 0, 100% 82%, 0 100%);
   z-index: -1;
