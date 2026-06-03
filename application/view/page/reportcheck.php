@@ -178,7 +178,7 @@ is_level("Admin, Monitor, DPL");
                             
                             echo '
                             <div class="report-item">
-                                <a href="' . $l['FILELINK'] . '" target="_blank" class="btn-download-small" title="' . htmlspecialchars($namaLaporan) . '">' . htmlspecialchars($label) . '</a>
+                                <a href="?page=downloads/reports/file/' . $l['ID'] . '" target="_blank" class="btn-download-small" title="' . htmlspecialchars($namaLaporan) . '">' . htmlspecialchars($label) . '</a>
                                 <a href="' . $urlReview . '"
                                    class="btn-respond-small btn-give-response"
                                    style="background: ' . $statusBg . '; color: ' . $statusColor . '; border-color: ' . $statusColor . '33; text-decoration: none; display: inline-flex; align-items: center; justify-content: center;"

@@ -118,7 +118,58 @@ class downloads extends gf_controller
                     zipFilesAndDownload($files, $archive);
                 } else echo "Maaf, id file tidak ada.";
             } else error403();
-        } else error404();
+        } elseif (isset($data[0]) && strtolower($data[0]) == 'file') {
+            if (is_level("Admin, Monitor, Operator, DPL, Mahasiswa")) {
+                if (isset($data[1])) {
+                    $reportId = (int) $data[1];
+                    $reportRow = $this->report->get($reportId);
+                    
+                    if (empty($reportRow) || empty($reportRow['FILELINK'])) {
+                        echo "Maaf, data laporan tidak ditemukan.";
+                        return;
+                    }
+
+                    if (is_level("Mahasiswa") && $reportRow['USRKEY'] != $this->data['user']['ID']) {
+                        echo "Maaf, Anda tidak memiliki akses ke file ini.";
+                        return;
+                    }
+
+                    $relative_path = str_replace(['/', '\\'], DIRECTORY_SEPARATOR, $reportRow['FILELINK']);
+                    $path = GF_BASE_PATH . DIRECTORY_SEPARATOR . $relative_path;
+
+                    if (!file_exists($path)) {
+                        echo "Maaf, file fisik laporan tidak ditemukan di server.";
+                        return;
+                    }
+
+                    $filename = !empty($reportRow['FILENAME']) ? $reportRow['FILENAME'] : basename($path);
+                    if (strpos($filename, '.') === false && !empty($reportRow['FILEEXT'])) {
+                        $filename .= '.' . $reportRow['FILEEXT'];
+                    }
+
+                    while (ob_get_level()) {
+                        ob_end_clean();
+                    }
+
+                    header('Content-Description: File Transfer');
+                    header('Content-Type: application/octet-stream');
+                    header('Content-Disposition: attachment; filename="' . $filename . '"');
+                    header('Expires: 0');
+                    header('Cache-Control: must-revalidate');
+                    header('Pragma: public');
+                    header('Content-Length: ' . filesize($path));
+                    
+                    readfile($path);
+                    exit;
+                } else {
+                    echo "Maaf, id laporan tidak valid.";
+                }
+            } else {
+                error403();
+            }
+        } else {
+            error404();
+        }
     }
     private function getID($data)
     {
