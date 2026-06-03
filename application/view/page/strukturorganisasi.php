@@ -46,13 +46,58 @@ defined('GF_BASE_PATH') OR exit('No direct script access allowed');
             margin: 0;
         }
         @media screen and (max-width: 768px) {
-            .org-pengarah-group .org-card {
-                flex: 1 1 calc(50% - 20px);
+            .org-pengarah-group {
+                gap: 5px;
+                padding: 10px 0;
+                flex-wrap: nowrap;
             }
-        }
-        @media screen and (max-width: 480px) {
             .org-pengarah-group .org-card {
-                flex: 1 1 100%;
+                flex: 1 1 0;
+                min-width: 0;
+                padding: 10px 5px !important;
+            }
+            .org-staff-group {
+                gap: 10px !important;
+                flex-wrap: nowrap;
+            }
+            .org-staff-group .org-card {
+                padding: 10px 5px !important;
+            }
+            .modern-org-chart .org-card {
+                max-width: none;
+                width: auto;
+                padding: 10px 5px;
+            }
+            .modern-org-chart .org-card .org-avatar {
+                width: 40px !important;
+                height: 40px !important;
+                margin: -25px auto 10px !important;
+                padding: 2px !important;
+            }
+            .modern-org-chart .org-card .org-avatar-small {
+                width: 35px !important;
+                height: 35px !important;
+                margin: -20px auto 8px !important;
+                padding: 2px !important;
+            }
+            .modern-org-chart .org-card .org-details .org-name {
+                font-size: 0.65rem !important;
+                margin-bottom: 4px !important;
+            }
+            .modern-org-chart .org-card .org-details .org-role {
+                font-size: 0.55rem !important;
+                padding: 3px 6px !important;
+            }
+            /* Connectors adjustment */
+            .modern-org-chart .org-connector {
+                height: 20px !important;
+            }
+            .modern-org-chart .org-staff-group .org-card.staff::before {
+                top: -15px !important;
+                height: 15px !important;
+            }
+            .modern-org-chart .org-staff-group .org-card.staff::after {
+                top: -15px !important;
             }
         }
         </style>
