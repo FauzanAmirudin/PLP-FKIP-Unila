@@ -156,7 +156,7 @@ defined('GF_BASE_PATH') or exit('No direct script access allowed');
   transition: transform 0.25s ease;
   flex-shrink: 0;
 }
-.nav-menu-center .nav-dropdown:hover .nav-dropdown-arrow {
+.nav-menu-center .nav-dropdown.open .nav-dropdown-arrow {
   transform: rotate(180deg);
 }
 .nav-menu-center .nav-dropdown-content {
@@ -174,7 +174,7 @@ defined('GF_BASE_PATH') or exit('No direct script access allowed');
   border: 1px solid #eaeaea;
   animation: dropdownFadeIn 0.2s ease;
 }
-.nav-menu-center .nav-dropdown:hover .nav-dropdown-content {
+.nav-menu-center .nav-dropdown.open .nav-dropdown-content {
   display: block;
 }
 .nav-menu-center .nav-dropdown-content .nav-dropdown-item {
@@ -421,8 +421,8 @@ defined('GF_BASE_PATH') or exit('No direct script access allowed');
 		<!-- TENGAH: Menu Desktop -->
 		<div class="nav-menu-center">
 			<a href="?page=frontpage" class="nav-link <?php echo (!isset($_GET['page']) || $_GET['page'] == 'frontpage') ? 'nav-link-active' : ''; ?>">BERANDA</a>
-			<div class="nav-dropdown">
-				<a href="?page=about" class="nav-link nav-dropdown-toggle <?php echo (isset($page) && in_array($page, ['about','visimisi','strukturorganisasi','profilunit'])) ? 'nav-link-active' : ''; ?>">
+			<div class="nav-dropdown" id="desktopTentangDropdown">
+				<a href="javascript:void(0);" onclick="toggleDesktopDropdown(event)" class="nav-link nav-dropdown-toggle <?php echo (isset($page) && in_array($page, ['about','visimisi','strukturorganisasi','profilunit'])) ? 'nav-link-active' : ''; ?>">
 					TENTANG
 					<svg class="nav-dropdown-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="12" height="12"><polyline points="6 9 12 15 18 9"></polyline></svg>
 				</a>
@@ -560,7 +560,23 @@ window.addEventListener('click', function(event) {
             trigger.setAttribute('aria-expanded', 'false');
         }
     }
+
+    const desktopDropdown = document.getElementById('desktopTentangDropdown');
+    if (desktopDropdown && desktopDropdown.classList.contains('open')) {
+        if (!desktopDropdown.contains(event.target)) {
+            desktopDropdown.classList.remove('open');
+        }
+    }
 });
+
+function toggleDesktopDropdown(event) {
+    event.preventDefault();
+    event.stopPropagation();
+    const dropdown = document.getElementById('desktopTentangDropdown');
+    if (dropdown) {
+        dropdown.classList.toggle('open');
+    }
+}
 
 function resetCaptcha(imgId) {
     document.getElementById(imgId).src = "?page=captcha&t=" + new Date().getTime();
