@@ -91,7 +91,7 @@ nav .mobileMenu {
   transition: transform 0.25s ease;
   flex-shrink: 0;
 }
-.nav-menu-center .nav-dropdown.open .nav-dropdown-arrow {
+.nav-menu-center .nav-dropdown:hover .nav-dropdown-arrow {
   transform: rotate(180deg);
 }
 .nav-menu-center .nav-dropdown-content {
@@ -112,7 +112,7 @@ nav .mobileMenu {
   from { opacity: 0; transform: translateX(-50%) translateY(-8px); }
   to   { opacity: 1; transform: translateX(-50%) translateY(0); }
 }
-.nav-menu-center .nav-dropdown.open .nav-dropdown-content {
+.nav-menu-center .nav-dropdown:hover .nav-dropdown-content {
   display: block;
 }
 .nav-menu-center .nav-dropdown-content .nav-dropdown-item {
@@ -4408,6 +4408,7 @@ html {
   background-image: linear-gradient(rgba(0, 0, 0, 0.65), rgba(0, 0, 0, 0.7)), url("../images/hero-image.png");
   background-size: cover;
   background-position: center;
+  background-attachment: fixed;
   background-repeat: no-repeat;
   clip-path: polygon(0 0, 100% 0, 100% 82%, 0 100%);
   z-index: -1;
@@ -5151,9 +5152,11 @@ html {
   }
   .about-desc-section .desc-content {
     justify-self: center;
+    order: 2;
   }
   .about-desc-section .desc-visual {
     justify-self: center;
+    order: 1;
   }
   .about-org-section .org-container {
     justify-content: flex-start;

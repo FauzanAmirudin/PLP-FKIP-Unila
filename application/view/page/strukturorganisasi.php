@@ -47,68 +47,54 @@ defined('GF_BASE_PATH') OR exit('No direct script access allowed');
         }
         @media screen and (max-width: 768px) {
             .org-pengarah-group {
-                gap: 5px;
-                padding: 10px 0;
-                flex-wrap: nowrap;
-            }
-            .org-pengarah-group .org-card {
-                flex: 1 1 0;
-                min-width: 0;
-                padding: 10px 5px !important;
+                display: grid;
+                grid-template-columns: repeat(2, 1fr);
+                gap: 15px;
+                padding: 15px 10px;
+                width: 100%;
             }
             .org-staff-group {
-                gap: 10px !important;
-                flex-wrap: nowrap;
-            }
-            .org-staff-group .org-card {
-                padding: 10px 5px !important;
+                display: grid;
+                grid-template-columns: repeat(2, 1fr);
+                gap: 15px !important;
+                padding: 15px 10px;
+                width: 100%;
             }
             .modern-org-chart .org-card {
-                max-width: none;
-                width: auto;
-                padding: 10px 5px;
+                width: 100% !important;
+                max-width: 150px !important;
+                min-width: 140px !important;
+                padding: 15px 10px !important;
+                margin: 0 auto !important;
                 display: flex;
                 flex-direction: column;
+                justify-content: flex-start;
                 height: 100%;
             }
-            .modern-org-chart .org-card .org-details {
-                display: flex;
-                flex-direction: column;
-                flex: 1;
-            }
-            .modern-org-chart .org-card .org-avatar {
-                width: 40px !important;
-                height: 40px !important;
-                margin: -25px auto 10px !important;
-                padding: 2px !important;
-                flex-shrink: 0;
-            }
+            .modern-org-chart .org-card .org-avatar,
             .modern-org-chart .org-card .org-avatar-small {
-                width: 35px !important;
-                height: 35px !important;
-                margin: -20px auto 8px !important;
-                padding: 2px !important;
-                flex-shrink: 0;
+                width: 45px !important;
+                height: 45px !important;
+                margin: -25px auto 10px !important;
+                padding: 3px !important;
             }
             .modern-org-chart .org-card .org-details .org-name {
-                font-size: 0.65rem !important;
-                margin-bottom: 6px !important;
+                font-size: 0.75rem !important;
+                margin-bottom: 5px !important;
+                line-height: 1.3;
             }
             .modern-org-chart .org-card .org-details .org-role {
-                font-size: 0.55rem !important;
-                padding: 3px 6px !important;
-                margin-top: auto !important;
+                font-size: 0.65rem !important;
+                padding: 4px 8px !important;
+                margin-top: auto;
             }
             /* Connectors adjustment */
             .modern-org-chart .org-connector {
-                height: 20px !important;
+                height: 25px !important;
             }
-            .modern-org-chart .org-staff-group .org-card.staff::before {
-                top: -15px !important;
-                height: 15px !important;
-            }
+            .modern-org-chart .org-staff-group .org-card.staff::before,
             .modern-org-chart .org-staff-group .org-card.staff::after {
-                top: -15px !important;
+                display: none !important; /* Hide complex pseudo connectors for grid layout */
             }
         }
         </style>
