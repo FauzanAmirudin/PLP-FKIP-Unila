@@ -5145,16 +5145,19 @@ html {
     font-size: 24vw;
   }
   .about-desc-section {
-    grid-template-columns: 1fr;
+    display: flex;
+    flex-direction: column-reverse;
     text-align: center;
     padding: 50px 5%;
     gap: 30px;
   }
   .about-desc-section .desc-content {
-    justify-self: center;
+    align-self: center;
   }
   .about-desc-section .desc-visual {
-    justify-self: center;
+    align-self: center;
+    width: 100%;
+    max-width: 400px;
   }
   .about-org-section .org-container {
     justify-content: flex-start;

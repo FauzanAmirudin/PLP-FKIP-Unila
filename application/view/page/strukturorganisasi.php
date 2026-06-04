@@ -67,26 +67,37 @@ defined('GF_BASE_PATH') OR exit('No direct script access allowed');
                 max-width: none;
                 width: auto;
                 padding: 10px 5px;
+                display: flex;
+                flex-direction: column;
+                height: 100%;
+            }
+            .modern-org-chart .org-card .org-details {
+                display: flex;
+                flex-direction: column;
+                flex: 1;
             }
             .modern-org-chart .org-card .org-avatar {
                 width: 40px !important;
                 height: 40px !important;
                 margin: -25px auto 10px !important;
                 padding: 2px !important;
+                flex-shrink: 0;
             }
             .modern-org-chart .org-card .org-avatar-small {
                 width: 35px !important;
                 height: 35px !important;
                 margin: -20px auto 8px !important;
                 padding: 2px !important;
+                flex-shrink: 0;
             }
             .modern-org-chart .org-card .org-details .org-name {
                 font-size: 0.65rem !important;
-                margin-bottom: 4px !important;
+                margin-bottom: 6px !important;
             }
             .modern-org-chart .org-card .org-details .org-role {
                 font-size: 0.55rem !important;
                 padding: 3px 6px !important;
+                margin-top: auto !important;
             }
             /* Connectors adjustment */
             .modern-org-chart .org-connector {
