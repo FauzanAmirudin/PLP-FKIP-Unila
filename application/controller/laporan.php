@@ -170,12 +170,16 @@ class laporan extends gf_controller
         }
         $this->data['periode'] = $periode;
         $this->data['npm'] = $npm;
+        $prodi = $this->input->get('prodi');
+        $this->data['prodi'] = $prodi;
+
+        $this->data['allprodi'] = $this->report->dbAccess->reset()->tabel('datamahasiswa')->distinct("PROGRAMSTUDI")->where("PROGRAMSTUDI IS NOT NULL")->where("PROGRAMSTUDI != ''")->order("PROGRAMSTUDI")->result_array();
         
         $this->data['form_link'] = "laporan/data/" . $id;
 
         $dosenFilter = is_level("Admin, Monitor, Operator") ? NULL : $id;
 
-        $this->data['mahasiswa'] = $this->report->list($this->data['tahun'], $this->data['periode'], $dosenFilter, $this->data['npm']);
+        $this->data['mahasiswa'] = $this->report->list($this->data['tahun'], $this->data['periode'], $dosenFilter, $this->data['npm'], $this->data['prodi']);
 
         $this->data['notification'] = implode("<br/>", get_notification());
         $this->load->view("navigation", $this->data);
@@ -252,6 +256,92 @@ class laporan extends gf_controller
         
         redirect("laporan/data/" . $this->data['user']['ID']);
     }
+    public function download_massal($data)
+    {
+        require_level("Admin, Monitor, Operator, DPL");
+        
+        if (is_level("DPL")) {
+            $id = $this->data['user']["ID"];
+        } else {
+            $id = $this->input->get('dpl_id');
+            if (empty($id)) {
+                save_notification("ID DPL tidak valid.");
+                redirect("laporan/data/" . $this->data['user']["ID"]);
+                exit;
+            }
+        }
+        
+        $tahun = !empty($_GET['tahun']) ? (int)$this->input->get('tahun') : NULL;
+        $periode = !empty($_GET['periode']) ? $_GET['periode'] : NULL;
+        $prodi = !empty($_GET['prodi']) ? $_GET['prodi'] : NULL;
+        
+        // Ambil daftar mahasiswa bimbingan DPL ini
+        $mahasiswa_list = $this->report->list($tahun, $periode, $id, NULL, $prodi);
+
+        if (empty($mahasiswa_list)) {
+            save_notification("Tidak ada data mahasiswa atau laporan untuk diunduh.");
+            redirect("laporan/data/" . $id);
+            exit;
+        }
+
+        $zip = new ZipArchive();
+        $zipFileName = "Laporan_Akhir_Massal_DPL_" . $id . ".zip";
+        $zipFilePath = sys_get_temp_dir() . DIRECTORY_SEPARATOR . $zipFileName;
+
+        if ($zip->open($zipFilePath, ZipArchive::CREATE | ZipArchive::OVERWRITE) !== TRUE) {
+            save_notification("Gagal membuat file ZIP.");
+            redirect("laporan/data/" . $id);
+            exit;
+        }
+
+        $files_added = 0;
+
+        foreach ($mahasiswa_list as $mhs) {
+            if (!empty($mhs['LAPORAN'])) {
+                foreach ($mhs['LAPORAN'] as $lap) {
+                    $judul_laporan = $lap['FILENAME'];
+                    // Hanya memproses jika judulnya mengandung "Laporan Akhir PLP 1" atau "Laporan Akhir PLP 2"
+                    if (stripos($judul_laporan, "Laporan Akhir PLP 1") !== false || stripos($judul_laporan, "Laporan Akhir PLP 2") !== false || stripos($judul_laporan, "Laporan Akhir") !== false) {
+                        $file_link = GF_BASE_PATH . DIRECTORY_SEPARATOR . str_replace('/', DIRECTORY_SEPARATOR, $lap['FILELINK']);
+                        
+                        if (file_exists($file_link)) {
+                            $ext = pathinfo($file_link, PATHINFO_EXTENSION);
+                            
+                            // Ekstrak PLP 1 atau PLP 2 untuk penamaan
+                            $tipe_plp = "Akhir";
+                            if (stripos($judul_laporan, "PLP 1") !== false) $tipe_plp = "PLP_1";
+                            if (stripos($judul_laporan, "PLP 2") !== false) $tipe_plp = "PLP_2";
+                            
+                            $nama_mhs_bersih = preg_replace('/[^a-zA-Z0-9]+/', '_', trim($mhs['NAMA']));
+                            $npm = $mhs['NPM'];
+                            
+                            $newFileName = $npm . "_" . $nama_mhs_bersih . "_Laporan_" . $tipe_plp . "." . $ext;
+                            
+                            $zip->addFile($file_link, $newFileName);
+                            $files_added++;
+                        }
+                    }
+                }
+            }
+        }
+
+        $zip->close();
+
+        if ($files_added > 0) {
+            header('Content-Type: application/zip');
+            header('Content-disposition: attachment; filename=' . $zipFileName);
+            header('Content-Length: ' . filesize($zipFilePath));
+            readfile($zipFilePath);
+            unlink($zipFilePath);
+            exit;
+        } else {
+            unlink($zipFilePath);
+            save_notification("Tidak ada Laporan Akhir PLP 1 atau PLP 2 yang ditemukan dari mahasiswa bimbingan Anda.");
+            redirect("laporan/data/" . $id);
+            exit;
+        }
+    }
+
     private function getID($data, $level)
     {
         if (is_level($level)) {

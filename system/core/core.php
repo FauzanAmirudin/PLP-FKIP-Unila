@@ -138,7 +138,7 @@ if (GF_ERROR_LV > 0) {
             $err .= "\t\t\t<p>" . $error . "</p>\n";
         }
         $err .= "\t\t\t<p>\n";
-        if (in_array($errno, $user_errors) && $vars != FALSE) {
+        if (in_array($errno, $user_errors) && isset($vars) && $vars != FALSE) {
             $err .= "\t<vartrace>" . serialize($vars) . "</vartrace>\n";
         }
         $err .= "\t\t\t</p>\n";

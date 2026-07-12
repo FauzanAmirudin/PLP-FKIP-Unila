@@ -35,7 +35,7 @@ defined('GF_BASE_PATH') OR exit('No direct script access allowed');
                             </div>
                             <div class="item-text">
                                 <span class="label">Email</span>
-                                <span class="value">pltunila@gmail.com</span>
+                                <span class="value">fkip@unila.ac.id</span>
                             </div>
                         </div>
 
@@ -54,7 +54,7 @@ defined('GF_BASE_PATH') OR exit('No direct script access allowed');
                     <div class="grid-divider-bottom"></div>
                 </div>
 
-                <a href="mailto:pltunila@gmail.com" class="btn-primary-contact">HUBUNGI KAMI</a>
+                <a href="mailto:fkip@unila.ac.id" class="btn-primary-contact">HUBUNGI KAMI</a>
             </div>
 
         </div>

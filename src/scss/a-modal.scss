@@ -176,7 +176,7 @@
           margin-bottom: 8px;
 
           .login-captcha-img {
-               height: 44px;
+               height: 60px;
                border-radius: 10px;
                border: 1px solid #e2e8f0;
           }
@@ -308,7 +308,7 @@
                gap: 10px;
                margin-bottom: 8px;
                
-               .login-captcha-img { width: auto; height: 38px; border-radius: 8px; }
+               .login-captcha-img { width: auto; height: 52px; border-radius: 8px; }
           }
 
           .login-submit-btn {
@@ -333,7 +333,7 @@
           .login-header .login-logo img { height: 36px; width: 36px; }
           .login-header .login-title { font-size: 16px; }
           .login-input { height: 36px; font-size: 12px; }
-          .login-captcha-row .login-captcha-img { height: 36px; }
+          .login-captcha-row .login-captcha-img { height: 48px; }
           .login-submit-btn { height: 38px; font-size: 13px; }
      }
 }

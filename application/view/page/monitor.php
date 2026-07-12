@@ -217,6 +217,7 @@ foreach ($dataVerifiksi as $n => $d) {
       offset: 60
     },
     axisY: {
+      onlyInteger: true,
       offset: 80,
       labelInterpolationFnc: function(value) {
         return value + ' Orang'

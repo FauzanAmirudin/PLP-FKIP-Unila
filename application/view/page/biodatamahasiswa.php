@@ -256,14 +256,20 @@ $r = $dbAccess->reset()->where("`NPM` = '$dataID'")->result_row_array('datamahas
 				</div>
 
 				<div class="form-group-modern">
-					<label for="ukuranBaju">Ukuran Baju<span class="required">*</span></label>
+					<label for="ukuranBaju">Semester Periode<span class="required">*</span></label>
 					<select class="bioFormInput" id="ukuranBaju" name="ukuranBaju" required>
-						<option value="" selected hidden disabled>Pilih Ukuran</option>
-						<option value="S">Small (S)</option>
-						<option value="M">Medium (M)</option>
-						<option value="L">Large (L)</option>
-						<option value="XL">Extra Large (XL)</option>
-						<option value="XXL">Extra Extra Large (XXL)</option>
+						<?php
+						$cy = get_dbconfig('CURENTYEAR');
+						$cs = get_dbconfig('CURENTSEMESTER');
+						$currentPeriodStr = $cs . " " . $cy;
+						
+						echo '<option value="'.$currentPeriodStr.'">'.$currentPeriodStr.' (Periode Aktif)</option>';
+						
+						$savedPeriod = $r["SEMESTERPERIODE"];
+						if(!empty($savedPeriod) && $savedPeriod != $currentPeriodStr) {
+							echo '<option value="'.$savedPeriod.'">'.$savedPeriod.' (Data Tersimpan)</option>';
+						}
+						?>
 					</select>
 				</div>
 
@@ -388,7 +394,7 @@ $r = $dbAccess->reset()->where("`NPM` = '$dataID'")->result_row_array('datamahas
 				if (agEl) agEl.value = "<?php echo $r["AGAMA"]; ?>";
 				
 				const ubEl = document.getElementById("ukuranBaju");
-				if (ubEl) ubEl.value = "<?php echo $r["UKURANBAJU"]; ?>";
+				if (ubEl) ubEl.value = "<?php echo $r["SEMESTERPERIODE"]; ?>";
 			})();
 		</script><?php $set = 1;
 			}

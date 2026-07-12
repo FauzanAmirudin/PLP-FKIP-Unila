@@ -24,9 +24,22 @@ is_level("Admin, Monitor, DPL");
     } ?>
 
     <div class="schedule-card">
-        <div class="card-header">
-            <h1 class="card-title">Data Laporan Mingguan <?= isset($tahun) ? htmlspecialchars($tahun) : '' ?><?= !empty($periode) ? ' (' . htmlspecialchars($periode) . ')' : ' (Semua Periode)' ?></h1>
-            <p class="card-subtitle">Manajemen dan verifikasi laporan aktivitas mingguan mahasiswa PLT.</p>
+        <div class="card-header" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px;">
+            <div>
+                <h1 class="card-title" style="margin: 0;">Data Laporan Mingguan <?= isset($tahun) ? htmlspecialchars($tahun) : '' ?><?= !empty($periode) ? ' (' . htmlspecialchars($periode) . ')' : ' (Semua Periode)' ?></h1>
+                <p class="card-subtitle" style="margin-top: 5px;">Manajemen dan verifikasi laporan aktivitas mingguan mahasiswa PLT.</p>
+            </div>
+            <?php if (is_level("DPL")) { 
+                $download_url = set_url("laporan/download_massal");
+                $queryParams = [];
+                if (isset($_GET['tahun'])) $queryParams[] = "tahun=" . urlencode($_GET['tahun']);
+                if (isset($_GET['periode'])) $queryParams[] = "periode=" . urlencode($_GET['periode']);
+                if (!empty($queryParams)) $download_url .= "?" . implode("&", $queryParams);
+            ?>
+                <div>
+                    <a href="<?= $download_url ?>" class="btn-save" style="background: #1e3a8a; color: white; text-decoration: none; padding: 10px 20px; white-space: nowrap;">Unduh Massal Laporan Akhir (ZIP)</a>
+                </div>
+            <?php } ?>
         </div>
 
         <!-- Form Filter -->
@@ -67,6 +80,20 @@ is_level("Admin, Monitor, DPL");
                     </select>
                 </div>
 
+                <div class="filter-group period-group">
+                    <label>Program Studi</label>
+                    <select name="prodi">
+                        <option value="" <?= empty($prodi) ? 'selected' : '' ?>>Semua Program Studi</option>
+                        <?php if (isset($allprodi) && !empty($allprodi)) {
+                            foreach ($allprodi as $pr) {
+                                if (empty($pr['PROGRAMSTUDI'])) continue;
+                                $isSelected = (isset($prodi) && $prodi == $pr['PROGRAMSTUDI']) ? 'selected' : '';
+                                echo '<option value="' . htmlspecialchars($pr['PROGRAMSTUDI']) . '" ' . $isSelected . '>' . htmlspecialchars($pr['PROGRAMSTUDI']) . '</option>';
+                            }
+                        } ?>
+                    </select>
+                </div>
+
                 <button type="submit" class="btn-save btn-filter">Filter Data</button>
                 <a href="<?= set_url($form_link) ?>" class="btn-cancel-modal btn-reset">Reset</a>
             </form>
@@ -88,7 +115,7 @@ is_level("Admin, Monitor, DPL");
                         <h3 class="group-title">
                             <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
                             Desa ' . htmlspecialchars($r['LOKASIDESA'] ?? 'Tidak Diketahui') . 
-                            (is_level("Admin, Monitor") ? ' <span class="dpl-info">DPL: ' . htmlspecialchars($r['NAMADOSEN'] ?? '') . '</span>' : "") . '
+                            (is_level("Admin, Monitor") && !empty($r['DOSEN']) ? ' <span class="dpl-info" style="margin-right: 10px;">DPL: ' . htmlspecialchars($r['NAMADOSEN'] ?? '') . '</span> <a href="'.set_url("laporan/download_massal&dpl_id=" . $r['DOSEN'] . (isset($_GET['tahun']) ? '&tahun='.urlencode($_GET['tahun']) : '') . (isset($_GET['periode']) ? '&periode='.urlencode($_GET['periode']) : '') . (isset($_GET['prodi']) ? '&prodi='.urlencode($_GET['prodi']) : '')).'" class="btn-action-small" style="background:#1e3a8a; color:white; padding: 4px 10px; border-radius:4px; font-size:12px; text-decoration:none; font-weight:normal;">Unduh Laporan Massal DPL (ZIP)</a>' : (!empty($r['DOSEN']) ? ' <span class="dpl-info">DPL: ' . htmlspecialchars($r['NAMADOSEN'] ?? '') . '</span>' : "")) . '
                         </h3>
                         <div class="table-responsive">
                             <table class="modern-table">

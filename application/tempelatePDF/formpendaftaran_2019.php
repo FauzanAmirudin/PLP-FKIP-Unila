@@ -7,7 +7,7 @@
 	$kelamin=$data["JENISKELAMIN"];
 	$agama=$data["AGAMA"];
 	$nohp=$data["NOTELEPON"];
-	$kaos=$data["UKURANBAJU"];
+	$kaos=$data["SEMESTERPERIODE"];
 	$ketrampilan=$data["KETRAMPILAN"];
 	$organisasi=$data["ORGANISASI"];
 	$namaWali=$data["NAMAAYAH"];
@@ -241,7 +241,7 @@
 	        </div>
     		<div class="row">
 	            <div class="col-1">
-                	<a>Ukuran Kaos</a>
+                	<a>Semester Periode</a>
 	            </div>
 	           	<div class="col-3">
                 	<a>:  <?php if(isset($kaos)){echo $kaos;}else{$n=1; while($n<=65){echo ".";$n++;}} ?></a>
@@ -297,7 +297,7 @@
                 <p><b>Ketua PLT</b></p><a><?php if(isset($ketuaPLT)){echo $ketuaPLT;}else{$n=1; while($n<=35){echo ".";$n++;}} ?></a><br><a>NIP. <?php if(isset($nipKetuaPLT)){echo $nipKetuaPLT;} ?></a>
             </div>
             <div class="sign-right">
-                <p><b>Ketua Program Studi</b></p><a><?php if(isset($ketuaProdi)){echo $ketuaProdi;}else{$n=1; while($n<=35){echo ".";$n++;}} ?></a><br><a>NIP. <?php if(isset($nipKetuaPRODI)){echo $nipKetuaPRODI;} ?></a>
+                <p><b>Koordinator Program Studi</b></p><a><?php if(isset($ketuaProdi)){echo $ketuaProdi;}else{$n=1; while($n<=35){echo ".";$n++;}} ?></a><br><a>NIP. <?php if(isset($nipKetuaPRODI)){echo $nipKetuaPRODI;} ?></a>
             </div>
 		</div>
 	</div>

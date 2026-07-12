@@ -91,32 +91,12 @@ document.getElementById('fileBulkUser').addEventListener('change', function(e) {
 });
 </script>
 
-    <div id="modal" class="modal">
-      <div class="modal-centered" style="max-width: 60rem; width: 90%;">
-        <div class="content animate">
-          <div class="container">
-            <div class="title title__color">
-              <h1>Result
-                <span class="action-right">
-                  <a onclick="document.getElementById('modal').style.display='none'" class="btn btn-tiny btn-danger btn-close" title="Close Modal" style="float: right;"></a>
-                </span>
-              </h1>
-            </div>
-            <div class="field">
-              <div id="ajaxDiv" class="table-view" style="overflow-x:scroll; max-height: 90vh;"></div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
     <script type="text/javascript">
-      btnSubmit = document.getElementById("uploadUser");
-      btnSubmit.addEventListener("click", function(event) {
+      let form = document.getElementById("uploadUser").closest("form");
+      form.addEventListener("submit", function(event) {
         event.preventDefault();
-        console.log(event.target.form);
-        console.log(this.form);
-        ajaxPOST(this.form, this, false);
+        let btnSubmit = document.getElementById("uploadUser");
+        ajaxPOST(this, btnSubmit, false);
       }, false);
 
       function ajaxPOST(form, button, force) {
@@ -133,9 +113,29 @@ document.getElementById('fileBulkUser').addEventListener('change', function(e) {
         })
         .then(response => response.text())
         .then(text => {
-          let element = document.getElementById('ajaxDiv');
-          element.innerHTML = text;
-          document.getElementById('modal').style.display = "block";
+          try {
+            if (text != null) {
+              let jsonStart = text.indexOf('{');
+              let jsonEnd = text.lastIndexOf('}');
+              if (jsonStart !== -1 && jsonEnd !== -1) {
+                let jsonStr = text.substring(jsonStart, jsonEnd + 1);
+                var response = JSON.parse(jsonStr);
+                
+                Swal.fire({
+                  title: response.status ? 'Sukses!' : 'Terjadi Kesalahan',
+                  icon: response.status ? 'success' : 'error',
+                  html: response.data || response.messege,
+                  confirmButtonColor: '#a805a8',
+                  confirmButtonText: 'Tutup'
+                });
+              } else {
+                Swal.fire('Error', 'Format respons tidak valid.', 'error');
+              }
+            }
+          } catch (error) {
+            console.error("JSON Parse Error: ", error);
+            Swal.fire('Error', 'Terjadi kesalahan saat memproses data.', 'error');
+          }
           button.innerHTML = originalBtnText;
           button.disabled = false;
         })
@@ -143,7 +143,7 @@ document.getElementById('fileBulkUser').addEventListener('change', function(e) {
           console.error('Error:', error);
           button.innerHTML = originalBtnText;
           button.disabled = false;
-          alert("Terjadi kesalahan saat mengunggah file.");
+          Swal.fire('Error', 'Terjadi kesalahan saat mengunggah file.', 'error');
         });
       }
     </script>

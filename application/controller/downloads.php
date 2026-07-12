@@ -36,6 +36,10 @@ class downloads extends gf_controller
             $downloadfile = 'formpendaftaran_2020';
             $pembimbingakademik = strip_tags(urldecode($_GET['pembimbingakademik']));
             $nippembimbingakademik = strip_tags(urldecode($_GET['nippembimbingakademik']));
+            if (!ctype_digit(strval($nippembimbingakademik))) {
+                echo "NIP Pembimbing Akademik harus berupa angka yang valid.";
+                exit;
+            }
             $kaprodiID = strip_tags(urldecode($_GET['ketuaProdi']));
             if (empty($this->extra->data($id))) {
                 $result = $this->extra->insert([

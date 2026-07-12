@@ -120,7 +120,7 @@ class report_data extends gf_model
      * @param  mixed $npm
      * @return void
      */
-    function list($year = NULL, $periode = NULL, $dosen = NULL, $npm = NULL)
+    function list($year = NULL, $periode = NULL, $dosen = NULL, $npm = NULL, $prodi = NULL)
     {
         $condition = array(
             "`datastatus`.`STATUSBERKAS`" => 'Disetujui'
@@ -128,6 +128,7 @@ class report_data extends gf_model
         if (!empty($year)) $condition["`databerkas`.`TAHUNDAFTAR`"] = $year;
         if (!empty($periode)) $condition["`databerkas`.`PERIODEDAFTAR`"] = $periode;
         if (!empty($dosen) && empty($npm)) $condition["`datapenempatan`.`DPLUSRKEY`"] = $dosen;
+        if (!empty($prodi)) $condition["`datamahasiswa`.`PROGRAMSTUDI`"] = $prodi;
         // if (!empty($npm)) $condition["`datamahasiswa`.`NPM`"] = $npm; // Removed strict NPM check
 
         $this->dbAccess->reset();

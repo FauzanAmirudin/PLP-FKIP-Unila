@@ -63,7 +63,7 @@ class mahasiswa_data extends gf_model
 	{
 		$data = $this->data($id);
 		if (!empty($data)) {
-			$column = array('NPM', 'JURUSAN', 'NAMAGENTING', 'NOHPGENTING', 'PROGRAMSTUDI', 'SKS', 'IPK', 'JENISKELAMIN', 'AGAMA', 'NOTELEPON', 'UKURANBAJU', 'ALAMATTINGGAL', 'KETRAMPILAN', 'ORGANISASI', 'NAMAAYAH', 'NAMAIBU', 'NOHPORTU', 'ALAMATASAL', 'KECAMATAN', 'KABUPATEN', 'PROPINSI', 'FTPROFIL');
+			$column = array('NPM', 'JURUSAN', 'NAMAGENTING', 'NOHPGENTING', 'PROGRAMSTUDI', 'SKS', 'IPK', 'JENISKELAMIN', 'AGAMA', 'NOTELEPON', 'SEMESTERPERIODE', 'ALAMATTINGGAL', 'KETRAMPILAN', 'ORGANISASI', 'NAMAAYAH', 'NAMAIBU', 'NOHPORTU', 'ALAMATASAL', 'KECAMATAN', 'KABUPATEN', 'PROPINSI', 'FTPROFIL');
 			$result = FALSE;
 			foreach ($column as $value) {
 				if ($data[$value] !== null) {

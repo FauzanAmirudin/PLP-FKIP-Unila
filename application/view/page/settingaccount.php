@@ -15,7 +15,7 @@ defined('GF_BASE_PATH') or exit('No direct script access allowed');
       <h1 class="card-title">Ubah Password</h1>
     </div>
     
-    <form class="form" method="post" action="?page=account&action=rubahpassword" id="form2">
+    <form class="form" method="post" action="<?php echo set_url('user/settings'); ?>" id="form2">
       <div class="settings-form-group">
         <label for="passwordNew1">Password Baru<span class="required">*</span></label>
         <input name="passwordNew1" id="passwordNew1" placeholder="Masukan password baru Anda" type="password" required="required" autofocus />

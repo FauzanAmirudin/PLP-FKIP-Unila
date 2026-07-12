@@ -83,10 +83,10 @@ class upload extends gf_controller
             );
 
             $num = 0;
-            $tabel = '<table  style="min-width: 100%;">';
+            $successCount = 0;
+            $failedCount = 0;
             foreach ($data['raw'] as $row) {
                 if ($num == 0) {
-                    $tabel .= '<thead class="thead">';
                     foreach ($row as $key => $cell) {
                         $lcell = strtolower($cell);
                         $rKey = array_search($lcell, $requiredField);
@@ -96,22 +96,17 @@ class upload extends gf_controller
                         }
                     }
                     foreach ($requiredField as $key) {
-                        if (is_int($key)) {
-                            $tabel .=  '<td>' . $row[$key] . '</td>';
-                        } else {
+                        if (!is_int($key)) {
                             $error .= "Coloum " . strtoupper($key) . " tidak ditemukan di dalam tabel, mohon lengkapi kembali data user.";
                         }
                     }
-                    $tabel .=  '<td>STATUS</td></thead>';
                 } else {
                     if ($error == '') {
-                        $tabel .=  '<tr>';
                         foreach ($requiredField as $field => $key) {
                             $row[$key] = trim($row[$key]);
                             if ($field == 'user') {
                                 $row[$key] = str_replace(" ", "", $row[$key]);
                             }
-                            $tabel .=  '<td>' . $row[$key] . '</td>';
                         }
 
                         $Username   = $row[$requiredField["user"]];
@@ -138,30 +133,49 @@ class upload extends gf_controller
                                                 "NIPDOSEN"      => $Username
                                             ), "DPL");
                                             break;
-
                                         default:
-                                            # code...
                                             break;
                                     }
                                     if ($result == TRUE) {
-                                        $report = 'Berhasil dibuat';
+                                        $successCount++;
                                     } else {
-                                        $report = 'Gagal dibuat';
+                                        $failedCount++;
                                     }
-                                } else $report = 'Error ketika membuat user';
-                            } else $report = 'Sudah terdaftar';
-                        } else $report = 'Data tidak lengkap';
-                        $tabel .=  '<td>' . $report . '</td>';
-                        $tabel .=  '<tr>';
+                                } else $failedCount++;
+                            } else $failedCount++;
+                        } else $failedCount++;
                     }
                 }
                 $num++;
             }
             if ($error == '') {
-                echo $tabel . "</table>";
-            } else echo '<div class="info info-danger"><a>' . $error . '</a></div>';
+                $totalData = $num - 1;
+                $html = '<div style="background: #f0fdf4; border: 1px solid #bbf7d0; padding: 25px; border-radius: 12px; text-align: center; font-family: sans-serif; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); margin-top: 20px;">';
+                $html .= '<h3 style="color: #166534; margin: 0 0 20px 0; font-size: 20px;">Upload Berhasil Diproses!</h3>';
+                $html .= '<div style="display: flex; justify-content: center; gap: 20px; flex-wrap: wrap;">';
+                $html .= '<div style="background: #ffffff; padding: 15px 25px; border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); border-bottom: 3px solid #3b82f6;"><span style="display:block; font-size: 28px; font-weight: bold; color: #1e3a8a;">'.$totalData.'</span><span style="font-size: 14px; color: #6b7280; font-weight: 500;">Total Data</span></div>';
+                $html .= '<div style="background: #ffffff; padding: 15px 25px; border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); border-bottom: 3px solid #22c55e;"><span style="display:block; font-size: 28px; font-weight: bold; color: #15803d;">'.$successCount.'</span><span style="font-size: 14px; color: #6b7280; font-weight: 500;">Berhasil</span></div>';
+                $html .= '<div style="background: #ffffff; padding: 15px 25px; border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); border-bottom: 3px solid #ef4444;"><span style="display:block; font-size: 28px; font-weight: bold; color: #b91c1c;">'.$failedCount.'</span><span style="font-size: 14px; color: #6b7280; font-weight: 500;">Gagal/Dilewati</span></div>';
+                $html .= '</div></div>';
+                
+                echo json_encode(array(
+                    "status" => true,
+                    "messege" => "",
+                    "data" => $html
+                ));
+            } else {
+                echo json_encode(array(
+                    "status" => false,
+                    "messege" => '<div class="info info-danger" style="margin-top: 20px;"><a>' . $error . '</a></div>',
+                    "data" => ""
+                ));
+            }
         } else {
-            echo '<div class="info info-danger"><a>' . $upload["report"] . '</a></div>';
+            echo json_encode(array(
+                "status" => false,
+                "messege" => '<div class="info info-danger"><a>' . $upload["report"] . '</a></div>',
+                "data" => ""
+            ));
         }
         exit;
     }
@@ -177,23 +191,17 @@ class upload extends gf_controller
                 $requiredField
             );
             if ($result['status']) {
-                $tabel = '<table  style="min-width: 100%;">';
-                $tabel .= '<thead class="thead"><td>NO</td>';
-                foreach ($result['data']['head'] as $label) {
-                    $tabel .=  '<td>' . $label . '</td>';
-                }
-                $tabel .=  '<td>STATUS</td></thead>';
-                $num = 0;
+                $successCount = 0;
+                $failedCount = 0;
+                $totalCount = 0;
                 foreach ($result['data']['row'] as $row) {
-                    $num++;
-                    $tabel .=  '<tr><td>' .  $num . '</td>';
+                    $totalCount++;
                     $fieldNotFound = $requiredField;
                     foreach ($row as $key => $value) {
                         $id = array_search(strtolower($key), $fieldNotFound);
                         if ($id !== FALSE) {
                             unset($fieldNotFound[$id]);
                         }
-                        $tabel .=  '<td>' .  $value . '</td>';
                     }
                     if (empty($fieldNotFound)) {
                         $dplName = nameFIlter($row['NAMA_DPL']);
@@ -204,7 +212,6 @@ class upload extends gf_controller
                                 if (!empty($dplSearch)) {
                                     $userCheck = $this->user->check($row['NPM']);
                                     if (!empty($userCheck)) {
-                                        $error = '';
                                         $data = array(
                                             'USRKEY'            => $userCheck["ID"],
                                             'NPMPESERTA'        => $row["NPM"],
@@ -218,31 +225,31 @@ class upload extends gf_controller
                                         );
                                         $dataCheck = $this->penempatan->check($userCheck["ID"]);
                                         if (empty($dataCheck)) {
-                                            $result = $this->penempatan->insert($data);
-                                            if ($result == TRUE) {
-                                                $report = 'Berhasil Menyimpan';
-                                            } else {
-                                                $report = 'Gagal Menyimpan' . $error;
-                                            }
+                                            $res = $this->penempatan->insert($data);
+                                            if ($res == TRUE) $successCount++; else $failedCount++;
                                         } else {
-                                            $result = $this->penempatan->update($userCheck["ID"], $data);
-                                            if ($result == TRUE) {
-                                                $report = 'Berhasil Update';
-                                            } else {
-                                                $report = 'Gagal Update' . $error;
-                                            }
+                                            $res = $this->penempatan->update($userCheck["ID"], $data);
+                                            if ($res == TRUE) $successCount++; else $failedCount++;
                                         }
-                                    } else $report = 'Peserta tidak ditemukan';
-                                } else $report = 'Dosen tidak ditemukan';
-                            } else $report = 'Menemukan ' . $dplSearch['NAMADOSEN'] . ' cek kembali data';
-                        } else $report = 'Tidak memukan dosen ' . $dplName;
-                    } else $report = 'Data ' . strtoupper(implode(", ", $fieldNotFound)) . ' tidak ditemukan';
-                    $tabel .=  '<td>' . $report . '</td></tr>';
+                                    } else $failedCount++;
+                                } else $failedCount++;
+                            } else $failedCount++;
+                        } else $failedCount++;
+                    } else $failedCount++;
                 }
+                
+                $html = '<div style="background: #f0fdf4; border: 1px solid #bbf7d0; padding: 25px; border-radius: 12px; text-align: center; font-family: sans-serif; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); margin-top: 20px;">';
+                $html .= '<h3 style="color: #166534; margin: 0 0 20px 0; font-size: 20px;">Upload Penempatan Selesai!</h3>';
+                $html .= '<div style="display: flex; justify-content: center; gap: 20px; flex-wrap: wrap;">';
+                $html .= '<div style="background: #ffffff; padding: 15px 25px; border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); border-bottom: 3px solid #3b82f6;"><span style="display:block; font-size: 28px; font-weight: bold; color: #1e3a8a;">'.$totalCount.'</span><span style="font-size: 14px; color: #6b7280; font-weight: 500;">Total Data</span></div>';
+                $html .= '<div style="background: #ffffff; padding: 15px 25px; border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); border-bottom: 3px solid #22c55e;"><span style="display:block; font-size: 28px; font-weight: bold; color: #15803d;">'.$successCount.'</span><span style="font-size: 14px; color: #6b7280; font-weight: 500;">Berhasil Disimpan</span></div>';
+                $html .= '<div style="background: #ffffff; padding: 15px 25px; border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); border-bottom: 3px solid #ef4444;"><span style="display:block; font-size: 28px; font-weight: bold; color: #b91c1c;">'.$failedCount.'</span><span style="font-size: 14px; color: #6b7280; font-weight: 500;">Gagal/Dilewati</span></div>';
+                $html .= '</div></div>';
+
                 echo json_encode(array(
                     "status" => true,
-                    "messege" => '<div class="info info-success"><a>' . $upload["report"] . '</a></div>',
-                    "data" => $tabel
+                    "messege" => "",
+                    "data" => $html
                 ));
             } else {
                 echo json_encode(array(

@@ -162,7 +162,7 @@ class user extends gf_controller
 			if ($passNew1 == $passNew2) {
 				$user = $this->user->data(login_data());
 				if ($user["PASSWORD"] == str_encrypt($mypassword)) {
-					$update = $this->user->update($user['ID'], array("PASSWORD" => str_encrypt($passNew1)));
+					$update = $this->user->update(session_get('ID'), array("PASSWORD" => str_encrypt($passNew1)));
 					if ($update) {
 						$report	= "Password anda berhasil dirubah";
 					} else $report = "Error! tidak diketahui, hubungi pengembang.";
@@ -174,7 +174,7 @@ class user extends gf_controller
 			}
 			save_notification($report);
 		}
-		$this->data['notification'] = implode("<br/>", get_notification());;
+		$this->alert = implode("\n", get_notification());
 		$this->load->view("navigation", $this->data);
 		$this->load->view("sidebar", $this->data);
 		$this->load->view("page/settingaccount", $this->data);

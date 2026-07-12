@@ -12,9 +12,9 @@ defined('GF_BASE_PATH') OR exit('No direct script access allowed');
         <span class="badge">TENTANG PLP FKIP UNILA</span>
         <h2 class="title">PLP FKIP UNILA</h2>
         
-        <p>Unit Praktik Lapangan Terpadu (PLT) FKIP Universitas Lampung merupakan pusat pengelolaan kegiatan praktik lapangan yang mendukung pengembangan kompetensi calon pendidik melalui program yang terstruktur, inovatif, dan profesional. PLT berperan dalam mengoordinasikan pelaksanaan praktik lapangan, membangun kemitraan dengan sekolah dan instansi pendidikan, serta mempersiapkan mahasiswa agar memiliki kompetensi pedagogik, sosial, kepribadian, dan profesional yang siap diterapkan di dunia pendidikan nyata.</p>
+        <p>Pengenalan Lapangan Persekolahan (PLP) bertujuan agar mahasiswa program sarjana pendidikan mendapatkan pengalaman kependidikan secara faktual dan	kontekstual	dalam	menerapkan	seperangkat	pengetahuan,		sikap	dan keterampilan	yang	dapatmenunjang		tercapainya		penguasaan	kompetensi pedagogik, kepribadian, sosial dan penguasaan materi bidang studi secara utuh, yang bermuara pada pembentukan calon guru atau tenaga kependidikan yang profesional dan berkarakter, serta mampu menerapkannya dalam penyelenggaraan pendidikan dan pengajaran, baik di sekolah maupun di luar sekolah dengan penuh tanggung jawab</p>
     </div>
     <div class="desc-visual">
-        <img src="assets/images/about-asset.jpg" alt="About PLP" class="about-image">
+        <img src="assets/images/about-asset.jpeg" alt="About PLP" class="about-image">
     </div>
 </div>

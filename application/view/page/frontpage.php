@@ -13,9 +13,34 @@ defined('GF_BASE_PATH') OR exit('No direct script access allowed');
     padding: 3px;
     box-shadow: 5px 4px 5px rgba(0,0,0, 0.12), 0px 6px 20px rgba(0,0,0, 0.12);
   }
+  .hero-section {
+    background-color: transparent !important;
+    position: relative;
+  }
+  .hero-section .hero-bg-diagonal {
+    clip-path: none !important;
+    height: 100% !important;
+  }
+  .hero-siger-bg {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 80%;
+    max-width: 600px;
+    opacity: 0.3;
+    z-index: 1;
+    mix-blend-mode: screen;
+    pointer-events: none;
+  }
+  .hero-content {
+    position: relative;
+    z-index: 2;
+  }
   </style>
 	<div class="hero-section">
 		<div class="hero-bg-diagonal"></div>
+		<img src="assets/images/siger.png" class="hero-siger-bg" alt="Siger Background">
 		
 		<div class="hero-content">
 			<h1 class="hero-title-main">
@@ -37,7 +62,7 @@ defined('GF_BASE_PATH') OR exit('No direct script access allowed');
 			<span class="welcome-badge">Selamat Datang</span>
 			<h3 class="welcome-title">Selamat Datang di PLP FKIP<br />Universitas Lampung</h3>
 			<p class="welcome-desc">
-				Praktik Lapangan Terpadu (PLT) Fakultas Keguruan dan Ilmu Pendidikan Universitas Lampung memiliki tanggung jawab yang besar dalam pelaksanaan tridharma perguruan tinggi baik unsur pendidikan, penelitian, maupun pengabdian kepada masyarakat yang diwujudkan secara profesional dan berkarakter.
+				Pengenalan Lapangan Persekolahan (PLP) Fakultas Keguruan dan Ilmu Pendidikan Universitas Lampung memiliki tanggung jawab yang besar dalam pelaksanaan tridharma perguruan tinggi baik unsur pendidikan, penelitian, maupun pengabdian kepada masyarakat yang diwujudkan secara profesional dan berkarakter.
 			</p>
 		</div>
 	</div>

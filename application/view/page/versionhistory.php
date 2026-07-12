@@ -11,6 +11,16 @@ defined('GF_BASE_PATH') or exit('No direct script access allowed');
 			<div class="timeline">
 				<div class="timeline__items  padding-top-25 padding-bottom-30">
 					<div class="timeline__item">
+						<span class="timeline__item-title">v2.4</span>
+						<div class="timeline__item-cricle"></div>
+						<div class="timeline__item-text">Pembaruan Besar (Major Update):
+							<ul>
+								<li><strong>Modul Fitur Baru:</strong> Menghadirkan layanan terintegrasi untuk fitur Informasi, Jadwal, Bimbingan, dan Feedback (Umpan Balik) demi mempermudah komunikasi antara mahasiswa, DPL, dan admin.</li>
+								<li><strong>Pembaruan Tampilan (UI/UX):</strong> Desain antarmuka aplikasi kini dirombak menjadi jauh lebih modern, bersih, dan sangat nyaman digunakan (user-friendly) di berbagai perangkat.</li>
+							</ul>
+						</div>
+					</div>
+					<div class="timeline__item">
 						<span class="timeline__item-title">v2.3</span>
 						<div class="timeline__item-cricle"></div>
 						<div class="timeline__item-text">Hot Fix:

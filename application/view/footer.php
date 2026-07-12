@@ -239,11 +239,13 @@ defined('GF_BASE_PATH') or exit('No direct script access allowed');
     <div class="footer-bottom">
         <div class="footer-copyright">
             Hak Cipta Dilindungi <?php echo date('Y'); ?>. Universitas Lampung
-            | <a href="?page=versionhistory" style="color:inherit; text-decoration:none;">v2.3</a>
+            | <a href="?page=versionhistory" style="color:inherit; text-decoration:none;">v2.4</a>
         </div>
         <div class="footer-policies">
-            <a href="#">Syarat Penggunaan</a>
-            <a href="#">Kebijakan Privasi</a>
+            <span>Develope by Fauzan Amirudin</span>
         </div>
     </div>
 </footer>
+
+<!-- Include SweetAlert2 globally for modern alerts -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>

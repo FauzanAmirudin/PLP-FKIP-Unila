@@ -19,7 +19,7 @@ require_level('Admin, Operator');
             <p class="card-subtitle">Gunakan fitur ini untuk mereset kata sandi mahasiswa/user ke pengaturan default sistem.</p>
         </div>
 
-        <form class="form" method="post" action="index.php?page=resetpassword&action=resetpassword" id="form2">
+        <form class="form" method="post" action="<?php echo set_url('user/password_reset'); ?>" id="form2">
             <div class="settings-form-group">
                 <label for="NPM">NPM / NIP User <span class="required">*</span></label>
                 <input name="NPM" id="NPM" placeholder="Masukan NPM atau NIP yang akan di-reset" type="text" required="required" autofocus />

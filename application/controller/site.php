@@ -340,6 +340,7 @@ class site extends gf_controller
 		$this->data['csrf_token'] = session_get('csrf_token');
 		
 		$this->data['jadwal_list'] = $this->jadwal->list();
+
 		$this->data['notification'] = implode("<br/>", get_notification());
 		$this->load->view("navigation", $this->data);
 		$this->load->view("sidebar", $this->data);
@@ -359,11 +360,15 @@ class site extends gf_controller
 
 		if (!empty($this->input->post())) {
 			$data = [
-				"JENISKEGIATAN" => $this->input->post('nama_kegiatan'),
-				"PELAKSANA"     => $this->input->post('pelaksana'),
-				"WAKTUAWAL"     => $this->input->post('tanggal_mulai'),
-				"WAKTUAKHIR"    => $this->input->post('tanggal_akhir'),
-				"KETERANGAN"    => $this->input->post('deskripsi'),
+				"JENIS_PLP"     => $this->input->post('jenis_plp'),
+				"MINGGU_KE"     => (int)$this->input->post('minggu_ke'),
+				"NOMOR_KEGIATAN"=> (int)$this->input->post('nomor_kegiatan'),
+				"JP_HARI"       => (float)$this->input->post('jp_hari'),
+				"JENISKEGIATAN" => $this->input->post('rincian_kegiatan'),
+				"KETERANGAN"    => "",
+				"PELAKSANA"     => NULL,
+				"WAKTUAWAL"     => NULL,
+				"WAKTUAKHIR"    => NULL
 			];
 
 			if ($this->data['edit_mode']) {

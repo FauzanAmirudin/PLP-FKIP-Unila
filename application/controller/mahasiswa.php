@@ -122,7 +122,7 @@ class mahasiswa extends gf_controller
 		$myIpk 			 = $this->input->post('ipk');
 		$myJenisKELAMIN	 = $this->input->post('jenisKelamin');
 		$myAgama 		 = $this->input->post('agama');
-		$myUkuranBAJU 	 = $this->input->post('ukuranBaju');
+		$mySemesterPERIODE 	 = $this->input->post('ukuranBaju');
 		$myNoHP 		 = $this->input->post('noHp');
 		$myKetrampilan 	 = $this->input->post('ketrampilan');
 		$myOrganisasi 	 = $this->input->post('organisasi');
@@ -146,7 +146,7 @@ class mahasiswa extends gf_controller
 			"AGAMA" 		=> $myAgama,
 			"NOTELEPON" 	=> $myNoHP,
 			"ALAMATTINGGAL" => $myAlamatTINGGAL,
-			"UKURANBAJU" 	=> $myUkuranBAJU,
+			"SEMESTERPERIODE" 	=> $mySemesterPERIODE,
 			"KETRAMPILAN" 	=> $myKetrampilan,
 			"ORGANISASI" 	=> $myOrganisasi,
 			"NAMAAYAH" 		=> $myNamaAYAH,

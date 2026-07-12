@@ -148,9 +148,11 @@ defined('GF_BASE_PATH') or exit('No direct script access allowed');
   transition: color 0.2s ease, background-color 0.2s ease;
 }
 .nav-menu-center .nav-dropdown-toggle:hover,
-.nav-menu-center .nav-dropdown-toggle.nav-link-active {
-  color: #ffffff;
-  background-color: #C562AF;
+.nav-menu-center .nav-dropdown-toggle.nav-link-active,
+.nav-menu-center .nav-link.nav-link-active {
+  color: #ffffff !important;
+  background-color: #C562AF !important;
+  border-bottom: none !important;
 }
 .nav-menu-center .nav-dropdown-arrow {
   transition: transform 0.25s ease;
@@ -288,7 +290,7 @@ defined('GF_BASE_PATH') or exit('No direct script access allowed');
 					<!-- Header -->
 					<div class="login-header">
 						<div class="login-logo">
-							<img src="assets/images/logo.png" alt="Logo" />
+							<img src="assets/images/fkip.png" alt="Logo" />
 						</div>
 						<h2 class="login-title">Masuk Akun</h2>
 						<p class="login-subtitle">Sistem PLP FKIP Universitas Lampung</p>
@@ -345,7 +347,7 @@ defined('GF_BASE_PATH') or exit('No direct script access allowed');
 					<!-- Header -->
 					<div class="login-header">
 						<div class="login-logo">
-							<img src="assets/images/logo.png" alt="Logo" />
+							<img src="assets/images/fkip.png" alt="Logo" />
 						</div>
 						<h2 class="login-title">Buat Akun</h2>
 						<p class="login-subtitle">Daftar sebagai peserta PLP FKIP Unila</p>
@@ -417,7 +419,7 @@ defined('GF_BASE_PATH') or exit('No direct script access allowed');
 		<!-- KIRI: Logo + Nama -->
 		<div class="nav-brand">
 			<a href="<?= GF_CONFIG['base_url'] ?>/" class="nav-brand-link">
-				<img src="assets/images/logo.png" alt="Logo PLP FKIP Unila" class="nav-logo-img" />
+				<img src="assets/images/fkip.png" alt="Logo PLP FKIP Unila" class="nav-logo-img" />
 				<span class="nav-brand-text">PLP FKIP UNILA</span>
 			</a>
 		</div>
@@ -487,7 +489,7 @@ defined('GF_BASE_PATH') or exit('No direct script access allowed');
 							<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="dropdown-icon"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
 							Dashboard
 						</a>
-						<a href="<?php echo set_url(session_get('IMPERSONATE') ? "admin/restore_impersonate" : "user/logout"); ?>" class="dropdown-item logout">
+						<a href="<?php echo set_url(session_get('IMPERSONATE') ? "admin/restore_impersonate" : "user/logout"); ?>" class="dropdown-item logout" onclick="showLogoutModal(event, this.href)">
 							<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="dropdown-icon"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
 							Keluar
 						</a>
@@ -531,12 +533,31 @@ defined('GF_BASE_PATH') or exit('No direct script access allowed');
 				<a onclick="closeMobileMenu(); openModal('register', 460)" class="mobile-btn register-btn">DAFTAR AKUN</a>
 			<?php } else { ?>
 				<a href="?page=user/dashboard" class="mobile-btn login-btn">DASHBOARD &rarr;</a>
-				<a href="<?php echo set_url(session_get('IMPERSONATE') ? "admin/restore_impersonate" : "user/logout"); ?>" class="mobile-btn logout-btn" style="background-color: #fce8e6; color: #d93025; margin-top: 10px;">KELUAR</a>
+				<a href="<?php echo set_url(session_get('IMPERSONATE') ? "admin/restore_impersonate" : "user/logout"); ?>" class="mobile-btn logout-btn" style="background-color: #fce8e6; color: #d93025; margin-top: 10px;" onclick="showLogoutModal(event, this.href)">KELUAR</a>
 			<?php } ?>
 		</div>
 	</div>
 
 </nav>
+
+<!-- ===================== MODAL LOGOUT ===================== -->
+<div id="logout-modal" class="modal" style="display: none; z-index: 99999;">
+	<div class="modal-centered">
+		<div class="content animate" style="max-width: 350px; border-radius: 12px; overflow: hidden;">
+			<div class="login-card" style="padding: 30px 20px; text-align: center; margin: 0; box-shadow: none;">
+				<div style="background: #fdf0fa; width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 15px;">
+					<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#d93025" stroke-width="2.5" width="28" height="28"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
+				</div>
+				<h3 style="font-family: 'Poppins', sans-serif; color: #1e293b; margin-bottom: 8px; font-weight: 600; font-size: 18px;">Konfirmasi Keluar</h3>
+				<p style="font-family: 'Poppins', sans-serif; color: #64748b; font-size: 13px; margin-bottom: 25px;">Apakah Anda yakin ingin keluar dari sistem?</p>
+				<div style="display: flex; gap: 10px; justify-content: center;">
+					<button onclick="closeLogoutModal()" style="padding: 10px; border: 1px solid #e2e8f0; background: #fff; border-radius: 8px; cursor: pointer; font-family: 'Poppins', sans-serif; font-weight: 500; color: #475569; flex: 1; transition: background 0.2s;">Batal</button>
+					<a id="confirm-logout-btn" href="#" style="padding: 10px; background: #d93025; color: #fff; border-radius: 8px; text-decoration: none; font-family: 'Poppins', sans-serif; font-weight: 500; display: inline-block; flex: 1; transition: background 0.2s;">Ya, Keluar</a>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
 
 <script>
 function toggleProfileDropdown(event) {
@@ -668,4 +689,23 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 });
+
+function showLogoutModal(event, url) {
+    event.preventDefault();
+    document.getElementById('confirm-logout-btn').href = url;
+    document.getElementById('logout-modal').style.display = 'block';
+    
+    // Close other dropdowns/menus
+    closeMobileMenu();
+    const dropdown = document.getElementById('profileDropdown');
+    const trigger = document.getElementById('profileDropdownTrigger');
+    if (dropdown && trigger) {
+        dropdown.classList.remove('show');
+        trigger.setAttribute('aria-expanded', 'false');
+    }
+}
+
+function closeLogoutModal() {
+    document.getElementById('logout-modal').style.display = 'none';
+}
 </script>

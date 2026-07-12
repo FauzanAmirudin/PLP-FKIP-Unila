@@ -18,7 +18,7 @@ defined('GF_BASE_PATH') OR exit('No direct script access allowed');
     
     <div class="info-content-wrapper">
         <div class="info-text-block">
-            <p>Dalam melaksanakan tugas Lapangan diluar kampus tugas dekanat diampu oleh Unit-Unit Pendukung. Unit Praktik Lapangan Terpadu (PLT) di Fakultas Keguruan dan Ilmu Pendidikan (FKIP) Universitas Lampung (Unila) merupakan sebuah unit yang dibentuk untuk mengelola kegiatan akademik dan nonakademik yang dilakukan di luar kampus. PLT berfungsi sebagai mediator dan pengawas dalam pelaksanaan praktik lapangan, yang merupakan bagian penting dari pendidikan calon guru. Unit ini didirikan berdasarkan SK Dekan FKIP Unila Nomor 401 pada tanggal 1 Desember 2011, sebagai pengembangan dari Sekretariat PPL FKIP Unila.</p>
+            <p>Dalam melaksanakan tugas Lapangan diluar kampus tugas dekanat diampu oleh Unit-Unit Pendukung. Unit Praktik Lapangan Terpadu (PLT) di Fakultas Keguruan dan Ilmu Pendidikan (FKIP) Universitas Lampung (Unila) merupakan sebuah unit yang dibentuk untuk mengelola kegiatan akademik dan nonakademik yang dilakukan di luar kampus. PLT berfungsi sebagai mediator dan pengawas dalam pelaksanaan praktik lapangan, yang merupakan bagian penting dari pendidikan calon guru. Unit ini didirikan berdasarkan SK Dekan FKIP Unila Nomor 401 pada tanggal 1 Desember 2011.</p>
         </div>
 
         <div class="info-grid">

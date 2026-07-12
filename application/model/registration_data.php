@@ -154,16 +154,20 @@ class registration_data extends gf_model
 					->result_array();
 				
 				if (!empty($status_list)) {
-					$latest_status = $status_list[0];
-					$b['STATUSBERKAS'] = $latest_status['STATUSBERKAS'];
-					$b['NOTEBERKAS'] = $latest_status['NOTEBERKAS'];
-					$b['DATEVALID'] = $latest_status['DATEVALID'];
+					foreach ($status_list as $status) {
+						$row = $b;
+						$row['STATUSBERKAS'] = $status['STATUSBERKAS'];
+						$row['NOTEBERKAS'] = $status['NOTEBERKAS'];
+						$row['DATEVALID'] = $status['DATEVALID'];
+						$row['DATEREQUEST'] = $status['DATEVALID'];
+						$history[] = $row;
+					}
 				} else {
 					$b['STATUSBERKAS'] = 'Pengajuan';
 					$b['NOTEBERKAS'] = '';
 					$b['DATEVALID'] = '';
+					$history[] = $b;
 				}
-				$history[] = $b;
 			}
 		}
 		return $history;

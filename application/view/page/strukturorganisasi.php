@@ -19,7 +19,7 @@ defined('GF_BASE_PATH') OR exit('No direct script access allowed');
     <div class="modern-org-chart">
         <div class="org-card primary">
             <div class="org-avatar">
-                <img src="data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23B33791'%3E%3Cpath d='M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z'/%3E%3C/svg%3E" alt="Penanggung Jawab">
+                <img src="assets/images/albet.jpg" alt="Penanggung Jawab" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;">
             </div>
             <div class="org-details">
                 <h4 class="org-name">Dr. Albet Maydiantoro, S.Pd, M.Pd.</h4>
@@ -102,7 +102,7 @@ defined('GF_BASE_PATH') OR exit('No direct script access allowed');
         <div class="org-pengarah-group">
             <div class="org-card secondary">
                 <div class="org-avatar-small">
-                    <img src="data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23C562AF'%3E%3Cpath d='M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z'/%3E%3C/svg%3E" alt="Tim Pengarah">
+                    <img src="assets/images/riswandi.jpg" alt="Tim Pengarah" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;">
                 </div>
                 <div class="org-details">
                     <h4 class="org-name" style="font-size: 1rem;">Dr. Riswandi, M.Pd.</h4>
@@ -111,7 +111,7 @@ defined('GF_BASE_PATH') OR exit('No direct script access allowed');
             </div>
             <div class="org-card secondary">
                 <div class="org-avatar-small">
-                    <img src="data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23C562AF'%3E%3Cpath d='M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z'/%3E%3C/svg%3E" alt="Tim Pengarah">
+                    <img src="assets/images/bambang.jpg" alt="Tim Pengarah" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;">
                 </div>
                 <div class="org-details">
                     <h4 class="org-name" style="font-size: 1rem;">Bambang Riandi, S.Pd., M.Pd.</h4>
@@ -120,7 +120,7 @@ defined('GF_BASE_PATH') OR exit('No direct script access allowed');
             </div>
             <div class="org-card secondary">
                 <div class="org-avatar-small">
-                    <img src="data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23C562AF'%3E%3Cpath d='M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z'/%3E%3C/svg%3E" alt="Tim Pengarah">
+                    <img src="assets/images/hermi.jpg" alt="Tim Pengarah" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;">
                 </div>
                 <div class="org-details">
                     <h4 class="org-name" style="font-size: 1rem;">Hermi Yanzi, S.Pd., M.Pd.</h4>
@@ -129,10 +129,10 @@ defined('GF_BASE_PATH') OR exit('No direct script access allowed');
             </div>
             <div class="org-card secondary">
                 <div class="org-avatar-small">
-                    <img src="data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23C562AF'%3E%3Cpath d='M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z'/%3E%3C/svg%3E" alt="Tim Pengarah">
+                    <img src="assets/images/didi.jpeg" alt="Tim Pengarah" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;">
                 </div>
                 <div class="org-details">
-                    <h4 class="org-name" style="font-size: 1rem;">Didi Sudarmasyah, S.Pd., M.Pd.</h4>
+                    <h4 class="org-name" style="font-size: 1rem;">Didi Sudarmansyah, S.Pd., M.Pd.</h4>
                     <span class="org-role" style="background: rgba(197, 98, 175, 0.1); color: #C562AF;">Tim Pengarah</span>
                 </div>
             </div>
@@ -142,7 +142,7 @@ defined('GF_BASE_PATH') OR exit('No direct script access allowed');
 
         <div class="org-card tertiary">
             <div class="org-avatar">
-                <img src="data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23DB8DD0'%3E%3Cpath d='M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z'/%3E%3C/svg%3E" alt="Ketua">
+                <img src="assets/images/maskun.png" alt="Ketua" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;">
             </div>
             <div class="org-details">
                 <h4 class="org-name">Drs. Maskun, M.H</h4>
@@ -154,7 +154,7 @@ defined('GF_BASE_PATH') OR exit('No direct script access allowed');
 
         <div class="org-card quaternary">
             <div class="org-avatar">
-                <img src="data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23B33791'%3E%3Cpath d='M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z'/%3E%3C/svg%3E" alt="Sekretaris">
+                <img src="assets/images/fitriyadi.png" alt="Sekretaris" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;">
             </div>
             <div class="org-details">
                 <h4 class="org-name">Dr. Fitriadi, S.Pd,. M.Pd.</h4>
@@ -167,7 +167,7 @@ defined('GF_BASE_PATH') OR exit('No direct script access allowed');
         <div class="org-staff-group">
             <div class="org-card staff">
                 <div class="org-avatar-small">
-                    <img src="data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%2364748b'%3E%3Cpath d='M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z'/%3E%3C/svg%3E" alt="Staff">
+                    <img src="assets/images/siti.png" alt="Siti Alfiyah" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;">
                 </div>
                 <div class="org-details">
                     <h4 class="org-name">Siti Alfiyah, S.Pd., M.Pd.</h4>
@@ -177,7 +177,7 @@ defined('GF_BASE_PATH') OR exit('No direct script access allowed');
             
             <div class="org-card staff">
                 <div class="org-avatar-small">
-                    <img src="data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%2364748b'%3E%3Cpath d='M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z'/%3E%3C/svg%3E" alt="Staff">
+                    <img src="assets/images/iskandar.png" alt="Iskandar" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;">
                 </div>
                 <div class="org-details">
                     <h4 class="org-name">Iskandar, S.Pd.</h4>

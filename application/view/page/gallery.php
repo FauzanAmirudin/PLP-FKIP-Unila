@@ -34,6 +34,35 @@ defined('GF_BASE_PATH') OR exit('No direct script access allowed');
 
     <!-- Paginasi — hanya tampil jika total_pages > 1 -->
     <?php if (isset($total_pages) && $total_pages > 1) { ?>
+    <style>
+        .gallery-main-section .info-pagination {
+            display: flex;
+            gap: 10px;
+            margin-top: 40px;
+            justify-content: center;
+        }
+        .gallery-main-section .info-pagination .page-link {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background-color: #f1f5f9;
+            color: #1e293b;
+            text-decoration: none;
+            font-weight: 600;
+            border-radius: 4px;
+            transition: all 0.2s ease;
+        }
+        .gallery-main-section .info-pagination .page-link.active, 
+        .gallery-main-section .info-pagination .page-link:hover {
+            background-color: #B33791;
+            color: #ffffff;
+        }
+        .gallery-main-section .info-pagination .page-link.next {
+            font-size: 1.2rem;
+        }
+    </style>
     <div class="info-pagination pagination-margin-top">
         <?php if ($current_page > 1) { ?>
             <a href="?page=gallery&pg=<?php echo $current_page - 1; ?>" class="page-link">&larr;</a>

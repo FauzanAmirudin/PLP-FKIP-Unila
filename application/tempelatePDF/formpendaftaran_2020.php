@@ -8,7 +8,7 @@
 	$kelamin=$data["JENISKELAMIN"];
 	$agama=$data["AGAMA"];
 	$nohp=$data["NOTELEPON"];
-	$kaos=$data["UKURANBAJU"];
+	$kaos=$data["SEMESTERPERIODE"];
 	$alamat=$data["ALAMATTINGGAL"];
 	$ketrampilan=$data["KETRAMPILAN"];
 	$organisasi=$data["ORGANISASI"];
@@ -318,7 +318,7 @@
 			<div class="lines"><h3>Mengetahui/Menyetujui</h3></div>
 			<div class="sign">
 				<div class="sign-left">
-					<p><b>Ketua Program Studi</b></p><a><?php if(isset($ketuaProdi)){echo $ketuaProdi;}else{$n=1; while($n<=35){echo ".";$n++;}} ?></a><br><a>NIP. <?php if(isset($nipKetuaPRODI)){echo $nipKetuaPRODI;} ?></a>
+					<p><b>Koordinator Program Studi</b></p><a><?php if(isset($ketuaProdi)){echo $ketuaProdi;}else{$n=1; while($n<=35){echo ".";$n++;}} ?></a><br><a>NIP. <?php if(isset($nipKetuaPRODI)){echo $nipKetuaPRODI;} ?></a>
 				</div>
 				<div class="sign-right">
 					<p><b>Dosen PA</b></p><a><?php if(isset($PembimbingAkademik)){echo $PembimbingAkademik;}else{$n=1; while($n<=35){echo ".";$n++;}} ?></a><br><a>NIP. <?php if(isset($nipPembimbingAkademik)){echo $nipPembimbingAkademik;} ?></a>

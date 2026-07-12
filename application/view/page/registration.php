@@ -58,9 +58,9 @@ defined('GF_BASE_PATH') or exit('No direct script access allowed');
                             <input name="page" value="downloads/formulir/<?= session_get('ID') ?>" type="hidden" required="required" />
                             
                             <div class="form-group">
-                                <label for="Kaprodi">Nama Kaprodi<span class="required">*</span></label>
+                                <label for="Kaprodi">Nama Koordinator Program Studi<span class="required">*</span></label>
                                 <select class="input-control" id="Kaprodi" name="ketuaProdi" required="required">
-                                    <option value="" hidden>Pilih Kaprodi</option>
+                                    <option value="" hidden>Pilih Koordinator Program Studi</option>
                                     <?php
                                     $dataKaprodi = $dbAccess->reset()->result_array('kaprodi');
                                     foreach ($dataKaprodi as $person) {
@@ -78,7 +78,7 @@ defined('GF_BASE_PATH') or exit('No direct script access allowed');
 
                             <div class="form-group">
                                 <label for="NipKaprodi">NIP Pembimbing Akademik<span class="required">*</span></label>
-                                <input class="input-control" id="NipKaprodi" name="nippembimbingakademik" value="<?php echo isset($aditionaldata["NIPPEMBIMBINGAKADEMIK"]) ? $aditionaldata["NIPPEMBIMBINGAKADEMIK"] : ""; ?>" placeholder="Masukkan NIP Pembimbing Akademik Anda" type="text" required="required" />
+                                <input class="input-control" id="NipKaprodi" name="nippembimbingakademik" value="<?php echo isset($aditionaldata["NIPPEMBIMBINGAKADEMIK"]) ? $aditionaldata["NIPPEMBIMBINGAKADEMIK"] : ""; ?>" placeholder="Masukkan NIP Pembimbing Akademik Anda" type="text" minlength="10" maxlength="25" inputmode="numeric" pattern="[0-9]+" oninput="this.value = this.value.replace(/[^0-9]/g, '');" required="required" />
                             </div>
 
                             <div class="form-actions">
