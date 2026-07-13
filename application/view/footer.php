@@ -79,7 +79,7 @@ defined('GF_BASE_PATH') or exit('No direct script access allowed');
     height: 36px !important;
     border-radius: 50% !important;
     background-color: #ffffff !important;
-    color: #72307e !important;
+    color: #000000 !important;
     text-decoration: none !important;
     transition: transform 0.2s ease, background 0.2s ease !important;
 }
@@ -190,7 +190,7 @@ defined('GF_BASE_PATH') or exit('No direct script access allowed');
         <!-- Kolom 1: Brand & Alamat -->
         <div class="footer-col">
             <div class="footer-brand">
-                <img src="assets/images/logo.png" alt="Logo Unila" />
+                <img src="assets/images/fkip.png" alt="Logo FKIP" />
                 <span>PLP FKIP UNILA</span>
             </div>
             <div class="footer-address">
