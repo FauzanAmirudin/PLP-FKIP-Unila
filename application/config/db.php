@@ -22,9 +22,9 @@ if ($is_local) {
 	// Konfigurasi Database Production (Hosting)
 	$gf_db['default'] = array(
 		'server' 	=> '127.0.0.1',
-		'username' 	=> 'u141095167_root',
-		'password'	=> 'Plpfkip2026',
-		'database'	=> 'u141095167_test_fkip_plt',
+		'username' 	=> 'u141095167_plpfkip',
+		'password'	=> 'PLPfkip123',
+		'database'	=> 'u141095167_plpfkip',
 		'baseUser' 	=> 'userplt'
 	);
 }
