@@ -108,7 +108,7 @@ if (GF_ERROR_LV > 0) {
             E_USER_ERROR         => 'User Error',
             E_USER_WARNING       => 'User Warning',
             E_USER_NOTICE        => 'User Notice',
-            E_STRICT             => 'Runtime Notice',
+            2048                 => 'Runtime Notice',
             E_RECOVERABLE_ERROR  => 'Catchable Fatal Error',
             8192                 => 'Deprecated',
             16384                => 'User Deprecated'
