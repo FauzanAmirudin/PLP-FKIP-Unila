@@ -133,6 +133,13 @@ class upload extends gf_controller
                                                 "NIPDOSEN"      => $Username
                                             ), "DPL");
                                             break;
+                                        case 'Mahasiswa':
+                                            $result = $this->mahasiswa->insert(array(
+                                                "NAMA"      => $FullName,
+                                                "NPM"       => $Username,
+                                                "USRKEY"    => $user['ID']
+                                            ));
+                                            break;
                                         default:
                                             break;
                                     }
