@@ -82,7 +82,11 @@ defined('GF_BASE_PATH') or exit('No direct script access allowed');
                             </div>
 
                             <div class="form-actions">
-                                <button type="submit" name="action" value="DownloadBerkas" class="btn-save">Unduh Form Pendaftaran</button>
+                                <?php if (!$biodata_done) { ?>
+                                    <button type="button" onclick="openBiodataAlertModal()" class="btn-save" style="background-color: #d1d5db; color: #4b5563; cursor: pointer;">Unduh Form Pendaftaran</button>
+                                <?php } else { ?>
+                                    <button type="submit" name="action" value="DownloadBerkas" class="btn-save">Unduh Form Pendaftaran</button>
+                                <?php } ?>
                             </div>
                         </form>
                     </div>
@@ -104,7 +108,11 @@ defined('GF_BASE_PATH') or exit('No direct script access allowed');
                                 <span class="help-text" style="color:#ef4444; margin-top: 6px; display: block;">* Berkas harus ditandatangani and dibundel ke dalam file .zip. Maksimum ukuran file 1 MB.</span>
                             </div>
                             <div class="form-actions" style="margin-top: 20px;">
-                                <button type="submit" class="btn-save">Upload Berkas</button>
+                                <?php if (!$biodata_done) { ?>
+                                    <button type="button" onclick="openBiodataAlertModal()" class="btn-save" style="background-color: #d1d5db; color: #4b5563; cursor: pointer;">Upload Berkas</button>
+                                <?php } else { ?>
+                                    <button type="submit" class="btn-save">Upload Berkas</button>
+                                <?php } ?>
                             </div>
                         </form>
                     </div>
@@ -170,3 +178,35 @@ defined('GF_BASE_PATH') or exit('No direct script access allowed');
             </div>
         <?php } ?>
     </div>
+
+<!-- ===================== MODAL BIODATA ALERT ===================== -->
+<div id="biodata-alert-modal" class="modal" style="display: none; z-index: 99999;">
+	<div class="modal-centered">
+		<div class="content animate" style="max-width: 350px; border-radius: 12px; overflow: hidden;">
+			<div class="login-card" style="padding: 30px 20px; text-align: center; margin: 0; box-shadow: none;">
+				<div style="background: #fff5f5; width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 15px;">
+					<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#d93025" stroke-width="2.5" width="28" height="28">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <line x1="12" y1="8" x2="12" y2="12"></line>
+                        <line x1="12" y1="16" x2="12.01" y2="16"></line>
+                    </svg>
+				</div>
+				<h3 style="font-family: 'Poppins', sans-serif; color: #1e293b; margin-bottom: 8px; font-weight: 600; font-size: 18px;">Biodata Belum Lengkap</h3>
+				<p style="font-family: 'Poppins', sans-serif; color: #64748b; font-size: 13px; margin-bottom: 25px;">Anda tidak dapat mengunduh atau mengunggah form pendaftaran sebelum melengkapi biodata Anda.</p>
+				<div style="display: flex; gap: 10px; justify-content: center;">
+					<button onclick="closeBiodataAlertModal()" style="padding: 10px; border: 1px solid #e2e8f0; background: #fff; border-radius: 8px; cursor: pointer; font-family: 'Poppins', sans-serif; font-weight: 500; color: #475569; flex: 1; transition: background 0.2s;">Tutup</button>
+					<a href="<?= set_url("mahasiswa/data/" . session_get('ID')) ?>" style="padding: 10px; background: #B33791; color: #fff; border-radius: 8px; text-decoration: none; font-family: 'Poppins', sans-serif; font-weight: 500; display: inline-block; flex: 1; transition: background 0.2s;">Lengkapi Data</a>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script>
+function openBiodataAlertModal() {
+    document.getElementById('biodata-alert-modal').style.display = 'block';
+}
+function closeBiodataAlertModal() {
+    document.getElementById('biodata-alert-modal').style.display = 'none';
+}
+</script>
