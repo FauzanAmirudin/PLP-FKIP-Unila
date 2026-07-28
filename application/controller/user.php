@@ -183,7 +183,7 @@ class user extends gf_controller
 	public function password_reset()
 	{
 		require_login();
-		require_level("Admin, Operator");
+		require_level("Admin, Monitor, Operator");
 		$this->data['user'] = session_get();
 		if (!empty($this->input->post())) {
 			$NPM = $this->input->post('NPM');

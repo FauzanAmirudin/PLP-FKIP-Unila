@@ -4,7 +4,7 @@ defined('GF_BASE_PATH') or exit('No direct script access allowed');
  *  Page untuk memvalidasi data berkas perserta
  */
 
-require_level('Admin, Operator');
+require_level('Admin, Monitor, Operator');
 
 // Data is already prepared and filtered by the Controller
 $dataAccess = clone $this->database('default', 'dbconfig', TRUE);

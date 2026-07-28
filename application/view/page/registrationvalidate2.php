@@ -4,7 +4,7 @@ defined('GF_BASE_PATH') or exit('No direct script access allowed');
  *  Page untuk memvalidasi data berkas perserta
  */
 require_login();
-require_level('Admin, Operator');
+require_level('Admin, Monitor, Operator');
 $tahun  = !empty($_GET['tahun'])  ? strip_tags($_GET['tahun'])   : NULL;
 $prodi  = !empty($_GET['prodi'])  ? strip_tags($_GET['prodi'])   : NULL;
 $berkas = !empty($_GET['status']) ? strip_tags($_GET['status'])  : NULL;

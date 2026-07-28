@@ -28,7 +28,7 @@ class registration extends gf_controller
 	}
 	public function validatioon()
 	{
-		require_level("Admin, Operator");
+		require_level("Admin, Monitor, Operator");
 		$this->data['enableregister'] = get_dbconfig('OPENREGISTER');
 		$response = '';
 		if (!empty($this->input->post())) {

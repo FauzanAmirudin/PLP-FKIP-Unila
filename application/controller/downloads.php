@@ -177,7 +177,7 @@ class downloads extends gf_controller
     }
     private function getID($data)
     {
-        if (is_level("Admin, Operator")) {
+        if (is_level("Admin, Monitor, Operator")) {
             $id = $data[0];
             $this->permision = TRUE;
         } else {

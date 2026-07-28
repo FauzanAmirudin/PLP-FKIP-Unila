@@ -192,7 +192,7 @@ class  gf_sql
 		$this->GROUP .= $sql;
 		return $this;
 	}
-	public function limit(int $num, ?int $start = NULL)
+	public function limit(int $num, int $start = NULL)
 	{
 		$this->LIMIT = ' LIMIT ' . (!empty($start) ? $start . ", " . $num : $num);
 		return $this;

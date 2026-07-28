@@ -54,7 +54,7 @@ class registration extends gf_controller
 	}
 	public function validate()
 	{
-		require_level("Admin, Operator");
+		require_level("Admin, Monitor, Operator");
 		$this->data['config'] = get_dbconfig();
 		$this->data['enableregister'] = get_dbconfig('OPENREGISTER');
 
@@ -261,7 +261,7 @@ class registration extends gf_controller
 	}
 	private function getID($data)
 	{
-		if (is_level("Admin, Operator")) {
+		if (is_level("Admin, Monitor, Operator")) {
 			$id = $data[0];
 			$this->permision = TRUE;
 		} else {

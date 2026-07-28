@@ -29,7 +29,7 @@ class site extends gf_controller
 	}
 	public function settings()
 	{
-		require_level("Admin, Operator");
+		require_level("Admin, Monitor, Operator");
 		if (!empty($this->input->post())) {
 			$statusPendaftaran 	= $this->input->post('statusPendaftaran');
 			$tahunPendaftaram 	= $this->input->post('tahunPendaftaram');
@@ -81,7 +81,7 @@ class site extends gf_controller
 	 */
 	public function informasi()
 	{
-		require_level("Admin, Operator");
+		require_level("Admin, Monitor, Operator");
 		$this->data['informasi_list'] = $this->informasi->list_all();
 		$this->data['notification'] = implode("<br/>", get_notification());
 		$this->load->view("navigation", $this->data);
@@ -94,7 +94,7 @@ class site extends gf_controller
 	 */
 	public function informasi_create()
 	{
-		require_level("Admin, Operator");
+		require_level("Admin, Monitor, Operator");
 		if (!empty($this->input->post())) {
 			$data = [
 				"JUDUL"     => $this->input->post('judul'),
@@ -142,7 +142,7 @@ class site extends gf_controller
 	 */
 	public function informasi_edit()
 	{
-		require_level("Admin, Operator");
+		require_level("Admin, Monitor, Operator");
 		$id = isset($_GET['id']) ? (int)$_GET['id'] : 0;
 		$article = $this->informasi->get($id);
 		if (empty($article)) {
@@ -201,7 +201,7 @@ class site extends gf_controller
 	 */
 	public function informasi_delete()
 	{
-		require_level("Admin, Operator");
+		require_level("Admin, Monitor, Operator");
 		$id = isset($_GET['id']) ? $_GET['id'] : '';
 		if ($id !== '') {
 			$result = $this->informasi->delete((int)$id);
@@ -219,7 +219,7 @@ class site extends gf_controller
 	 */
 	public function gallery()
 	{
-		require_level("Admin, Operator");
+		require_level("Admin, Monitor, Operator");
 		$this->data['gallery_list'] = $this->gallery->list_all();
 		$this->data['notification'] = implode("<br/>", get_notification());
 		$this->load->view("navigation", $this->data);
@@ -233,7 +233,7 @@ class site extends gf_controller
 	 */
 	public function gallery_create()
 	{
-		require_level("Admin, Operator");
+		require_level("Admin, Monitor, Operator");
 		if (!empty($this->input->post())) {
 			if (!isset($_FILES['gambar']) || $_FILES['gambar']['error'] !== UPLOAD_ERR_OK) {
 				save_notification("Foto wajib dipilih untuk diupload.");
@@ -275,7 +275,7 @@ class site extends gf_controller
 	 */
 	public function gallery_edit()
 	{
-		require_level("Admin, Operator");
+		require_level("Admin, Monitor, Operator");
 		$id    = isset($_GET['id']) ? (int)$_GET['id'] : 0;
 		$photo = $this->gallery->get($id);
 		if (empty($photo)) {
@@ -306,7 +306,7 @@ class site extends gf_controller
 	 */
 	public function gallery_delete()
 	{
-		require_level("Admin, Operator");
+		require_level("Admin, Monitor, Operator");
 		$id = isset($_GET['id']) ? $_GET['id'] : '';
 		if ($id !== '') {
 			$id = (int)$id;
@@ -331,7 +331,7 @@ class site extends gf_controller
 	 */
 	public function kelola_jadwal()
 	{
-		require_level("Admin, Operator");
+		require_level("Admin, Monitor, Operator");
 		
 		// Generate CSRF token
 		if (!session_get('csrf_token')) {
@@ -353,7 +353,7 @@ class site extends gf_controller
 	 */
 	public function kelola_jadwal_form()
 	{
-		require_level("Admin, Operator");
+		require_level("Admin, Monitor, Operator");
 		$id = isset($_GET['id']) ? (int)$_GET['id'] : 0;
 		$this->data['edit_mode'] = ($id > 0);
 		$this->data['jadwal'] = $id > 0 ? $this->jadwal->get($id) : null;
@@ -396,7 +396,7 @@ class site extends gf_controller
 	 */
 	public function kelola_jadwal_delete()
 	{
-		require_level("Admin, Operator");
+		require_level("Admin, Monitor, Operator");
 		$id = isset($_GET['id']) ? $_GET['id'] : '';
 		$csrf = isset($_GET['csrf']) ? $_GET['csrf'] : '';
 		

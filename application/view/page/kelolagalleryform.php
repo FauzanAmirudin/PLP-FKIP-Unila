@@ -1,6 +1,6 @@
 <?php
 defined('GF_BASE_PATH') or exit('No direct script access allowed');
-require_level('Admin, Operator');
+require_level('Admin, Monitor, Operator');
 
 $isEdit = isset($edit_mode) && $edit_mode === true;
 $pht    = isset($photo) && !empty($photo) ? $photo : null;
