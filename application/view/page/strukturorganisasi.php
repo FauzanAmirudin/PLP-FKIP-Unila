@@ -114,7 +114,7 @@ defined('GF_BASE_PATH') OR exit('No direct script access allowed');
                     <img src="assets/images/bambang.jpg" alt="Tim Pengarah" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;">
                 </div>
                 <div class="org-details">
-                    <h4 class="org-name" style="font-size: 1rem;">Bambang Riandi, S.Pd., M.Pd.</h4>
+                    <h4 class="org-name" style="font-size: 1rem;">Bambang Riadi, S.Pd., M.Pd.</h4>
                     <span class="org-role" style="background: rgba(197, 98, 175, 0.1); color: #C562AF;">Tim Pengarah</span>
                 </div>
             </div>
@@ -180,7 +180,7 @@ defined('GF_BASE_PATH') OR exit('No direct script access allowed');
                     <img src="assets/images/iskandar.png" alt="Iskandar" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;">
                 </div>
                 <div class="org-details">
-                    <h4 class="org-name">Iskandar, S.Pd.</h4>
+                    <h4 class="org-name">Iskandar, S.Pd., M.Pd.</h4>
                     <span class="org-role staff-role">Staff Administrasi</span>
                 </div>
             </div>

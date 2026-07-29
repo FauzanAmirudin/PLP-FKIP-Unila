@@ -6075,12 +6075,26 @@ html {
   margin: 0 0 25px;
   line-height: 1.3;
   text-transform: uppercase;
+  word-break: break-word;
+}
+.detail-main-section .detail-content-left .full-article .article-body {
+  word-wrap: break-word;
+  word-break: break-word;
+  overflow-wrap: anywhere;
 }
 .detail-main-section .detail-content-left .full-article .article-body p {
   font-size: 1.05rem;
   line-height: 1.8;
   color: #64748b;
   margin-bottom: 20px;
+  word-break: break-word;
+  overflow-wrap: anywhere;
+}
+.detail-main-section .detail-content-left .full-article .article-body a {
+  color: #a805a8;
+  text-decoration: underline;
+  word-break: break-all;
+  overflow-wrap: anywhere;
 }
 .detail-main-section .detail-content-left .full-article .article-body p:last-child {
   margin-bottom: 0;

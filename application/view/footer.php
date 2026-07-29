@@ -229,7 +229,7 @@ defined('GF_BASE_PATH') or exit('No direct script access allowed');
             <h4 class="footer-heading">KONTAK</h4>
             <p class="footer-text">
                 Telp/Fax: (0721) 704624<br />
-                Email: pltunila@gmail.com
+                Email: fkip@unila.ac.id
             </p>
         </div>
         
@@ -242,7 +242,7 @@ defined('GF_BASE_PATH') or exit('No direct script access allowed');
             | <a href="?page=versionhistory" style="color:inherit; text-decoration:none;">v2.4</a>
         </div>
         <div class="footer-policies">
-            <span>Develope by Fauzan Amirudin</span>
+            <span>Developed by Fauzan Amirudin Basith</span>
         </div>
     </div>
 </footer>

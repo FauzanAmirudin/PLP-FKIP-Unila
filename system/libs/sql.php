@@ -150,23 +150,27 @@ class  gf_sql
 	}
 	public function where($columns, $operator = TRUE)
 	{
+		$sql = $this->condition_to_string($columns, $operator, "AND");
+		if (empty($sql)) return $this;
+
 		if (empty($this->WHERE)) {
 			$this->WHERE = ' WHERE ';
 		} else {
 			$this->WHERE .= ' AND ';
-		};
-		$sql = $this->condition_to_string($columns, $operator, "AND");
+		}
 		$this->WHERE .= $sql;
 		return $this;
 	}
 	public function or_where($columns, $operator = FALSE)
 	{
+		$sql = $this->condition_to_string($columns, $operator, "OR");
+		if (empty($sql)) return $this;
+
 		if (empty($this->WHERE)) {
-			$this->WHERE = 'WHERE ';
+			$this->WHERE = ' WHERE ';
 		} else {
 			$this->WHERE .= ' OR ';
-		};
-		$sql = $this->condition_to_string($columns, $operator, "OR");
+		}
 		$this->WHERE .= $sql;
 		return $this;
 	}
@@ -192,7 +196,7 @@ class  gf_sql
 		$this->GROUP .= $sql;
 		return $this;
 	}
-	public function limit(int $num, int $start = NULL)
+	public function limit(int $num, ?int $start = NULL)
 	{
 		$this->LIMIT = ' LIMIT ' . (!empty($start) ? $start . ", " . $num : $num);
 		return $this;

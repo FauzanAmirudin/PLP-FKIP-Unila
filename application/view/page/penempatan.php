@@ -21,13 +21,20 @@ require_level('Mahasiswa');
         "Nama" => isset($dataMahasiswa["NAMA"]) ? $dataMahasiswa["NAMA"] : "-",
         "NPM" => isset($dataMahasiswa["NPM"]) ? $dataMahasiswa["NPM"] : "-",
         "Program Studi" => isset($dataMahasiswa["PROGRAMSTUDI"]) ? $dataMahasiswa["PROGRAMSTUDI"] : "-",
-        "Kabupaten" => isset($dataMahasiswa["LOKASIKABUPATEN"]) ? $dataMahasiswa["LOKASIKABUPATEN"] : "Belum ditempatkan",
-        "Kecamatan" => isset($dataMahasiswa["LOKASIKECAMATAN"]) ? $dataMahasiswa["LOKASIKECAMATAN"] : "Belum ditempatkan",
-        "Desa" => $lokasiDesa !== "" ? $lokasiDesa : "Belum ditempatkan",
         "Sekolah" => isset($dataMahasiswa["LOKASISEKOLAH"]) ? $dataMahasiswa["LOKASISEKOLAH"] : "Belum ditempatkan",
         "Dosen Pembimbing" => isset($dataMahasiswa["NAMADOSEN"]) ? $dataMahasiswa["NAMADOSEN"] : "Belum ditentukan",
         "Contact DPL" => isset($dataMahasiswa["HANDPHPONEDOSEN"]) ? $dataMahasiswa["HANDPHPONEDOSEN"] : "Belum ditentukan"
       ];
+
+      if (isset($dataMahasiswa["LOKASIKABUPATEN"]) && $dataMahasiswa["LOKASIKABUPATEN"] !== '-' && $dataMahasiswa["LOKASIKABUPATEN"] !== '') {
+          $fieldsMapping["Kabupaten"] = $dataMahasiswa["LOKASIKABUPATEN"];
+      }
+      if (isset($dataMahasiswa["LOKASIKECAMATAN"]) && $dataMahasiswa["LOKASIKECAMATAN"] !== '-' && $dataMahasiswa["LOKASIKECAMATAN"] !== '') {
+          $fieldsMapping["Kecamatan"] = $dataMahasiswa["LOKASIKECAMATAN"];
+      }
+      if (isset($dataMahasiswa["LOKASIDESA"]) && $dataMahasiswa["LOKASIDESA"] !== '-' && $dataMahasiswa["LOKASIDESA"] !== '') {
+          $fieldsMapping["Desa"] = $dataMahasiswa["LOKASIDESA"];
+      }
 
       foreach ($fieldsMapping as $label => $val) { ?>
          <div class="info-group">

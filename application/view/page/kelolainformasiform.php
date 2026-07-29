@@ -6,6 +6,12 @@ $isEdit = isset($edit_mode) && $edit_mode === true;
 $art = isset($article) && !empty($article) ? $article : null;
 ?>
 
+<style>
+.ck-editor__editable_inline {
+    min-height: 250px;
+}
+</style>
+
 <div class="settings-container">
   <?php if (isset($notification) && $notification != '') {
     echo '<div class="notif notif-primary-strong mb-20">' . $notification . '</div>';
@@ -92,9 +98,20 @@ $art = isset($article) && !empty($article) ? $article : null;
   </div>
 </div>
 
-
-
+<script src="https://cdn.ckeditor.com/ckeditor5/41.4.2/classic/ckeditor.js"></script>
 <script>
+document.addEventListener("DOMContentLoaded", function () {
+  if (typeof ClassicEditor !== 'undefined') {
+    ClassicEditor
+      .create(document.querySelector('#informasi'), {
+        toolbar: [ 'heading', '|', 'bold', 'italic', 'link', 'bulletedList', 'numberedList', 'blockQuote', 'undo', 'redo' ]
+      })
+      .catch(function (error) {
+        console.error(error);
+      });
+  }
+});
+
 function previewImage(file) {
   if (!file) return;
   var reader = new FileReader();

@@ -78,6 +78,7 @@ require_level('Admin, Monitor, Operator');
 
             <div class="form-actions" style="margin-top: 30px; border-top: 1px solid #f0f0f0; padding-top: 25px;">
                 <button type="submit" id="uploadUser" name="action" class="btn-save">Upload Users</button>
+                <a href="<?= set_url('downloads/sample_user') ?>" class="btn-save" style="background: #059669; margin-left: 10px; text-decoration: none; display: inline-block;">Unduh Sample Format Excel (.xlsx)</a>
                 <button type="reset" class="btn-save" style="background: #64748b; margin-left: 10px;" onclick="document.getElementById('bulkFileNameDisplay').innerText=''">Reset</button>
             </div>
         </form>

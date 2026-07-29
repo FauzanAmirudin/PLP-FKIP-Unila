@@ -99,7 +99,10 @@ class site extends gf_controller
 			$data = [
 				"JUDUL"     => $this->input->post('judul'),
 				"TANGGAL"   => $this->input->post('tanggal'),
-				"INFORMASI" => $this->input->post('informasi'),
+				"INFORMASI" => strip_tags(
+					$_POST['informasi'] ?? '',
+					'<p><br><strong><em><u><s><h1><h2><h3><h4><h5><h6><ul><ol><li><a><blockquote><span><div><style><img><table><thead><tbody><tr><th><td><figure>'
+				),
 				"TAG"       => $this->input->post('tag'),
 				"PENULIS"   => $this->input->post('penulis'),
 			];
@@ -154,7 +157,10 @@ class site extends gf_controller
 			$data = [
 				"JUDUL"     => $this->input->post('judul'),
 				"TANGGAL"   => $this->input->post('tanggal'),
-				"INFORMASI" => $this->input->post('informasi'),
+				"INFORMASI" => strip_tags(
+					$_POST['informasi'] ?? '',
+					'<p><br><strong><em><u><s><h1><h2><h3><h4><h5><h6><ul><ol><li><a><blockquote><span><div><style><img><table><thead><tbody><tr><th><td><figure>'
+				),
 				"TAG"       => $this->input->post('tag'),
 				"PENULIS"   => $this->input->post('penulis'),
 			];

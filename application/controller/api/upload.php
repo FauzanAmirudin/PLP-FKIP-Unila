@@ -68,7 +68,7 @@ class upload extends gf_controller
     }
     public function users()
     {
-        require_level("Admin");
+        require_level("Admin, Monitor, Operator");
         $folder     =    'uploads' . DIRECTORY_SEPARATOR . 'administrator' . DIRECTORY_SEPARATOR . 'user';
         $upload = $this->input->upload('file', "Bulk_user_upload", $folder, array("type" => 'xlsx', "sizelimit" => '5000', "update" => TRUE, "fileHash" => TRUE));
         if ($upload["status"] === TRUE) {
@@ -188,11 +188,11 @@ class upload extends gf_controller
     }
     public function assignment()
     {
-        require_level("Admin");
+        require_level("Admin, Monitor, Operator");
         $folder     =    'uploads' . DIRECTORY_SEPARATOR . 'administrator';
         $upload = $this->input->upload('file', "Bulk_assignment_upload", $folder, array("type" => 'xlsx', "sizelimit" => '5000', "update" => TRUE, "fileHash" => TRUE));
         if ($upload["status"] === TRUE) {
-            $requiredField = ["nama", "npm", "nama_dpl", "lokasi_kabupaten", "lokasi_kecamatan", "lokasi_desa", "lokasi_sekolah"];
+            $requiredField = ["npm", "nama_dpl", "lokasi_sekolah"];
             $result = $this->load_exel_file(
                 $upload["data"]["FILELINK"],
                 $requiredField
@@ -225,9 +225,9 @@ class upload extends gf_controller
                                             'DPLUSRKEY'         => $dplCheck["ID"],
                                             'NAMADPL'           => secureInput($dplName),
                                             'NIPDPL'            => $dplCheck["USERID"],
-                                            'LOKASIKABUPATEN'   => secureInput($row['LOKASI_KABUPATEN']),
-                                            'LOKASIKECAMATAN'   => secureInput($row['LOKASI_KECAMATAN']),
-                                            'LOKASIDESA'        => secureInput($row['LOKASI_DESA']),
+                                            'LOKASIKABUPATEN'   => !empty($row['LOKASI_KABUPATEN']) ? secureInput($row['LOKASI_KABUPATEN']) : '-',
+                                            'LOKASIKECAMATAN'   => !empty($row['LOKASI_KECAMATAN']) ? secureInput($row['LOKASI_KECAMATAN']) : '-',
+                                            'LOKASIDESA'        => !empty($row['LOKASI_DESA']) ? secureInput($row['LOKASI_DESA']) : '-',
                                             'LOKASISEKOLAH'     => secureInput($row['LOKASI_SEKOLAH'])
                                         );
                                         $dataCheck = $this->penempatan->check($userCheck["ID"]);

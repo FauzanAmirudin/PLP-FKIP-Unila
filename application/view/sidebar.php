@@ -129,6 +129,12 @@ defined('GF_BASE_PATH') or exit('No direct script access allowed');
 				<?php } ?>
 
 				<?php if (is_level("Admin, Monitor, Operator")) { ?>
+					<li class="sidebar-item <?php echo ($current_ctrl == 'registration' && $current_func == 'assignment') ? 'active' : ''; ?>">
+						<a href="<?php echo set_url("registration/assignment"); ?>">
+							<svg class="sidebar-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="8.5" cy="7" r="4"></circle><line x1="20" y1="8" x2="20" y2="14"></line><line x1="23" y1="11" x2="17" y2="11"></line></svg>
+							<span class="sidebar-label">Penugasan</span>
+						</a>
+					</li>
 					<li class="sidebar-item <?php echo ($current_ctrl == 'registration' && $current_func == 'validate') ? 'active' : ''; ?>">
 						<a href="<?php echo set_url("registration/validate"); ?>" title="Validasi Registrasi">
 							<svg class="sidebar-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
@@ -167,19 +173,17 @@ defined('GF_BASE_PATH') or exit('No direct script access allowed');
 					</li>
 				<?php } ?>
 
-				<?php if (is_level("Admin")) { ?>
-					<li class="sidebar-item <?php echo ($current_ctrl == 'registration' && $current_func == 'assignment') ? 'active' : ''; ?>">
-						<a href="<?php echo set_url("registration/assignment"); ?>">
-							<svg class="sidebar-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="8.5" cy="7" r="4"></circle><line x1="20" y1="8" x2="20" y2="14"></line><line x1="23" y1="11" x2="17" y2="11"></line></svg>
-							<span class="sidebar-label">Penugasan</span>
-						</a>
-					</li>
+				<?php if (is_level("Admin, Monitor, Operator")) { ?>
+
 					<li class="sidebar-item <?php echo ($current_ctrl == 'user' && $current_func == 'create_user') ? 'active' : ''; ?>">
 						<a href="<?php echo set_url("user/create_user"); ?>">
 							<svg class="sidebar-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="8.5" cy="7" r="4"></circle></svg>
 							<span class="sidebar-label">Buat Pengguna</span>
 						</a>
 					</li>
+				<?php } ?>
+
+				<?php if (is_level("Admin")) { ?>
 					<li class="sidebar-item <?php echo ($current_ctrl == 'admin' && $current_func == 'impersonate') ? 'active' : ''; ?>">
 						<a href="<?php echo set_url("admin/impersonate"); ?>" title="Impersonate Akun">
 							<svg class="sidebar-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>

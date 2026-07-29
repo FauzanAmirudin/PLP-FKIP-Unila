@@ -37,7 +37,7 @@ defined('GF_BASE_PATH') or exit('No direct script access allowed');
                             <span style="font-weight:600; color:#111827;"><?= empty($registration_process["DATEREQUEST"]) ? "Tidak ada" : $registration_process["DATEREQUEST"] ?></span>
                         </div>
                         <div style="background: #f9fafb; padding: 12px; border-radius: 6px;">
-                            <strong style="display:block; font-size:12px; color:#6b7280; text-transform:uppercase;">Berkas (ZIP)</strong>
+                            <strong style="display:block; font-size:12px; color:#6b7280; text-transform:uppercase;">Berkas (PDF)</strong>
                             <span style="font-weight:600; color:#111827;"><?= empty($registration_process["BERKASDAFTAR"]) ? "Belum Upload" : '<a href="' . htmlspecialchars($registration_process["BERKASDAFTAR"]) . '" style="color:#B33791; text-decoration:none;">Download</a>' ?></span>
                         </div>
                     </div>
@@ -91,6 +91,23 @@ defined('GF_BASE_PATH') or exit('No direct script access allowed');
                         </form>
                     </div>
                 </div>
+
+                <!-- Download Pakta Integritas -->
+                <div class="pendaftaran-container" style="margin-top: 24px;">
+                    <div class="card-header">
+                        <h1 class="card-title">Download Form Pakta Integritas</h1>
+                        <p class="card-subtitle">Unduh dokumen Form Pakta Integritas untuk dilengkapi dan ditandatangani</p>
+                    </div>
+                    <div class="form-body">
+                        <div class="form-actions" style="margin-top: 10px;">
+                            <?php if (!$biodata_done) { ?>
+                                <button type="button" onclick="openBiodataAlertModal()" class="btn-save" style="background-color: #d1d5db; color: #4b5563; cursor: pointer; padding: 8px 16px; font-size: 13px; height: auto; line-height: 1.4;">Unduh Form Pakta Integritas</button>
+                            <?php } else { ?>
+                                <a href="<?= set_url('downloads/pakta_integritas') ?>" class="btn-save" style="text-decoration: none; display: inline-block; padding: 8px 16px; font-size: 13px; height: auto; line-height: 1.4;">Unduh Form Pakta Integritas</a>
+                            <?php } ?>
+                        </div>
+                    </div>
+                </div>
             <?php } ?>
 
             <?php if (!$registration_done && isset($uploadberkas) && $uploadberkas) { ?>
@@ -98,14 +115,14 @@ defined('GF_BASE_PATH') or exit('No direct script access allowed');
                 <div class="pendaftaran-container" style="margin-top: 24px; margin-bottom: 24px;">
                     <div class="card-header">
                         <h1 class="card-title">Upload Berkas Pendaftaran</h1>
-                        <p class="card-subtitle">Upload berkas formulir yang telah ditandatangani</p>
+                        <p class="card-subtitle">Upload berkas formulir dan pakta integritas yang telah ditandatangani</p>
                     </div>
                     <div class="form-body">
                         <form method="post" action="?page=registration/submit/<?= session_get('ID') ?>" enctype="multipart/form-data">
                             <div class="form-group">
-                                <label>Pilih file berkas (.zip)<span class="required">*</span></label>
-                                <input type="file" name="file" class="input-control" accept=".zip,application/zip" required style="padding: 6px; height: auto;">
-                                <span class="help-text" style="color:#ef4444; margin-top: 6px; display: block;">* Berkas harus ditandatangani and dibundel ke dalam file .zip. Maksimum ukuran file 1 MB.</span>
+                                <label>Pilih file berkas (.pdf)<span class="required">*</span></label>
+                                <input type="file" name="file" class="input-control" accept=".pdf,application/pdf" required style="padding: 6px; height: auto;">
+                                <span class="help-text" style="color:#ef4444; margin-top: 6px; display: block;">* Harap scan dan jadikan satu file PDF antara Form Pendaftaran dan Pakta Integritas (jangan dipisah). Maksimum ukuran file 1 MB.</span>
                             </div>
                             <div class="form-actions" style="margin-top: 20px;">
                                 <?php if (!$biodata_done) { ?>
@@ -158,7 +175,7 @@ defined('GF_BASE_PATH') or exit('No direct script access allowed');
                                         <td style="padding: 15px 16px;"><?= htmlspecialchars($hist['DATEREQUEST'] ?? '-') ?></td>
                                         <td style="padding: 15px 16px;">
                                             <?php if (!empty($hist['BERKASDAFTAR'])) { ?>
-                                                <a href="<?= htmlspecialchars($hist['BERKASDAFTAR']) ?>" style="color:#B33791; text-decoration:none; font-weight: 600;">Download ZIP</a>
+                                                <a href="<?= htmlspecialchars($hist['BERKASDAFTAR']) ?>" style="color:#B33791; text-decoration:none; font-weight: 600;">Download PDF</a>
                                             <?php } else { echo '-'; } ?>
                                         </td>
                                         <td style="padding: 15px 16px;">

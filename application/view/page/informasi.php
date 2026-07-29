@@ -7,6 +7,25 @@ defined('GF_BASE_PATH') OR exit('No direct script access allowed');
     </div>
 </div>
 
+<style>
+.info-main-section .info-content-left {
+    min-width: 0 !important;
+    word-wrap: break-word !important;
+    word-break: break-word !important;
+    overflow-wrap: anywhere !important;
+}
+.post-excerpt {
+    word-wrap: break-word !important;
+    word-break: break-word !important;
+    overflow-wrap: anywhere !important;
+}
+.post-title {
+    word-wrap: break-word !important;
+    word-break: break-word !important;
+    overflow-wrap: anywhere !important;
+}
+</style>
+
 <div class="info-main-section">
     <div class="info-container">
         <div class="info-content-left">
@@ -33,7 +52,7 @@ defined('GF_BASE_PATH') OR exit('No direct script access allowed');
                     <h2 class="post-title"><?php echo htmlspecialchars($article['JUDUL']); ?></h2>
                     
                     <p class="post-excerpt">
-                        <?php echo htmlspecialchars(mb_strimwidth($article['INFORMASI'], 0, 200, '...')); ?>
+                        <?php echo htmlspecialchars(mb_strimwidth(strip_tags(htmlspecialchars_decode($article['INFORMASI'])), 0, 200, '...')); ?>
                     </p>
                     
                     <a href="?page=detailinformasi&id=<?php echo $article['ID']; ?>" class="post-read-more">BACA SELENGKAPNYA &raquo;</a>

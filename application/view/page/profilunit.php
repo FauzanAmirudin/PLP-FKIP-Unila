@@ -29,22 +29,7 @@ defined('GF_BASE_PATH') OR exit('No direct script access allowed');
                 <h3>Koordinasi Kegiatan</h3>
                 <p>PLT mengkoordinasikan semua kegiatan akademik dan nonakademik yang berkaitan dengan praktik lapangan, termasuk Program Pengalaman Lapangan (PPL), Praktik Kerja Lapangan (PKL) mahasiswa FKIP Unila.</p>
             </div>
-            
-            <div class="info-card">
-                <div class="card-icon">
-                    <img src="assets/icons/hand-with-light-bulb.png" alt="Pengembangan Program" style="width: 35px; height: 35px; object-fit: contain;" />
-                </div>
-                <h3>Pengembangan Program</h3>
-                <p>Unit ini bertanggung jawab dalam merumuskan dan melaksanakan program-program yang mendukung pengembangan ilmu dan teknologi di luar kampus.</p>
-            </div>
 
-            <div class="info-card">
-                <div class="card-icon">
-                    <img src="assets/icons/school.png" alt="Pelaksanaan PPG" style="width: 35px; height: 35px; object-fit: contain;" />
-                </div>
-                <h3>Pelaksanaan PPG</h3>
-                <p>PLT juga mengelola program sertifikasi guru, baik untuk guru dalam jabatan maupun prajabatan, termasuk penyusunan jadwal dan tempat kegiatan PPG.</p>
-            </div>
         </div>
 
         <div class="info-text-block highlight">

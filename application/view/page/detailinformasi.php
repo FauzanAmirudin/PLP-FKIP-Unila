@@ -5,6 +5,96 @@ $art = isset($article) ? $article : null;
 if (empty($art)) return;
 ?>
 
+<style>
+.detail-main-section .detail-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 40px;
+  max-width: 1200px;
+  margin: 0 auto;
+  align-items: flex-start;
+}
+.detail-main-section .detail-content-left {
+  flex: 1 1 65%;
+  min-width: 0 !important;
+  max-width: 100%;
+  word-wrap: break-word !important;
+  word-break: break-word !important;
+  overflow-wrap: anywhere !important;
+}
+.detail-main-section .detail-sidebar-right {
+  flex: 0 0 30%;
+  min-width: 280px;
+}
+.article-body {
+  word-wrap: break-word !important;
+  word-break: break-word !important;
+  overflow-wrap: anywhere !important;
+  color: #334155;
+  font-size: 1.05rem;
+  line-height: 1.8;
+  width: 100%;
+}
+.article-body p {
+  font-size: 1.05rem;
+  line-height: 1.8;
+  color: #334155;
+  margin-bottom: 1.2em;
+  word-break: break-word !important;
+  overflow-wrap: anywhere !important;
+}
+.article-body h1, .article-body h2, .article-body h3, .article-body h4, .article-body h5, .article-body h6 {
+  color: #1e293b;
+  font-weight: 700;
+  margin-top: 1.5em;
+  margin-bottom: 0.6em;
+  line-height: 1.3;
+  word-break: break-word;
+}
+.article-body h1 { font-size: 1.8rem; }
+.article-body h2 { font-size: 1.5rem; }
+.article-body h3 { font-size: 1.3rem; }
+.article-body ul, .article-body ol {
+  margin-top: 0.5em;
+  margin-bottom: 1.2em;
+  padding-left: 28px;
+}
+.article-body ul { list-style-type: disc !important; }
+.article-body ol { list-style-type: decimal !important; }
+.article-body li { margin-bottom: 0.4em; line-height: 1.7; }
+.article-body a {
+  color: #a805a8;
+  text-decoration: underline;
+  word-break: break-all !important;
+  overflow-wrap: anywhere !important;
+}
+.article-body a:hover { color: #7c047c; }
+.article-body blockquote {
+  border-left: 4px solid #a805a8;
+  background: #fdf4ff;
+  padding: 12px 20px;
+  margin: 1.2em 0;
+  font-style: italic;
+  color: #475569;
+  border-radius: 0 8px 8px 0;
+}
+.article-body img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
+  margin: 1.2em 0;
+}
+.article-body table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1.2em 0;
+}
+.article-body th, .article-body td {
+  border: 1px solid #e2e8f0;
+  padding: 8px 12px;
+}
+</style>
+
 <div class="detail-hero-section">
     <div class="hero-content">
         <h1 class="hero-title">DETAIL</h1>
@@ -42,11 +132,17 @@ if (empty($art)) return;
                 
                 <div class="article-body">
                     <?php 
-                    $paragraphs = preg_split('/\r?\n\r?\n/', $art['INFORMASI']);
-                    foreach ($paragraphs as $para) {
-                        $para = trim($para);
-                        if (!empty($para)) {
-                            echo '<p>' . nl2br(htmlspecialchars($para)) . '</p>';
+                    $content = htmlspecialchars_decode($art['INFORMASI']);
+                    if ($content !== strip_tags($content)) {
+                        $allowed_tags = '<p><br><strong><em><u><s><h1><h2><h3><h4><h5><h6><ul><ol><li><a><blockquote><span><div><style><img><table><thead><tbody><tr><th><td><figure>';
+                        echo strip_tags($content, $allowed_tags);
+                    } else {
+                        $paragraphs = preg_split('/\r?\n\r?\n/', $content);
+                        foreach ($paragraphs as $para) {
+                            $para = trim($para);
+                            if (!empty($para)) {
+                                echo '<p>' . nl2br(htmlspecialchars($para)) . '</p>';
+                            }
                         }
                     }
                     ?>

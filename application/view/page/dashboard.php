@@ -79,7 +79,7 @@ defined('GF_BASE_PATH') or exit('No direct script access allowed');
                 <?php
                 $info = $dbAccess->reset()->tabel('informasi')->where("`TANGGAL` <= CURDATE()")->order("`TANGGAL`", "DESC")->order("`ID`", "DESC")->limit(1)->result_fetch_array();
                 $infoTitle = ($info == FALSE) ? "Belum ada informasi" : $info['JUDUL']; 
-                $infoData = ($info == FALSE) ? "Silakan periksa kembali nanti." : $info['INFORMASI']; 
+                $infoData = ($info == FALSE) ? "Silakan periksa kembali nanti." : strip_tags(htmlspecialchars_decode($info['INFORMASI'])); 
                 $infoId = ($info == FALSE) ? "" : $info['ID'];
                 ?>
                 <div class="dashboard-banner banner-info-editorial">

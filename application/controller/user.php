@@ -208,7 +208,7 @@ class user extends gf_controller
 	public function create_user()
 	{
 		require_login();
-		require_level("Admin");
+		require_level("Admin, Monitor, Operator");
 		$this->data['user'] = session_get();
 		if (!empty($this->input->post())) {
 			$Username   = $this->input->post('User');

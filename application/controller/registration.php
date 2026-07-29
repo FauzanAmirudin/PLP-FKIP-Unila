@@ -40,7 +40,7 @@ class registration extends gf_controller
 			} else {
 				$file = $this->data['user']['USERID'] . "(" . $this->data['user']['ID'] . ")";
 				$folder = 'uploads/berkas-pendaftaran/' . get_dbconfig("CURENTYEAR") . '-files/' . str_replace(" ", "_", get_dbconfig("CURENTSEMESTER")) . "/" . $file;
-				$upload = $this->input->upload('file', $file, $folder, array("type" => 'zip', "sizelimit" => '1000', "update" => TRUE));
+				$upload = $this->input->upload('file', $file, $folder, array("type" => 'pdf', "sizelimit" => '1000', "update" => TRUE));
 				if ($upload['status']) {
 					$this->registrasi->save($id, $upload['data']["FILELINK"], $this->data['user']['USERID']);
 				}
@@ -248,7 +248,7 @@ class registration extends gf_controller
 
 	public function assignment()
 	{
-		require_level("Admin");
+		require_level("Admin, Monitor, Operator");
 		// Halaman ini hanya memuat view untuk Bulk Assignment.
 		// Upload file diproses secara mandiri oleh API di application/controller/api/upload.php
 

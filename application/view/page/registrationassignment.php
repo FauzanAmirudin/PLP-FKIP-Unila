@@ -27,11 +27,13 @@ require_level('Admin, Monitor, Operator');
                     <p style="margin: 0; font-size: 14px; color: #64748b;">Klik atau tarik file Excel ke sini</p>
                     <span id="fileNameDisplay" style="display: block; margin-top: 10px; font-weight: 600; color: #a805a8; font-size: 13px;"></span>
                 </div>
-                <span class="input-hint" style="color: #ef4444; margin-top: 10px;">* Hanya file .xlsx dengan ukuran maksimal 5 MB.</span>
+                <span class="input-hint" style="color: #ef4444; margin-top: 10px; display: block;">* Hanya file .xlsx dengan ukuran maksimal 5 MB.</span>
+                <span class="input-hint" style="color: #475569; margin-top: 4px; display: block; font-weight: 500;">* Kolom wajib Excel: <strong>NPM</strong>, <strong>NAMA_DPL</strong>, <strong>LOKASI_SEKOLAH</strong></span>
             </div>
 
             <div class="form-actions" style="margin-top: 30px; border-top: 1px solid #f0f0f0; padding-top: 25px;">
                 <button type="submit" id="uploadUser" name="action" class="btn-save">Mulai Upload & Proses</button>
+                <a href="<?= set_url('downloads/sample_assignment') ?>" class="btn-save" style="background: #059669; margin-left: 10px; text-decoration: none; display: inline-block;">Unduh Sample Format Excel (.xlsx)</a>
                 <button type="reset" class="btn-save" style="background: #64748b; margin-left: 10px;" onclick="document.getElementById('fileNameDisplay').innerText=''">Reset</button>
             </div>
         </form>
