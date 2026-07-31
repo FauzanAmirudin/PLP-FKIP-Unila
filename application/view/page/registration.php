@@ -62,9 +62,10 @@ defined('GF_BASE_PATH') or exit('No direct script access allowed');
                                 <select class="input-control" id="Kaprodi" name="ketuaProdi" required="required">
                                     <option value="" hidden>Pilih Koordinator Program Studi</option>
                                     <?php
-                                    $dataKaprodi = $dbAccess->reset()->result_array('kaprodi');
+                                    $dataKaprodi = $dbAccess->reset()->order('PROGRAMSTUDI', 'ASC')->result_array('kaprodi');
                                     foreach ($dataKaprodi as $person) {
-                                        echo '<option value="' . $person["ID"] . '" ' . ((isset($aditionaldata['KAPRODI']) && $aditionaldata['KAPRODI'] == $person["ID"]) ? 'selected' : '') . '> ' . $person["NAMA"] . '</option>';
+                                        $prodiLabel = !empty($person["PROGRAMSTUDI"]) ? ' - ' . $person["PROGRAMSTUDI"] : '';
+                                        echo '<option value="' . $person["ID"] . '" ' . ((isset($aditionaldata['KAPRODI']) && $aditionaldata['KAPRODI'] == $person["ID"]) ? 'selected' : '') . '> ' . htmlspecialchars($person["NAMA"]) . $prodiLabel . '</option>';
                                     }
                                     ?>
                                 </select>

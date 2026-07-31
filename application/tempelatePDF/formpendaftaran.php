@@ -26,7 +26,26 @@
 	$PembimbingAkademik = $data['PEMBIMBINGAKADEMIK'];
 	$nipPembimbingAkademik = $data['NIPPEMBIMBINGAKADEMIK'];
 	$year = date("Y");
-	//exit;
+
+	$savedSemester = isset($data["SEMESTERPERIODE"]) ? trim($data["SEMESTERPERIODE"]) : "";
+	if (!empty($savedSemester)) {
+		$str = $savedSemester;
+		$isPeriode2 = (preg_match('/periode\s*2/i', $str) || preg_match('/genap/i', $str));
+		
+		if (preg_match('/(\d{4}(?:\/\d{4})?)/', $str, $yMatches)) {
+			$tahunStr = "Tahun " . $yMatches[1];
+		} else {
+			$tahunStr = "Tahun " . date("Y");
+		}
+		
+		if ($isPeriode2) {
+			$formattedSemester = "Semester Genap Periode 2 " . $tahunStr;
+		} else {
+			$formattedSemester = "Semester Ganjil Periode 1 " . $tahunStr;
+		}
+	} else {
+		$formattedSemester = "Semester Ganjil Periode 1 Tahun " . date("Y");
+	}
 ?>
 <!doctype html>
 <html>
@@ -57,7 +76,7 @@
 				padding:0px;
 			}
 			h4 {
-				font-size: 10pt;
+				font-size: 9pt;
 				font-weight: normal;
 				margin:0pt;
 				padding:0pt;
@@ -170,16 +189,14 @@
 		</div>
 		<div class="logo-right">
 		</div>
-		<div class="kepala" style="font-size:5pt;">
-		<h1>KEMENTERIAN PENDIDIDIKAN DAN KEBUDAYAAN<br>UNIVERSITAS LAMPUNG<br>FAKULTAS KEGURUAN DAN ILMU PENDIDIKAN</h1>
-			<h2>PRAKTIK LAPANGAN TERPADU</h2>
-		</div>
 		<div class="kepala">
-			<h4>Jl. Prof. Dr. Sumantri Brojonegoro No.1 Bandarlampung 35415, http://plt.fkip.unila.ac.id</h4>
+			<span style="font-size:12pt; font-weight:normal;">KEMENTERIAN PENDIDIKAN TINGGI, SAINS,<br>DAN TEKNOLOGI<br>UNIVERSITAS LAMPUNG</span><br>
+			<b style="font-size:12pt; font-weight:bold;">FAKULTAS KEGURUAN DAN ILMU PENDIDIKAN</b>
+			<h4>Jl. Prof. Dr. Sumantri Brojonegoro No.1 Bandar Lampung Telp (0721) 704624 Fax (0721) 704624<br>e-mail: fkip@unila.ac.id, laman: http://fkip.unila.ac.id</h4>
 		</div>
 		<div class="judul">
-			<h2>PENDAFTARAN PLP 1 DAN PLP 2 FKIP UNIVERSITAS LAMPUNG<br>
-			SEMESTER GANJIL <?php if(isset($tahunSemester)){echo $tahunSemester;}else{$n=1; while($n<=20){echo ".";$n++;}} ?>
+			<h2>PENDAFTARAN CALON MAHASISWA PESERTA<br>
+			PENGENALAN LAPANGAN PERSEKOLAHAN (PLP)
 			</h2>
 		</div>
 		<div class="isi">
@@ -304,12 +321,12 @@
 			</div>
 
 			<div class="text">
-				<p>Mendaftar sebagai peserta PLP (PLP 1 dan PLP 2) semester ganjil <?php if(isset($tahunSemester)){echo $tahunSemester;}else{$n=1; while($n<=20){echo ".";$n++;}} ?>. Saya bersedia ditempatkan dimana saja, dan akan mengikuti tata tertib sebagai mahasiswa PLP, sebagaimana yang tercantum dalam Panduan Pengenalan Lapangan Persekolahan (PLP) FKIP Universitas Lampung tahun 2020. Demikian permohonan ini disampaikan dan dibuat dengan sebenarnya untuk dapat dipergunakan sebagaimana mustinya.</p>
+				<p>Mendaftar sebagai peserta PLP (PLP 1 dan PLP 2) <?php echo $formattedSemester; ?>. Saya bersedia ditempatkan dimana saja, dan akan mengikuti tata tertib sebagai mahasiswa PLP, sebagaimana yang tercantum dalam Panduan Pengenalan Lapangan Persekolahan (PLP) FKIP Universitas Lampung tahun 2020. Demikian permohonan ini disampaikan dan dibuat dengan sebenarnya untuk dapat dipergunakan sebagaimana mustinya.</p>
 			</div>
 			<div class="sign">
 				<div class="sign-right">
 					<b class="title">Pendaftar</b><br><br><br>
-					<h5 class="materai">materai 6000</h5><br>
+					<h5 class="materai">materai 10.000</h5><br>
 					<a><?php if(isset($nama)){echo $nama;}else{$n=1; while($n<=35){echo ".";$n++;}} ?></a>
 					<br><a>NPM. <?php if(isset($npm)){echo $npm;} ?></a>
 				</div>

@@ -98,7 +98,7 @@ $art = isset($article) && !empty($article) ? $article : null;
   </div>
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/ckeditor5-build-classic@34.1.0/build/ckeditor.js"></script>
+<script src="https://cdn.ckeditor.com/ckeditor5/41.4.2/classic/ckeditor.js"></script>
 <script>
 document.addEventListener("DOMContentLoaded", function () {
   var myEditor = null;
