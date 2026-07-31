@@ -30,7 +30,7 @@ if (empty($art)) return;
   word-wrap: break-word !important;
   word-break: break-word !important;
   overflow-wrap: anywhere !important;
-  color: #334155;
+  color: #000000 !important;
   font-size: 1.05rem;
   line-height: 1.8;
   width: 100%;
@@ -38,13 +38,13 @@ if (empty($art)) return;
 .article-body p {
   font-size: 1.05rem;
   line-height: 1.8;
-  color: #334155;
+  color: #000000 !important;
   margin-bottom: 1.2em;
   word-break: break-word !important;
   overflow-wrap: anywhere !important;
 }
 .article-body h1, .article-body h2, .article-body h3, .article-body h4, .article-body h5, .article-body h6 {
-  color: #1e293b;
+  color: #000000 !important;
   font-weight: 700;
   margin-top: 1.5em;
   margin-bottom: 0.6em;
@@ -61,7 +61,13 @@ if (empty($art)) return;
 }
 .article-body ul { list-style-type: disc !important; }
 .article-body ol { list-style-type: decimal !important; }
-.article-body li { margin-bottom: 0.4em; line-height: 1.7; }
+.article-body li, .article-body td, .article-body th { color: #000000 !important; margin-bottom: 0.4em; line-height: 1.7; }
+.article-body i, .article-body em {
+  font-style: italic !important;
+}
+.article-body b, .article-body strong {
+  font-weight: 700 !important;
+}
 .article-body a {
   color: #a805a8;
   text-decoration: underline;
@@ -134,7 +140,7 @@ if (empty($art)) return;
                     <?php 
                     $content = htmlspecialchars_decode($art['INFORMASI']);
                     if ($content !== strip_tags($content)) {
-                        $allowed_tags = '<p><br><strong><em><u><s><h1><h2><h3><h4><h5><h6><ul><ol><li><a><blockquote><span><div><style><img><table><thead><tbody><tr><th><td><figure>';
+                        $allowed_tags = '<p><br><b><i><strong><em><u><s><h1><h2><h3><h4><h5><h6><ul><ol><li><a><blockquote><span><div><style><img><table><thead><tbody><tr><th><td><figure>';
                         echo strip_tags($content, $allowed_tags);
                     } else {
                         $paragraphs = preg_split('/\r?\n\r?\n/', $content);
