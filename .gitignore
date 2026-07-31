@@ -10,8 +10,9 @@ agents/
 tmp/
 temp/
 
-# Database Dumps
+# Database Dumps & Configs
 *.sql
+application/config/db.php
 
 # System Files
 .DS_Store
