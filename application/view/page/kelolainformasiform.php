@@ -53,7 +53,7 @@ $art = isset($article) && !empty($article) ? $article : null;
       <!-- Konten -->
       <div class="settings-form-group mb-20">
         <label for="informasi" class="form-label-bold">Isi Informasi <span class="asterisk">*</span></label>
-        <textarea id="informasi" name="informasi" rows="10" placeholder="Tulis isi informasi di sini..." required class="form-textarea-custom"><?php echo $isEdit ? htmlspecialchars($art['INFORMASI']) : ''; ?></textarea>
+        <textarea id="informasi" name="informasi" rows="10" placeholder="Tulis isi informasi di sini..." class="form-textarea-custom"><?php echo $isEdit ? htmlspecialchars($art['INFORMASI']) : ''; ?></textarea>
       </div>
 
       <!-- Gambar (Opsional) -->
@@ -98,17 +98,53 @@ $art = isset($article) && !empty($article) ? $article : null;
   </div>
 </div>
 
-<script src="https://cdn.ckeditor.com/ckeditor5/41.4.2/classic/ckeditor.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/ckeditor5-build-classic@34.1.0/build/ckeditor.js"></script>
 <script>
 document.addEventListener("DOMContentLoaded", function () {
-  if (typeof ClassicEditor !== 'undefined') {
-    ClassicEditor
-      .create(document.querySelector('#informasi'), {
-        toolbar: [ 'heading', '|', 'bold', 'italic', 'link', 'bulletedList', 'numberedList', 'blockQuote', 'undo', 'redo' ]
-      })
-      .catch(function (error) {
-        console.error(error);
-      });
+  var myEditor = null;
+
+  function initEditor() {
+    var target = document.querySelector('#informasi');
+    if (!target) return;
+    if (typeof ClassicEditor !== 'undefined') {
+      ClassicEditor
+        .create(target, {
+          toolbar: [ 'heading', '|', 'bold', 'italic', 'link', 'bulletedList', 'numberedList', 'blockQuote', 'undo', 'redo' ]
+        })
+        .then(function (editor) {
+          myEditor = editor;
+        })
+        .catch(function (error) {
+          console.error('CKEditor Init Error:', error);
+        });
+    }
+  }
+
+  initEditor();
+
+  var form = document.querySelector('form');
+  if (form) {
+    form.addEventListener('submit', function (e) {
+      if (myEditor) {
+        var rawData = myEditor.getData();
+        var textContent = rawData.replace(/<[^>]*>/g, '').trim();
+        if (!textContent) {
+          e.preventDefault();
+          if (typeof Swal !== 'undefined') {
+            Swal.fire({
+              icon: 'warning',
+              title: 'Perhatian',
+              text: 'Isi informasi tidak boleh kosong!',
+              confirmButtonColor: '#a805a8'
+            });
+          } else {
+            alert('Isi informasi tidak boleh kosong!');
+          }
+          return false;
+        }
+        document.querySelector('#informasi').value = rawData;
+      }
+    });
   }
 });
 
