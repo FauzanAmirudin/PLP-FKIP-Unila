@@ -182,30 +182,32 @@ $r = $dbAccess->reset()->where("`NPM` = '$dataID'")->result_row_array('datamahas
 				</div>
 
 				<div class="form-group-modern">
-					<label for="prodyDummy">Program Study<span class="required">*</span></label>
+					<label for="prodyDummy">Program Studi<span class="required">*</span></label>
 					<select class="bioFormInput" id="prodyDummy" name="programStudy" onChange="displayQuestElement(this.value)">
 						<option value="">Pilih Program studi</option>
 						<option value="">Pilih jurusan terlebih dahulu</option>
 					</select>
 					<select class="bioFormInput" id="Ilmu Pendidikan" name="programStudy1" onChange="displayQuestElement(this.value)" style="display:none">
 						<option value="">Pilih Program studi</option>
-						<option value="Bimbingan Konseling">Bimbingan Konseling</option>
+						<option value="Bimbingan dan Konseling">Bimbingan dan Konseling</option>
+						<option value="Pendidikan Guru PAUD">Pendidikan Guru PAUD</option>
+						<option value="Pendidikan Guru Sekolah Dasar">Pendidikan Guru Sekolah Dasar</option>
 						<option value="Penjaskes">Penjaskes</option>
-						<option value="PG-PAUD">PG-PAUD</option>
-						<option value="PGSD">PGSD</option>
 					</select>
 					<select class="bioFormInput" id="Pendidikan Bahasa dan Seni" name="programStudy2" onChange="displayQuestElement(this.value)" style="display:none">
 						<option value="">Pilih Program studi</option>
 						<option value="Pendidikan Bahasa dan Sastra Indonesia">Pendidikan Bahasa dan Sastra Indonesia</option>
-						<option value="Pendidikan Bahasa Ingris">Pendidikan Bahasa Ingris</option>
+						<option value="Pendidikan Bahasa Inggris">Pendidikan Bahasa Inggris</option>
+						<option value="Pendidikan Bahasa Lampung">Pendidikan Bahasa Lampung</option>
 						<option value="Pendidikan Bahasa Prancis">Pendidikan Bahasa Prancis</option>
-						<option value="Pendidikan Tari, Drama dan Musik">Pendidikan Tari, Drama dan Musik</option>
+						<option value="Pendidikan Musik">Pendidikan Musik</option>
+						<option value="Pendidikan Tari">Pendidikan Tari</option>
 					</select>
 					<select class="bioFormInput" id="Pendidikan IPS" name="programStudy3" onChange="displayQuestElement(this.value)" style="display:none">
 						<option value="">Pilih Program studi</option>
 						<option value="Pendidikan Ekonomi">Pendidikan Ekonomi</option>
 						<option value="Pendidikan Geografi">Pendidikan Geografi</option>
-						<option value="Pendidikan PKN">Pendidikan PKN</option>
+						<option value="Pendidikan Pancasila dan Kewarganegaraan">Pendidikan Pancasila dan Kewarganegaraan</option>
 						<option value="Pendidikan Sejarah">Pendidikan Sejarah</option>
 					</select>
 					<select class="bioFormInput" id="Pendidikan MIPA" name="programStudy4" onChange="displayQuestElement(this.value)" style="display:none">
