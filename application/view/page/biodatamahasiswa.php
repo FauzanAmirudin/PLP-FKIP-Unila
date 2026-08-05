@@ -199,7 +199,7 @@ $r = $dbAccess->reset()->where("`NPM` = '$dataID'")->result_row_array('datamahas
 						<option value="Pendidikan Bahasa dan Sastra Indonesia">Pendidikan Bahasa dan Sastra Indonesia</option>
 						<option value="Pendidikan Bahasa Inggris">Pendidikan Bahasa Inggris</option>
 						<option value="Pendidikan Bahasa Lampung">Pendidikan Bahasa Lampung</option>
-						<option value="Pendidikan Bahasa Perancis">Pendidikan Bahasa Perancis</option>
+						<option value="Pendidikan Bahasa Prancis">Pendidikan Bahasa Prancis</option>
 						<option value="Pendidikan Musik">Pendidikan Musik</option>
 						<option value="Pendidikan Tari">Pendidikan Tari</option>
 					</select>
