@@ -190,16 +190,16 @@ $r = $dbAccess->reset()->where("`NPM` = '$dataID'")->result_row_array('datamahas
 					<select class="bioFormInput" id="Ilmu Pendidikan" name="programStudy1" onChange="displayQuestElement(this.value)" style="display:none">
 						<option value="">Pilih Program studi</option>
 						<option value="Bimbingan dan Konseling">Bimbingan dan Konseling</option>
-						<option value="Pendidikan Guru PAUD">Pendidikan Guru PAUD</option>
-						<option value="Pendidikan Guru Sekolah Dasar">Pendidikan Guru Sekolah Dasar</option>
-						<option value="Penjaskes">Penjaskes</option>
+						<option value="Pendidikan Guru Pendidikan Anak Usia Dini (PGPAUD)">Pendidikan Guru Pendidikan Anak Usia Dini (PGPAUD)</option>
+						<option value="Pendidikan Guru Sekolah Dasar (PGSD)">Pendidikan Guru Sekolah Dasar (PGSD)</option>
+						<option value="Pendidikan Jasmani">Pendidikan Jasmani</option>
 					</select>
 					<select class="bioFormInput" id="Pendidikan Bahasa dan Seni" name="programStudy2" onChange="displayQuestElement(this.value)" style="display:none">
 						<option value="">Pilih Program studi</option>
 						<option value="Pendidikan Bahasa dan Sastra Indonesia">Pendidikan Bahasa dan Sastra Indonesia</option>
 						<option value="Pendidikan Bahasa Inggris">Pendidikan Bahasa Inggris</option>
 						<option value="Pendidikan Bahasa Lampung">Pendidikan Bahasa Lampung</option>
-						<option value="Pendidikan Bahasa Prancis">Pendidikan Bahasa Prancis</option>
+						<option value="Pendidikan Bahasa Perancis">Pendidikan Bahasa Perancis</option>
 						<option value="Pendidikan Musik">Pendidikan Musik</option>
 						<option value="Pendidikan Tari">Pendidikan Tari</option>
 					</select>
@@ -207,7 +207,7 @@ $r = $dbAccess->reset()->where("`NPM` = '$dataID'")->result_row_array('datamahas
 						<option value="">Pilih Program studi</option>
 						<option value="Pendidikan Ekonomi">Pendidikan Ekonomi</option>
 						<option value="Pendidikan Geografi">Pendidikan Geografi</option>
-						<option value="Pendidikan Pancasila dan Kewarganegaraan">Pendidikan Pancasila dan Kewarganegaraan</option>
+						<option value="Pendidikan Pancasila dan Kewarganegaraan (PPKn)">Pendidikan Pancasila dan Kewarganegaraan (PPKn)</option>
 						<option value="Pendidikan Sejarah">Pendidikan Sejarah</option>
 					</select>
 					<select class="bioFormInput" id="Pendidikan MIPA" name="programStudy4" onChange="displayQuestElement(this.value)" style="display:none">
@@ -216,7 +216,7 @@ $r = $dbAccess->reset()->where("`NPM` = '$dataID'")->result_row_array('datamahas
 						<option value="Pendidikan Fisika">Pendidikan Fisika</option>
 						<option value="Pendidikan Kimia">Pendidikan Kimia</option>
 						<option value="Pendidikan Matematika">Pendidikan Matematika</option>
-						<option value="Pendidikan Teknologi Informasi">Pendidikan Teknologi Informasi</option>
+						<option value="Pendidikan Teknologi Informasi (PTI)">Pendidikan Teknologi Informasi (PTI)</option>
 					</select>
 				</div>
 
